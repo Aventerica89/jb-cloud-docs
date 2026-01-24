@@ -288,3 +288,104 @@ Your content here...
 - Cloudflare Pages deploys take 1-2 minutes
 - Check the deployment status in Cloudflare dashboard
 - Hard refresh the site (Cmd+Shift+R)
+
+## Using Claude Code for Setup
+
+This entire documentation site was set up with the help of [Claude Code](https://claude.ai/claude-code), Anthropic's CLI tool for AI-assisted development. Here's how Claude Code streamlined the process.
+
+### What Claude Code Did
+
+1. **Scaffolded the project** - Created the Astro Starlight project with proper configuration
+2. **Wrote configuration files** - Generated `astro.config.mjs`, Decap CMS config, and Worker code
+3. **Created initial documentation** - Wrote the first docs based on our conversation
+4. **Set up GitHub repo** - Initialized git, created the repo, and pushed code
+5. **Debugged OAuth issues** - Fixed the Worker code when Safari had popup restrictions
+6. **Generated this guide** - Meta-documented the entire setup process
+
+### How to Use Claude Code for Similar Projects
+
+Install Claude Code:
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+Start a session in your project directory:
+```bash
+cd ~/Sites/my-project
+claude
+```
+
+### Example Prompts
+
+**Starting a docs site:**
+```
+Create a documentation site using Astro Starlight with sections
+for xCloud, Cloudflare, Supabase, and Vercel. Set up Decap CMS
+for web-based editing and deploy to Cloudflare Pages.
+```
+
+**Adding documentation:**
+```
+Add documentation for how to update Docker apps on xCloud via SSH.
+Include the issue with Docker permissions and the Command Runner workaround.
+```
+
+**Debugging issues:**
+```
+The OAuth login shows this error in the console: [paste error].
+What's wrong and how do I fix it?
+```
+
+### What Claude Code Has Access To
+
+When running on your machine, Claude Code can:
+- **Read and write files** in your project
+- **Run terminal commands** (npm, git, etc.)
+- **Create GitHub repos** via `gh` CLI
+- **Check configurations** and suggest fixes
+
+It does NOT have direct access to:
+- Cloud provider dashboards (Cloudflare, AWS, etc.)
+- Your browser or GUI applications
+- Services requiring OAuth (unless MCP servers are configured)
+
+### Tips for Working with Claude Code
+
+1. **Be specific** - "Add a guide for updating OpenWebUI on xCloud" is better than "add some docs"
+
+2. **Share context** - Paste error messages, screenshots, or relevant config snippets
+
+3. **Iterate** - If something doesn't work, share the error and Claude Code will debug
+
+4. **Let it handle boilerplate** - Config files, Worker code, and repetitive setup tasks are perfect for AI assistance
+
+5. **Review before committing** - Always check generated code makes sense for your use case
+
+### The Setup Conversation Flow
+
+Here's roughly how the conversation went to create this site:
+
+1. **"Create a docs site for my cloud processes"** → Claude Code suggested the tech stack options
+2. **"Use Decap CMS, host on Cloudflare Pages"** → Created the project and configuration
+3. **"Set up the GitHub repo"** → Initialized and pushed to GitHub
+4. **"Deploy failed, wrong username"** → Fixed the config
+5. **"OAuth isn't working"** → Created the Cloudflare Worker
+6. **"Still getting errors"** → Debugged Safari popup issues
+7. **"Document how we set this up"** → Generated this guide
+
+Total time: ~30 minutes from idea to fully deployed docs site with CMS.
+
+### When to Use Claude Code vs Manual Setup
+
+**Use Claude Code when:**
+- Setting up new projects with multiple config files
+- Writing boilerplate code (Workers, configs, etc.)
+- Debugging errors you're unfamiliar with
+- Generating documentation from conversations
+- Repetitive git operations
+
+**Do manually when:**
+- Configuring cloud dashboards (Cloudflare, GitHub OAuth apps)
+- Sensitive operations (adding secrets, production deployments)
+- You want to understand each step deeply
+- The task requires visual/GUI interaction
