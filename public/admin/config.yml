@@ -2,8 +2,8 @@ backend:
   name: github
   repo: Aventerica89/jb-cloud-docs
   branch: main
-  base_url: https://docs.jbcloud.app
-  auth_endpoint: /api/auth
+  base_url: https://github-oauth.jbmd-creations.workers.dev
+  auth_endpoint: /auth
 
 media_folder: "public/images"
 public_folder: "/images"
