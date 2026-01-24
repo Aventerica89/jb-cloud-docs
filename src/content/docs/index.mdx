@@ -1,0 +1,34 @@
+---
+title: JB Cloud Docs
+description: Personal documentation for self-hosted services and cloud platforms.
+template: splash
+hero:
+  tagline: Guides and processes for xCloud, Cloudflare, Supabase, Vercel, and more.
+  actions:
+    - text: Get Started
+      link: /xcloud/updating-docker-apps/
+      icon: right-arrow
+    - text: View on GitHub
+      link: https://github.com/Aventerica89/jb-cloud-docs
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Documentation
+
+<CardGrid stagger>
+  <Card title="xCloud" icon="server">
+    Guides for managing Docker apps, SSH access, and server administration on xCloud hosting.
+  </Card>
+  <Card title="Cloudflare" icon="cloud">
+    DNS configuration, tunnels, and CDN setup with Cloudflare.
+  </Card>
+  <Card title="Supabase" icon="database">
+    Self-hosted Supabase setup and configuration guides.
+  </Card>
+  <Card title="Vercel" icon="rocket">
+    Deployment workflows and project configuration for Vercel.
+  </Card>
+</CardGrid>

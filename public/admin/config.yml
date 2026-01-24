@@ -1,0 +1,54 @@
+backend:
+  name: github
+  repo: Aventerica89/jb-cloud-docs
+  branch: main
+  base_url: https://docs.jbcloud.app
+  auth_endpoint: /api/auth
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+  - name: "xcloud"
+    label: "xCloud"
+    folder: "src/content/docs/xcloud"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Sort Order", name: "sidebar", widget: "object", fields: [{ label: "Order", name: "order", widget: "number", default: 0 }] }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "cloudflare"
+    label: "Cloudflare"
+    folder: "src/content/docs/cloudflare"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Sort Order", name: "sidebar", widget: "object", fields: [{ label: "Order", name: "order", widget: "number", default: 0 }] }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "supabase"
+    label: "Supabase"
+    folder: "src/content/docs/supabase"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Sort Order", name: "sidebar", widget: "object", fields: [{ label: "Order", name: "order", widget: "number", default: 0 }] }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "vercel"
+    label: "Vercel"
+    folder: "src/content/docs/vercel"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Sort Order", name: "sidebar", widget: "object", fields: [{ label: "Order", name: "order", widget: "number", default: 0 }] }
+      - { label: "Body", name: "body", widget: "markdown" }
