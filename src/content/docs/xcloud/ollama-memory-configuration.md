@@ -45,15 +45,15 @@ Different models require different amounts of RAM:
 Save the volume mount path before removing the container:
 
 ```bash
-docker inspect ollama-llama.jbcloud.app --format '{{range .Mounts}}{{.Source}}:{{.Destination}}{{"\n"}}{{end}}'
+docker inspect ollama-your-domain.com --format '{{range .Mounts}}{{.Source}}:{{.Destination}}{{"\n"}}{{end}}'
 ```
 
-Example output: `/var/www/llama.jbcloud.app/data:/root/.ollama`
+Example output: `/var/www/your-domain.com/data:/root/.ollama`
 
 ### Step 2: Stop and Remove the Old Container
 
 ```bash
-docker stop ollama-llama.jbcloud.app && docker rm ollama-llama.jbcloud.app
+docker stop ollama-your-domain.com && docker rm ollama-your-domain.com
 ```
 
 ### Step 3: Recreate with More Memory
@@ -61,19 +61,19 @@ docker stop ollama-llama.jbcloud.app && docker rm ollama-llama.jbcloud.app
 Replace `<VOLUME_PATH>` with your path from Step 1:
 
 ```bash
-docker run -d --name ollama-llama.jbcloud.app --memory=12g --restart unless-stopped -p 127.0.0.1:18016:11434 -v <VOLUME_PATH>:/root/.ollama ollama/ollama:latest
+docker run -d --name ollama-your-domain.com --memory=12g --restart unless-stopped -p 127.0.0.1:18016:11434 -v <VOLUME_PATH>:/root/.ollama ollama/ollama:latest
 ```
 
 For example:
 
 ```bash
-docker run -d --name ollama-llama.jbcloud.app --memory=12g --restart unless-stopped -p 127.0.0.1:18016:11434 -v /var/www/llama.jbcloud.app/data:/root/.ollama ollama/ollama:latest
+docker run -d --name ollama-your-domain.com --memory=12g --restart unless-stopped -p 127.0.0.1:18016:11434 -v /var/www/your-domain.com/data:/root/.ollama ollama/ollama:latest
 ```
 
 ### Step 4: Verify the New Limit
 
 ```bash
-docker inspect ollama-llama.jbcloud.app --format '{{.HostConfig.Memory}}'
+docker inspect ollama-your-domain.com --format '{{.HostConfig.Memory}}'
 ```
 
 Should return `12884901888` (12GB).
@@ -91,13 +91,13 @@ docker inspect $(docker ps -q --filter name=openweb) --format '{{range $k, $v :=
 ### Step 2: Connect Ollama to the Network
 
 ```bash
-docker network connect --alias ollama <NETWORK_NAME> ollama-llama.jbcloud.app
+docker network connect --alias ollama <NETWORK_NAME> ollama-your-domain.com
 ```
 
 For example:
 
 ```bash
-docker network connect --alias ollama openwebjbmdcreationsdev_openwebui-openweb.jbmdcreations.dev-network ollama-llama.jbcloud.app
+docker network connect --alias ollama your-openwebui-network-name ollama-your-domain.com
 ```
 
 The `--alias ollama` is important because Open WebUI is configured to connect to `http://ollama:11434`.
@@ -132,7 +132,7 @@ The Ollama container isn't reachable. Check:
 Verify the container was recreated with the new limit:
 
 ```bash
-docker inspect ollama-llama.jbcloud.app | grep '"Memory"'
+docker inspect ollama-your-domain.com | grep '"Memory"'
 ```
 
 If it still shows 2GB, the container wasn't properly recreated.
@@ -142,5 +142,5 @@ If it still shows 2GB, the container wasn't properly recreated.
 Check Docker logs:
 
 ```bash
-docker logs ollama-llama.jbcloud.app
+docker logs ollama-your-domain.com
 ```
