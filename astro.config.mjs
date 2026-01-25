@@ -1,6 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import tailwind from '@astrojs/tailwind';
+import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
@@ -8,6 +10,14 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'JB Cloud Docs',
+			logo: {
+				light: './src/assets/logo.svg',
+				dark: './src/assets/logo-dark.svg',
+				replacesTitle: true,
+			},
+			components: {
+				Footer: './src/components/Footer.astro',
+			},
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/Aventerica89/jb-cloud-docs' }],
 			sidebar: [
 				{
@@ -32,7 +42,14 @@ export default defineConfig({
 					label: 'Vercel',
 					autogenerate: { directory: 'vercel' },
 				},
+				{
+					label: 'BCMS',
+					autogenerate: { directory: 'bcms' },
+				},
 			],
+			customCss: ['./src/styles/custom.css'],
 		}),
+		tailwind({ applyBaseStyles: false }),
+		react(),
 	],
 });
