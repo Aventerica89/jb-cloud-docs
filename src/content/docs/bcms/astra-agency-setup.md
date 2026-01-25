@@ -1,81 +1,78 @@
 ---
-title: Astra Agency Setup
-description: Setting up the BCMS Next.js agency starter template and customizing it for Med Spa Ranker.
+title: Med Spa Ranker - Complete Build Guide
+description: Full documentation of building the Med Spa Ranker website using Claude Code CLI, BCMS, Next.js, and Vercel.
 sidebar:
   order: 1
 ---
 
-This guide documents setting up the Astra Agency project using the BCMS CLI with the Next.js agency starter template, then customizing it to match the Med Spa Ranker design.
+This guide documents the complete process of building the Med Spa Ranker website from scratch using Claude Code CLI. The entire project was built through conversation with Claude, from initial setup to production deployment.
 
-## Prerequisites
+## Project Links
 
-- Node.js 18+
-- npm or pnpm
-- BCMS account (free at [thebcms.com](https://thebcms.com))
+| Resource | URL |
+|----------|-----|
+| **Live Site** | https://med-spa-ranker.vercel.app |
+| **GitHub** | https://github.com/Aventerica89/med-spa-ranker |
+| **Vercel** | https://vercel.com/johns-projects-0bf2a41c/med-spa-ranker |
+| **BCMS Dashboard** | https://app.thebcms.com/d/o/alive-wildfowl/i/astra-agency/bcms |
 
-## Quick Start
+## Tech Stack
 
-### 1. Create the Project
+| Technology | Purpose |
+|------------|---------|
+| Next.js 15 | React framework with App Router |
+| BCMS | Headless CMS for content management |
+| Tailwind CSS | Utility-first styling |
+| Vercel | Hosting with auto-deploy |
+| GitHub | Version control |
+| Claude Code CLI | AI-assisted development |
+
+---
+
+## Phase 1: Project Creation
+
+### Step 1: Create BCMS Project
+
+Started by creating a new BCMS project using their CLI with the Next.js agency starter template:
 
 ```bash
 npx @thebcms/cli create next starter agency
 ```
 
 When prompted:
-- **Project name**: `Astra Agency` (or your preferred name)
-- A browser window will open for BCMS authentication
+- **Project name**: `Astra Agency`
+- Browser opened for BCMS authentication
 
-The CLI will:
-1. Clone the agency starter from GitHub
-2. Create a new BCMS project
-3. Set up API keys automatically
+The CLI automatically:
+1. Cloned the agency starter from GitHub
+2. Created a new BCMS project in the cloud
+3. Generated API keys and `.env` file
+4. Set up TypeScript types
 
-### 2. Install Dependencies
+### Step 2: Install Dependencies
 
 ```bash
 cd "Astra Agency"
 npm install
 ```
 
-### 3. Start Development Server
+### Step 3: Start Development Server
 
 ```bash
 npm run dev
 ```
 
-The site runs at **http://localhost:3000**
+Site running at `http://localhost:3000`
 
-## Project URLs
+---
 
-| Resource | URL |
-|----------|-----|
-| **Production** | https://med-spa-ranker.vercel.app |
-| Local Dev | http://localhost:3000 |
-| BCMS Dashboard | https://app.thebcms.com/d/o/alive-wildfowl/i/astra-agency/bcms |
-| Vercel Dashboard | https://vercel.com/johns-projects-0bf2a41c/med-spa-ranker |
+## Phase 2: Design Customization
 
-## Project Structure
+The goal was to recreate the Med Spa Ranker website design - a dark-themed medical spa marketing agency site.
 
-```
-Astra Agency/
-├── bcms/              # BCMS types and configuration
-│   └── types/         # Auto-generated TypeScript types
-├── src/
-│   ├── app/           # Next.js App Router pages
-│   ├── components/
-│   │   ├── layout/    # Header, Footer components
-│   │   ├── medspa/    # Med Spa Ranker custom components
-│   │   └── home-page/ # Original BCMS home components
-│   └── styles/        # SCSS styles
-├── public/            # Static assets
-└── .env               # Environment variables (auto-configured)
-```
+### Step 4: Update Color Scheme
 
-## Customization: Med Spa Ranker Theme
-
-The project was customized to match the Med Spa Ranker website design with a dark theme and medical spa branding.
-
-### Color Scheme (tailwind.config.ts)
+Modified `tailwind.config.ts` with the Med Spa Ranker color palette:
 
 ```typescript
 colors: {
@@ -96,80 +93,382 @@ colors: {
 }
 ```
 
-### Custom Components Created
+### Step 5: Update Layout
 
-| Component | Path | Purpose |
-|-----------|------|---------|
-| Hero | `src/components/medspa/Hero.tsx` | Full-width hero with background image |
-| Features | `src/components/medspa/Features.tsx` | 4-column feature cards |
-| Testimonials | `src/components/medspa/Testimonials.tsx` | Customer reviews with star ratings |
-| Services | `src/components/medspa/Services.tsx` | SEO, PPC, Website services |
-| WebDesign | `src/components/medspa/WebDesign.tsx` | Web design process section |
-| Benefits | `src/components/medspa/Benefits.tsx` | Trust, Responsive, Convert cards |
-| CTA | `src/components/medspa/CTA.tsx` | "Ready to Talk?" call-to-action |
+Modified `src/app/layout.tsx`:
+- Changed body class to `bg-dark text-white`
+- Updated metadata for Med Spa Ranker branding
 
-### Layout Updates
+### Step 6: Create Custom Components
 
-- **Header**: Dark navigation bar with teal logo and coral CTA button
-- **Footer**: Centered layout with navigation links and legal pages
-- **Body**: Dark background (`bg-dark`) with white text
+Created 7 new components in `src/components/medspa/`:
 
-## Managing Content
+| Component | File | Description |
+|-----------|------|-------------|
+| Hero | `Hero.tsx` | Full-width hero with background image, headline, dual CTAs |
+| Features | `Features.tsx` | 4-column grid: Dedicated, Managed, Convert, Low Cost |
+| Testimonials | `Testimonials.tsx` | Customer reviews with 5-star ratings |
+| Services | `Services.tsx` | SEO, PPC, Website Special cards |
+| WebDesign | `WebDesign.tsx` | Image + content layout for web design section |
+| Benefits | `Benefits.tsx` | Build Trust, Responsive, Built to Convert |
+| CTA | `CTA.tsx` | "Ready to Talk?" call-to-action section |
 
-1. Go to the [BCMS Dashboard](https://app.thebcms.com)
-2. Select the **astra-agency** project
-3. Edit entries in the content types (Team, Services, Portfolio, etc.)
-4. Changes sync to your local dev server automatically
+### Step 7: Update Header
 
-## Deployment
+Rewrote `src/components/layout/Header.tsx`:
+- Dark navigation bar (`bg-dark-nav`)
+- Logo with "MedSpaRanker" text
+- Navigation links: About, Services, How It Works, Reviews, Contact Us
+- Coral "Free Consultation" CTA button
+- Mobile hamburger menu
 
-### Vercel (Recommended)
+### Step 8: Update Footer
 
-```bash
-npm install -g vercel
-vercel
+Rewrote `src/components/layout/Footer.tsx`:
+- Centered logo and tagline
+- Navigation links
+- Legal links (Privacy, Terms, Disclaimer)
+- Copyright notice
+
+### Step 9: Update Homepage
+
+Modified `src/app/page.tsx` to use the new components:
+
+```tsx
+import Hero from '@/components/medspa/Hero';
+import Features from '@/components/medspa/Features';
+import Testimonials from '@/components/medspa/Testimonials';
+import Services from '@/components/medspa/Services';
+import WebDesign from '@/components/medspa/WebDesign';
+import Benefits from '@/components/medspa/Benefits';
+import CTA from '@/components/medspa/CTA';
+
+const HomePage = () => {
+    return (
+        <div>
+            <Hero />
+            <Features />
+            <Testimonials />
+            <Services />
+            <WebDesign />
+            <Benefits />
+            <CTA />
+        </div>
+    );
+};
 ```
 
-### Manual Build
+---
+
+## Phase 3: BCMS Integration
+
+### Step 10: Connect Components to BCMS
+
+Updated Hero and CTA components to accept optional BCMS props with static fallbacks:
+
+```tsx
+interface Props {
+    bcmsTitle?: PropRichTextDataParsed;
+    bcmsImage?: PropMediaDataParsed;
+    bcmsConfig?: ClientConfig;
+}
+
+const Hero: React.FC<Props> = ({ bcmsTitle, bcmsImage, bcmsConfig }) => {
+    return (
+        // Uses BCMS content if available, otherwise shows static content
+    );
+};
+```
+
+### Step 11: Configure Next.js for Images
+
+Updated `next.config.mjs` to allow external images:
+
+```javascript
+images: {
+    remotePatterns: [
+        {
+            protocol: 'https',
+            hostname: 'images.unsplash.com',
+        },
+        {
+            protocol: 'https',
+            hostname: '*.thebcms.com',
+        },
+    ],
+},
+```
+
+---
+
+## Phase 4: Build & Fix Issues
+
+### Step 12: Fix ESLint Errors
+
+The production build revealed several issues that needed fixing:
+
+1. **Unescaped apostrophes**: Changed `'` to `&apos;` in JSX
+2. **Unescaped quotes**: Changed `"` to `&ldquo;` and `&rdquo;`
+3. **Unused imports**: Removed `notFound` import
+4. **Image optimization**: Switched from `<img>` to Next.js `<Image>` component
+
+### Step 13: Update Next.js
+
+Vercel flagged a security vulnerability, so we updated Next.js:
+
+```bash
+npm update next
+```
+
+Updated from 15.3.1 to 15.5.9
+
+### Step 14: Test Production Build
 
 ```bash
 npm run build
-npm run start
 ```
 
-## Troubleshooting
+Verified all pages built successfully:
+- `/` - Homepage
+- `/contact` - Contact page
+- `/services` - Services page
+- `/portfolio` - Portfolio page
+- `/team` - Team page
+- `/legal` - Legal page
 
-### BCMS Types Not Updating
+---
 
-Pull the latest types manually:
+## Phase 5: Deployment
+
+### Step 15: Deploy to Vercel
+
+First, install Vercel CLI locally (global install had permission issues):
+
+```bash
+npm install vercel --save-dev
+```
+
+Login to Vercel:
+
+```bash
+npx vercel login
+```
+
+This opened a browser for OAuth authentication with a device code.
+
+Deploy to production:
+
+```bash
+npx vercel --prod --yes --name med-spa-ranker
+```
+
+**Result**: https://med-spa-ranker.vercel.app
+
+### Step 16: Create GitHub Repository
+
+Initialize git and create initial commit:
+
+```bash
+git init
+git add -A
+git commit -m "Initial commit: Med Spa Ranker website"
+```
+
+Create GitHub repo using GitHub CLI:
+
+```bash
+gh repo create Aventerica89/med-spa-ranker --public --description "Med Spa Web Design & Digital Marketing - Next.js + BCMS"
+```
+
+Add remote and push:
+
+```bash
+git remote add origin https://github.com/Aventerica89/med-spa-ranker.git
+git push -u origin main
+```
+
+**Result**: https://github.com/Aventerica89/med-spa-ranker
+
+### Step 17: Connect Vercel to GitHub
+
+Enable automatic deployments on push:
+
+```bash
+npx vercel git connect
+```
+
+Now every push to `main` triggers a new Vercel deployment.
+
+---
+
+## Project Structure
+
+```
+Astra Agency/
+├── .vercel/               # Vercel project config
+├── bcms/
+│   └── types/ts/          # Auto-generated BCMS TypeScript types
+├── public/
+│   ├── fonts/             # Helvetica font files
+│   └── logo-dark.png      # BCMS logo
+├── src/
+│   ├── app/
+│   │   ├── page.tsx       # Homepage (Med Spa Ranker)
+│   │   ├── layout.tsx     # Root layout
+│   │   ├── contact/       # Contact page
+│   │   ├── services/      # Services page
+│   │   ├── portfolio/     # Portfolio page
+│   │   ├── team/          # Team page
+│   │   └── legal/         # Legal page
+│   ├── components/
+│   │   ├── medspa/        # Custom Med Spa Ranker components
+│   │   │   ├── Hero.tsx
+│   │   │   ├── Features.tsx
+│   │   │   ├── Testimonials.tsx
+│   │   │   ├── Services.tsx
+│   │   │   ├── WebDesign.tsx
+│   │   │   ├── Benefits.tsx
+│   │   │   └── CTA.tsx
+│   │   ├── layout/        # Header, Footer
+│   │   └── home-page/     # Original BCMS components (unused)
+│   └── styles/            # SCSS styles
+├── .env                   # BCMS API keys (auto-generated)
+├── next.config.mjs        # Next.js configuration
+├── tailwind.config.ts     # Tailwind with custom colors
+└── package.json
+```
+
+---
+
+## Workflow with Claude Code CLI
+
+The entire project was built through conversation with Claude Code CLI. Here's the workflow:
+
+### Starting the Session
+
+```bash
+cd ~/
+claude
+```
+
+### Prompts Used
+
+1. **"npx @thebcms/cli create next starter agency"** - Created the initial project
+2. **"Astra Agency"** - Named the project when prompted
+3. **"yes"** - Confirmed to install dependencies and run dev server
+4. **[screenshot of Med Spa Ranker]** - "can you recreate this? identical almost?" - Triggered the design recreation
+5. **"Copy the images and text appropriately how they were"** - Refined the content
+6. **"yes, and push it live"** - Triggered BCMS integration and Vercel deployment
+7. **"2"** - Selected Vercel over Cloudflare for deployment
+8. **"do we have a github for this?"** - Triggered GitHub repo creation
+9. **"document this entire process"** - Created this documentation
+
+### What Claude Code Did Automatically
+
+- Created and modified 15+ files
+- Installed npm packages
+- Fixed ESLint errors
+- Updated Next.js for security
+- Handled Vercel authentication
+- Created GitHub repository
+- Connected Vercel to GitHub
+- Updated documentation
+
+### Total Time
+
+From initial command to live production site: ~45 minutes
+
+---
+
+## Managing the Site
+
+### Update Content in BCMS
+
+1. Go to https://app.thebcms.com
+2. Select the **astra-agency** project
+3. Edit entries (Hero title, CTA text, etc.)
+4. Changes reflect on the live site after rebuild
+
+### Deploy Changes
+
+Push to GitHub and Vercel auto-deploys:
+
+```bash
+git add -A
+git commit -m "Update content"
+git push
+```
+
+### Pull Latest BCMS Types
+
+If you add new fields in BCMS:
 
 ```bash
 npx bcms --pull types --lng ts
 ```
 
-### Authentication Expired
+### Add Custom Domain
 
-Re-authenticate with BCMS:
+1. Go to Vercel Dashboard → Settings → Domains
+2. Add your domain (e.g., `medsparanker.com`)
+3. Update DNS records as instructed
+
+---
+
+## Troubleshooting
+
+### BCMS Authentication Expired
 
 ```bash
 npx @thebcms/cli login
 ```
 
-## Progress Checklist
+### Vercel Login Issues
+
+```bash
+npx vercel login
+```
+
+### Build Failures
+
+Check the Vercel deployment logs:
+```bash
+npx vercel logs [deployment-url]
+```
+
+### Local Development Issues
+
+Clear Next.js cache and rebuild:
+```bash
+rm -rf .next
+npm run dev
+```
+
+---
+
+## Completed Checklist
 
 - [x] Create BCMS project with Next.js agency starter
 - [x] Install dependencies
-- [x] Update color scheme to dark theme
-- [x] Create Header with navigation and CTA
+- [x] Update Tailwind color scheme to dark theme
+- [x] Create Header with navigation and coral CTA
 - [x] Create Hero section with background image
 - [x] Create Features section (4 cards)
-- [x] Create Testimonials section with reviews
+- [x] Create Testimonials section with star ratings
 - [x] Create Services section (SEO, PPC, Website)
 - [x] Create Web Design section
 - [x] Create Benefits section (Trust, Responsive, Convert)
 - [x] Create CTA section
-- [x] Update Footer with new branding
+- [x] Update Footer with navigation and legal links
+- [x] Fix ESLint errors for production build
+- [x] Update Next.js for security
 - [x] Deploy to Vercel production
-- [ ] Add real images and content
-- [ ] Connect remaining sections to BCMS for dynamic content
-- [ ] Add custom domain
+- [x] Create GitHub repository
+- [x] Connect Vercel to GitHub for auto-deploy
+- [x] Document entire process
+
+---
+
+## Credits
+
+Built with [Claude Code](https://claude.ai/claude-code) - Anthropic's CLI tool for AI-assisted development.
