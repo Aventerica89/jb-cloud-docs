@@ -49,8 +49,10 @@ The site runs at **http://localhost:3000**
 
 | Resource | URL |
 |----------|-----|
+| **Production** | https://med-spa-ranker.vercel.app |
 | Local Dev | http://localhost:3000 |
 | BCMS Dashboard | https://app.thebcms.com/d/o/alive-wildfowl/i/astra-agency/bcms |
+| Vercel Dashboard | https://vercel.com/johns-projects-0bf2a41c/med-spa-ranker |
 
 ## Project Structure
 
@@ -167,6 +169,7 @@ npx @thebcms/cli login
 - [x] Create Benefits section (Trust, Responsive, Convert)
 - [x] Create CTA section
 - [x] Update Footer with new branding
+- [x] Deploy to Vercel production
 - [ ] Add real images and content
-- [ ] Connect to BCMS for dynamic content
-- [ ] Deploy to production
+- [ ] Connect remaining sections to BCMS for dynamic content
+- [ ] Add custom domain
