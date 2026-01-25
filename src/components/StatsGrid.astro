@@ -1,0 +1,69 @@
+---
+interface Stat {
+  value: string;
+  label: string;
+}
+
+const stats: Stat[] = [
+  { value: '99.9%', label: 'Uptime SLA' },
+  { value: '< 50ms', label: 'Global Latency' },
+  { value: '24/7', label: 'Support' },
+  { value: '∞', label: 'Scalability' },
+];
+---
+
+<div class="stats-grid">
+  {stats.map((stat) => (
+    <div class="stat-card">
+      <div class="stat-value">{stat.value}</div>
+      <div class="stat-label">{stat.label}</div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  @media (max-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .stat-card {
+    text-align: center;
+    padding: 24px 16px;
+    background: linear-gradient(135deg, rgba(99, 91, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+    border: 1px solid rgba(99, 91, 255, 0.2);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: scale(1.05);
+    border-color: rgba(99, 91, 255, 0.4);
+    box-shadow: 0 8px 32px rgba(99, 91, 255, 0.15);
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #635bff 0%, #00d4ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+</style>

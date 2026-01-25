@@ -1,0 +1,304 @@
+/*
+ * Starlight + Tailwind: Do NOT use @tailwind base
+ * Starlight has its own reset/base styles that conflict with Tailwind Preflight
+ */
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================================
+   THEME: Stripe-inspired colors via CSS custom properties
+   This is the ONLY way to theme Starlight properly
+   =========================================== */
+
+:root {
+  /* Accent colors */
+  --sl-color-accent-low: #1a1633;
+  --sl-color-accent: #635bff;
+  --sl-color-accent-high: #b4b0ff;
+
+  /* Background */
+  --sl-color-bg: #0a0a0f;
+  --sl-color-bg-nav: rgba(10, 10, 15, 0.95);
+  --sl-color-bg-sidebar: #0f0f18;
+
+  /* Text */
+  --sl-color-text: #e6e6ef;
+  --sl-color-text-accent: #b4b0ff;
+
+  /* Borders */
+  --sl-color-hairline-light: rgba(99, 91, 255, 0.1);
+  --sl-color-hairline: rgba(99, 91, 255, 0.2);
+
+  /* Inline code */
+  --sl-color-bg-inline-code: rgba(99, 91, 255, 0.15);
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #f0efff;
+  --sl-color-accent: #635bff;
+  --sl-color-accent-high: #4f46e5;
+
+  --sl-color-bg: #ffffff;
+  --sl-color-bg-nav: rgba(255, 255, 255, 0.95);
+  --sl-color-bg-sidebar: #f8f9fc;
+
+  --sl-color-text: #0a2540;
+  --sl-color-text-accent: #635bff;
+
+  --sl-color-hairline-light: rgba(99, 91, 255, 0.08);
+  --sl-color-hairline: rgba(99, 91, 255, 0.15);
+
+  --sl-color-bg-inline-code: rgba(99, 91, 255, 0.1);
+}
+
+/* ===========================================
+   CUSTOM COMPONENTS (for use in MDX pages)
+   These don't override Starlight - they're new classes
+   =========================================== */
+
+/* Animated gradient background */
+.stripe-hero {
+  background: linear-gradient(-45deg, #635bff, #00d4ff, #ff80b5, #635bff);
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Feature card grid */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 32px 0;
+}
+
+/* Stripe-style buttons - exact Stripe specs */
+.btn-stripe {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #635bff;
+  color: white;
+  font-size: 14px;
+  font-weight: 425;
+  line-height: 24px;
+  height: 33px;
+  padding: 3px 12px 6px 16px;
+  border-radius: 16.5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-stripe:hover {
+  background: #7a73ff;
+}
+
+.btn-stripe::after {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid currentColor;
+  border-top: 1.5px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.btn-stripe-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  color: #0a2540;
+  font-size: 14px;
+  font-weight: 425;
+  line-height: 24px;
+  height: 33px;
+  padding: 3px 8px 6px 8px;
+  border-radius: 16.5px;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+:root:not([data-theme='light']) .btn-stripe-ghost {
+  color: #e6e6ef;
+}
+
+.btn-stripe-ghost:hover {
+  color: #635bff;
+}
+
+.btn-stripe-ghost::after {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid currentColor;
+  border-top: 1.5px solid currentColor;
+  transform: rotate(45deg);
+}
+
+/* Outline variant */
+.btn-stripe-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  color: #635bff;
+  font-size: 14px;
+  font-weight: 425;
+  line-height: 24px;
+  height: 33px;
+  padding: 3px 12px 6px 16px;
+  border-radius: 16.5px;
+  border: 1px solid #635bff;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-stripe-outline:hover {
+  background: rgba(99, 91, 255, 0.08);
+}
+
+/* Mesh gradient background */
+.mesh-gradient {
+  background:
+    radial-gradient(at 40% 20%, rgba(99, 91, 255, 0.3) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(0, 212, 255, 0.2) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(255, 128, 181, 0.2) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(99, 91, 255, 0.15) 0px, transparent 50%);
+}
+
+/* Dot pattern background */
+.dots-pattern {
+  background-image: radial-gradient(rgba(99, 91, 255, 0.3) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ===========================================
+   SHADOWS - Design System
+   =========================================== */
+.shadow-sm { box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.shadow-md { box-shadow: 0 4px 6px rgba(0,0,0,0.07); }
+.shadow-lg { box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+.shadow-xl { box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+.shadow-purple { box-shadow: 0 4px 14px rgba(99, 91, 255, 0.25); }
+.shadow-purple-lg { box-shadow: 0 8px 24px rgba(99, 91, 255, 0.2); }
+
+/* Card with shadow */
+.card-elevated {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.08);
+}
+
+:root:not([data-theme='light']) .card-elevated {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.card-elevated:hover {
+  box-shadow: 0 8px 24px rgba(99, 91, 255, 0.12);
+  border-color: rgba(99, 91, 255, 0.3);
+}
+
+/* Badge styles */
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: rgba(99, 91, 255, 0.1);
+  color: #635BFF;
+  border: 1px solid rgba(99, 91, 255, 0.2);
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: #D97706;
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+/* Sidebar mesh gradient background */
+.sidebar-pane {
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(99, 91, 255, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 100% 50%, rgba(0, 212, 255, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 30% 100%, rgba(255, 128, 181, 0.10) 0%, transparent 50%),
+    var(--sl-color-bg-sidebar) !important;
+}
+
+:root[data-theme='light'] .sidebar-pane {
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(99, 91, 255, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 100% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 30% 100%, rgba(255, 128, 181, 0.07) 0%, transparent 50%),
+    var(--sl-color-bg-sidebar) !important;
+}
+
+/* Pagination links - Stripe style */
+.pagination-links {
+  gap: 1rem;
+}
+
+.pagination-links a {
+  padding: 10px 16px !important;
+  border: 1px solid var(--sl-color-hairline) !important;
+  border-radius: 20px !important;
+  box-shadow: none !important;
+  transition: all 0.15s ease;
+  background: transparent !important;
+}
+
+.pagination-links a:hover {
+  border-color: var(--sl-color-accent) !important;
+  background: rgba(99, 91, 255, 0.05) !important;
+}
+
+/* Hide the br to make inline */
+.pagination-links a br {
+  display: none;
+}
+
+/* Style the outer span - contains "Previous/Next" text and link-title */
+.pagination-links a > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--sl-color-gray-3);
+}
+
+.pagination-links .link-title {
+  font-size: 14px !important;
+  font-weight: 500;
+  color: var(--sl-color-text);
+}
+
+/* Arrow icons */
+.pagination-links svg {
+  width: 14px !important;
+  height: 14px !important;
+  --sl-icon-size: 0.875rem !important;
+}

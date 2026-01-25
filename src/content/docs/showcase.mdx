@@ -1,0 +1,109 @@
+---
+title: Design Showcase
+description: Preview of Stripe-inspired UI components and styles.
+sidebar:
+  hidden: true
+---
+
+import FeatureCard from '../../components/FeatureCard.astro';
+import HeroSection from '../../components/HeroSection.astro';
+import GlassCard from '../../components/GlassCard.astro';
+import StatsGrid from '../../components/StatsGrid.astro';
+
+<HeroSection
+  title="Cloud Infrastructure Docs"
+  subtitle="Everything you need to deploy, manage, and scale your applications with confidence."
+  primaryCta="Get Started"
+  secondaryCta="View on GitHub"
+/>
+
+---
+
+## Feature Cards
+
+<div class="feature-grid">
+  <FeatureCard
+    title="xCloud Hosting"
+    description="Deploy Docker apps, manage servers, and scale with ease using xCloud's intuitive dashboard."
+    icon='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z" /></svg>'
+  />
+  <FeatureCard
+    title="Cloudflare Integration"
+    description="Secure your sites with SSL, DNS management, and edge caching through Cloudflare."
+    icon='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>'
+  />
+  <FeatureCard
+    title="Supabase Backend"
+    description="Build powerful backends with PostgreSQL, authentication, and real-time subscriptions."
+    icon='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" /></svg>'
+  />
+</div>
+
+---
+
+## Glass Cards
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+  <GlassCard title="Real-time Monitoring">
+    Track server health, resource usage, and application performance with live dashboards.
+  </GlassCard>
+  <GlassCard title="One-Click Deploys">
+    Push to Git and watch your changes go live automatically with zero-downtime deployments.
+  </GlassCard>
+</div>
+
+---
+
+## Stats Display
+
+<StatsGrid />
+
+---
+
+## Button Styles
+
+<div class="flex flex-wrap items-center gap-4 my-8">
+  <a href="#" class="btn-stripe">Explore the docs</a>
+  <a href="#" class="btn-stripe-ghost">Contact sales</a>
+</div>
+
+<div class="flex flex-wrap items-center gap-4 my-8">
+  <button class="btn-stripe">Get Started Free</button>
+  <button class="btn-stripe-outline">View Documentation</button>
+</div>
+
+---
+
+## Code Block Example
+
+```bash title="Deploy with Docker"
+# Pull the latest image
+docker pull your-app:latest
+
+# Run with resource limits
+docker run -d \
+  --name your-app \
+  --memory=4g \
+  --restart unless-stopped \
+  -p 80:3000 \
+  your-app:latest
+```
+
+---
+
+## Gradient Backgrounds
+
+<div class="stripe-hero rounded-xl p-8 my-8 text-white text-center">
+  <h3 class="text-2xl font-bold mb-2">Animated Gradient</h3>
+  <p class="opacity-90">This background smoothly shifts through Stripe's signature colors.</p>
+</div>
+
+<div class="mesh-gradient rounded-xl p-8 my-8 text-center" style="background-color: var(--sl-color-bg);">
+  <h3 class="text-2xl font-bold mb-2">Mesh Gradient</h3>
+  <p class="opacity-75">Subtle radial gradients create depth and visual interest.</p>
+</div>
+
+<div class="dots-pattern rounded-xl p-8 my-8 text-center border border-stripe-purple/20">
+  <h3 class="text-2xl font-bold mb-2">Dot Pattern</h3>
+  <p class="opacity-75">A minimal dot grid adds texture without distraction.</p>
+</div>

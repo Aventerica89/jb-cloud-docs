@@ -1,0 +1,112 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  icon?: string;
+  href?: string;
+}
+
+const { title, description, icon, href = '#' } = Astro.props;
+---
+
+<a href={href} class="stripe-card">
+  {icon && (
+    <div class="card-icon">
+      <Fragment set:html={icon} />
+    </div>
+  )}
+  <div class="card-content">
+    <h3 class="card-title">
+      {title}
+      <svg class="arrow" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </h3>
+    <p class="card-description">{description}</p>
+  </div>
+</a>
+
+<style>
+  .stripe-card {
+    display: block;
+    background: var(--sl-color-gray-6, #f6f9fc);
+    border: 1px solid var(--sl-color-gray-5, #e3e8ee);
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  :root[data-theme='dark'] .stripe-card,
+  :root:not([data-theme='light']) .stripe-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .stripe-card:hover {
+    border-color: var(--sl-color-accent, #635bff);
+    box-shadow: 0 4px 12px rgba(99, 91, 255, 0.08), 0 0 0 1px rgba(99, 91, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  :root[data-theme='dark'] .stripe-card:hover,
+  :root:not([data-theme='light']) .stripe-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(99, 91, 255, 0.2);
+  }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(99, 91, 255, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+    border-radius: 10px;
+    color: var(--sl-color-accent, #635bff);
+  }
+
+  .card-icon :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--sl-color-text, #0a2540);
+    margin: 0 0 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .arrow {
+    width: 16px;
+    height: 16px;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all 0.2s ease;
+    color: var(--sl-color-accent, #635bff);
+  }
+
+  .stripe-card:hover .arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .card-description {
+    font-size: 0.875rem;
+    color: var(--sl-color-gray-2, #425466);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  :root[data-theme='dark'] .card-description,
+  :root:not([data-theme='light']) .card-description {
+    color: var(--sl-color-gray-3, rgba(255, 255, 255, 0.6));
+  }
+</style>
