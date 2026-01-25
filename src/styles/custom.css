@@ -262,22 +262,32 @@
    =========================================== */
 
 /* Overall page background with subtle mesh */
-body {
+html, body {
   background:
-    radial-gradient(ellipse at 80% 0%, rgba(99, 91, 255, 0.06) 0%, transparent 40%),
-    radial-gradient(ellipse at 0% 50%, rgba(0, 212, 255, 0.04) 0%, transparent 40%),
-    radial-gradient(ellipse at 100% 100%, rgba(255, 128, 181, 0.04) 0%, transparent 40%),
-    var(--sl-color-bg);
-  background-attachment: fixed;
+    radial-gradient(ellipse at 80% 0%, rgba(99, 91, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 0% 50%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(255, 128, 181, 0.05) 0%, transparent 50%),
+    var(--sl-color-bg) !important;
+  background-attachment: fixed !important;
 }
 
-:root[data-theme='light'] body {
+:root[data-theme='light'] body,
+:root[data-theme='light'] html {
   background:
-    radial-gradient(ellipse at 80% 0%, rgba(99, 91, 255, 0.05) 0%, transparent 40%),
-    radial-gradient(ellipse at 0% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 40%),
-    radial-gradient(ellipse at 100% 100%, rgba(255, 128, 181, 0.03) 0%, transparent 40%),
-    var(--sl-color-bg);
-  background-attachment: fixed;
+    radial-gradient(ellipse at 80% 0%, rgba(99, 91, 255, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 0% 50%, rgba(0, 212, 255, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(255, 128, 181, 0.04) 0%, transparent 50%),
+    var(--sl-color-bg) !important;
+  background-attachment: fixed !important;
+}
+
+/* Force all layout containers to be transparent */
+.page,
+.page > *,
+main,
+[data-has-sidebar],
+[data-has-toc] {
+  background: transparent !important;
 }
 
 /* Header styling */
@@ -314,28 +324,42 @@ header.header,
 }
 
 .right-sidebar-panel {
-  border-left: 1px solid rgba(99, 91, 255, 0.1);
+  border-left: none;
 }
 
-/* Main content area */
-.main-pane {
+/* Remove all hard borders from layout */
+.right-sidebar-container {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Two column layout transparency */
+.sl-flex {
   background: transparent;
 }
 
-.content-panel {
+/* Main content area - make all containers transparent */
+.main-pane,
+.content-panel,
+.main-frame,
+[data-has-sidebar] .main-frame,
+.page {
+  background: transparent !important;
+}
+
+/* Remove the sharp border/edge on main content */
+.sidebar-pane {
+  border-right: none !important;
+}
+
+/* The main page wrapper - ensure mesh shows through */
+.page > * {
   background: transparent;
 }
 
-/* Main content container - subtle card effect */
+/* Content wrapper transparency */
 .sl-markdown-content {
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 16px;
-  padding: 8px;
-  margin: -8px;
-}
-
-:root[data-theme='light'] .sl-markdown-content {
-  background: rgba(255, 255, 255, 0.5);
+  background: transparent;
 }
 
 /* ===========================================
@@ -460,19 +484,35 @@ header.header,
 
 /* Hero section on splash pages */
 .hero {
+  background: transparent !important;
+  padding-bottom: 4rem !important;
+  border-bottom: 1px solid rgba(99, 91, 255, 0.1);
+  position: relative;
+}
+
+/* Hero mesh overlay */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   background:
     radial-gradient(ellipse at 30% 0%, rgba(99, 91, 255, 0.15) 0%, transparent 50%),
     radial-gradient(ellipse at 70% 100%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 50%, rgba(255, 128, 181, 0.08) 0%, transparent 40%) !important;
-  padding-bottom: 4rem !important;
-  border-bottom: 1px solid rgba(99, 91, 255, 0.1);
+    radial-gradient(ellipse at 100% 50%, rgba(255, 128, 181, 0.08) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-:root[data-theme='light'] .hero {
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+:root[data-theme='light'] .hero::before {
   background:
     radial-gradient(ellipse at 30% 0%, rgba(99, 91, 255, 0.1) 0%, transparent 50%),
     radial-gradient(ellipse at 70% 100%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 50%, rgba(255, 128, 181, 0.06) 0%, transparent 40%) !important;
+    radial-gradient(ellipse at 100% 50%, rgba(255, 128, 181, 0.06) 0%, transparent 40%);
 }
 
 /* Hero title gradient text */
