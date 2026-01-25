@@ -1,0 +1,127 @@
+---
+title: Documentation Workflow
+description: How I use Claude Code to document processes in real-time as I work.
+sidebar:
+  order: 1
+---
+
+This site is built differently from traditional documentation. Instead of writing docs after the fact, I document processes **as they happen** using Claude Code as my assistant.
+
+## The Problem with Traditional Docs
+
+We've all been there:
+- Figure out how to do something complex
+- Tell yourself "I'll document this later"
+- Never document it
+- Forget how you did it 6 months later
+- Spend hours figuring it out again
+
+## The Solution: Document While Doing
+
+I keep Claude Code running in my terminal while I work. When I solve a problem or set something up, the conversation itself becomes the documentation.
+
+### How It Works
+
+1. **Start working on a task** with Claude Code open
+2. **Share what you're trying to do** - Claude helps you figure it out
+3. **Encounter issues** - Paste errors, screenshots, console output
+4. **Solve the problem together** - Claude suggests fixes, you test them
+5. **Ask Claude to document it** - "Add this process to the docs"
+
+The documentation is written while the context is fresh, including:
+- The actual commands that worked
+- Errors you encountered and how to fix them
+- Why certain approaches were chosen over others
+
+## Real Example: Updating OpenWebUI
+
+Here's how the [Updating Docker Apps](/xcloud/updating-docker-apps/) guide was created:
+
+**The situation:** xCloud support told me I needed to SSH into my server to update OpenWebUI, but I'd never done it before.
+
+**The conversation:**
+1. I asked Claude Code how to SSH update a Docker app
+2. Claude asked clarifying questions (Docker or docker-compose? Do I have SSH access?)
+3. We discovered I needed to set up SSH keys first
+4. We hit permission errors - Docker commands didn't work via SSH
+5. Found the xCloud Command Runner workaround
+6. Successfully updated the app
+7. Asked Claude to document the process
+
+**The result:** A complete guide that includes:
+- The SSH key setup process
+- The xCloud-specific limitation about Docker permissions
+- The exact commands that work
+- Written in 5 minutes while everything was fresh
+
+## What Gets Documented
+
+Everything I figure out about:
+- **xCloud** - Server management, Docker apps, SSH access
+- **Cloudflare** - DNS, Pages, Workers, Tunnels
+- **Supabase** - Self-hosted setup and configuration
+- **Vercel** - Deployments and project config
+
+If I spend more than 10 minutes figuring something out, it gets documented.
+
+## The Workflow in Practice
+
+```
+Terminal 1: Claude Code session
+Terminal 2: Actual work (SSH, commands, etc.)
+Browser: Cloud dashboards, error lookups
+```
+
+When something works (or breaks interestingly), I switch to the Claude Code terminal and either:
+- Paste the output/error
+- Share a screenshot
+- Describe what happened
+
+Claude helps me understand it and writes it up.
+
+## Benefits
+
+### 1. Documentation Actually Gets Written
+Because it happens during the work, not after, it actually gets done.
+
+### 2. Errors Are Documented
+Traditional docs skip the "what can go wrong" part. Real-time documentation captures the errors and fixes.
+
+### 3. Context Is Preserved
+Six months from now, I won't remember why I chose Cloudflare Workers over a different OAuth solution. The docs capture that reasoning.
+
+### 4. It's Faster Than You Think
+Asking "document this process we just did" takes seconds. Claude already has the context from helping you.
+
+### 5. Searchable Knowledge Base
+Everything ends up in a searchable docs site instead of scattered across notes, bookmarks, and memory.
+
+## Getting Started
+
+If you want to adopt this workflow:
+
+1. **Set up a docs site** - See [Documentation Site Setup](/cloudflare/docs-site-setup/)
+
+2. **Keep Claude Code open** while you work:
+   ```bash
+   cd ~/Sites/your-docs
+   claude
+   ```
+
+3. **Work normally** - When you figure something out, share it with Claude
+
+4. **End with documentation** - "Add a guide for what we just did to the docs"
+
+5. **Review and publish** - Claude commits and pushes, Cloudflare auto-deploys
+
+## This Very Document
+
+Even this page was created using the workflow it describes. I asked Claude:
+
+> "Create a document explaining how I'm using you to document everything I'm doing along the way"
+
+And here we are.
+
+---
+
+*Have questions or want to contribute? The source is on [GitHub](https://github.com/Aventerica89/jb-cloud-docs).*

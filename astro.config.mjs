@@ -24,6 +24,7 @@ export default defineConfig({
 					label: 'Getting Started',
 					items: [
 						{ label: 'Introduction', slug: 'index' },
+						{ label: 'Documentation Workflow', slug: 'documentation-workflow' },
 					],
 				},
 				{
