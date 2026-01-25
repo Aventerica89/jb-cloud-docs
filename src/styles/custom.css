@@ -257,6 +257,327 @@
     var(--sl-color-bg-sidebar) !important;
 }
 
+/* ===========================================
+   PAGE BACKGROUNDS & LAYOUT
+   =========================================== */
+
+/* Overall page background with subtle mesh */
+body {
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(99, 91, 255, 0.06) 0%, transparent 40%),
+    radial-gradient(ellipse at 0% 50%, rgba(0, 212, 255, 0.04) 0%, transparent 40%),
+    radial-gradient(ellipse at 100% 100%, rgba(255, 128, 181, 0.04) 0%, transparent 40%),
+    var(--sl-color-bg);
+  background-attachment: fixed;
+}
+
+:root[data-theme='light'] body {
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(99, 91, 255, 0.05) 0%, transparent 40%),
+    radial-gradient(ellipse at 0% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 40%),
+    radial-gradient(ellipse at 100% 100%, rgba(255, 128, 181, 0.03) 0%, transparent 40%),
+    var(--sl-color-bg);
+  background-attachment: fixed;
+}
+
+/* Header styling */
+header.header,
+.header {
+  background:
+    linear-gradient(90deg, rgba(99, 91, 255, 0.03) 0%, transparent 50%, rgba(0, 212, 255, 0.03) 100%),
+    var(--sl-color-bg-nav) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(99, 91, 255, 0.1) !important;
+}
+
+:root[data-theme='light'] header.header,
+:root[data-theme='light'] .header {
+  background:
+    linear-gradient(90deg, rgba(99, 91, 255, 0.04) 0%, transparent 50%, rgba(0, 212, 255, 0.03) 100%),
+    rgba(255, 255, 255, 0.85) !important;
+  border-bottom: 1px solid rgba(99, 91, 255, 0.08) !important;
+}
+
+/* Right sidebar (table of contents) */
+.right-sidebar {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(99, 91, 255, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+    transparent !important;
+}
+
+:root[data-theme='light'] .right-sidebar {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(99, 91, 255, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(0, 212, 255, 0.04) 0%, transparent 50%),
+    transparent !important;
+}
+
+.right-sidebar-panel {
+  border-left: 1px solid rgba(99, 91, 255, 0.1);
+}
+
+/* Main content area */
+.main-pane {
+  background: transparent;
+}
+
+.content-panel {
+  background: transparent;
+}
+
+/* Main content container - subtle card effect */
+.sl-markdown-content {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  padding: 8px;
+  margin: -8px;
+}
+
+:root[data-theme='light'] .sl-markdown-content {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* ===========================================
+   HOME PAGE SPECIFIC STYLES
+   =========================================== */
+
+/* Hero area on home page */
+.sl-markdown-content > h1:first-child {
+  background: linear-gradient(135deg, var(--sl-color-text) 0%, #635BFF 50%, #00D4FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2.5rem;
+}
+
+/* Home page cards - Starlight's CardGrid */
+.card-grid .card,
+.sl-link-card {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(99, 91, 255, 0.15) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+:root[data-theme='light'] .card-grid .card,
+:root[data-theme='light'] .sl-link-card {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(99, 91, 255, 0.12) !important;
+  box-shadow: 0 4px 20px rgba(99, 91, 255, 0.08);
+}
+
+.card-grid .card:hover,
+.sl-link-card:hover {
+  border-color: rgba(99, 91, 255, 0.4) !important;
+  box-shadow: 0 8px 32px rgba(99, 91, 255, 0.2);
+  transform: translateY(-4px);
+}
+
+.card-grid .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #635BFF, #00D4FF, #FF80B5);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.card-grid .card:hover::before {
+  opacity: 1;
+}
+
+/* Card titles */
+.card-grid .card .title,
+.sl-link-card .title {
+  color: var(--sl-color-text) !important;
+}
+
+/* Card icon styling */
+.card-grid .card .icon {
+  background: linear-gradient(135deg, rgba(99, 91, 255, 0.15) 0%, rgba(0, 212, 255, 0.1) 100%) !important;
+  border: 1px solid rgba(99, 91, 255, 0.2) !important;
+  color: #635BFF !important;
+}
+
+/* Aside/callout boxes */
+.starlight-aside {
+  background: rgba(99, 91, 255, 0.05) !important;
+  border-left: 3px solid #635BFF !important;
+  border-radius: 0 12px 12px 0;
+}
+
+.starlight-aside--tip {
+  background: rgba(16, 185, 129, 0.05) !important;
+  border-left-color: #10B981 !important;
+}
+
+.starlight-aside--caution {
+  background: rgba(245, 158, 11, 0.05) !important;
+  border-left-color: #F59E0B !important;
+}
+
+.starlight-aside--danger {
+  background: rgba(239, 68, 68, 0.05) !important;
+  border-left-color: #EF4444 !important;
+}
+
+/* Code blocks */
+.expressive-code {
+  border-radius: 12px !important;
+  border: 1px solid rgba(99, 91, 255, 0.15) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.expressive-code .frame {
+  box-shadow: none !important;
+}
+
+/* Table styling */
+.sl-markdown-content table {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(99, 91, 255, 0.15);
+}
+
+.sl-markdown-content th {
+  background: rgba(99, 91, 255, 0.08);
+}
+
+.sl-markdown-content tr:hover {
+  background: rgba(99, 91, 255, 0.03);
+}
+
+/* ===========================================
+   SPLASH/HERO PAGE STYLES
+   =========================================== */
+
+/* Hero section on splash pages */
+.hero {
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(99, 91, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 100%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 50%, rgba(255, 128, 181, 0.08) 0%, transparent 40%) !important;
+  padding-bottom: 4rem !important;
+  border-bottom: 1px solid rgba(99, 91, 255, 0.1);
+}
+
+:root[data-theme='light'] .hero {
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(99, 91, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 100%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 50%, rgba(255, 128, 181, 0.06) 0%, transparent 40%) !important;
+}
+
+/* Hero title gradient text */
+.hero h1 {
+  background: linear-gradient(135deg, #635BFF 0%, #8B5CF6 30%, #00D4FF 70%, #FF80B5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 3.5rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+:root[data-theme='light'] .hero h1 {
+  background: linear-gradient(135deg, #5521B5 0%, #635BFF 50%, #0A2540 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero tagline */
+.hero .tagline {
+  font-size: 1.25rem !important;
+  color: var(--sl-color-gray-2) !important;
+  max-width: 600px;
+}
+
+/* Hero action buttons */
+.hero .action {
+  border-radius: 20px !important;
+  font-weight: 500 !important;
+  padding: 10px 20px !important;
+  transition: all 0.2s ease !important;
+}
+
+.hero .action.primary {
+  background: #635BFF !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(99, 91, 255, 0.35);
+}
+
+.hero .action.primary:hover {
+  background: #7A73FF !important;
+  box-shadow: 0 6px 20px rgba(99, 91, 255, 0.45);
+  transform: translateY(-2px);
+}
+
+.hero .action.minimal {
+  color: var(--sl-color-text) !important;
+  border: 1px solid rgba(99, 91, 255, 0.3) !important;
+  background: transparent !important;
+}
+
+.hero .action.minimal:hover {
+  border-color: #635BFF !important;
+  background: rgba(99, 91, 255, 0.08) !important;
+}
+
+/* Section headings on home page */
+.sl-markdown-content h2 {
+  position: relative;
+  display: inline-block;
+}
+
+.sl-markdown-content h2::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #635BFF, #00D4FF);
+  border-radius: 2px;
+}
+
+/* Staggered card grid animation */
+.card-grid.stagger .card {
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+}
+
+.card-grid.stagger .card:nth-child(1) { animation-delay: 0.1s; }
+.card-grid.stagger .card:nth-child(2) { animation-delay: 0.2s; }
+.card-grid.stagger .card:nth-child(3) { animation-delay: 0.3s; }
+.card-grid.stagger .card:nth-child(4) { animation-delay: 0.4s; }
+.card-grid.stagger .card:nth-child(5) { animation-delay: 0.5s; }
+.card-grid.stagger .card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Footer area */
+footer {
+  border-top: 1px solid rgba(99, 91, 255, 0.1);
+  background: rgba(99, 91, 255, 0.02);
+}
+
 /* Pagination links - Stripe style */
 .pagination-links {
   gap: 1rem;
