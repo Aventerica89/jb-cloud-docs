@@ -1,0 +1,89 @@
+---
+title: Workflow Guide
+description: Step-by-step guide for using the Bricks Builder Agent.
+---
+
+## Workflow Overview
+
+The Bricks Builder Agent follows a systematic workflow to convert screenshots into valid Bricks Builder JSON.
+
+## Step 1: Setup Campaign
+
+Before building sections, import the clients ACSS settings:
+
+1. Export ACSS settings from the WordPress dashboard (Automatic.css > Import/Export)
+2. Save to `~/.claude/projects/bricks-builder/campaigns/{client}/acss-settings.json`
+3. Run analysis to identify active vs disabled features
+4. Create `ACTIVE-SETTINGS.md` reference document
+
+## Step 2: Analyze Screenshot
+
+When given a screenshot, the agent identifies:
+
+- Layout structure (section, container, grid, columns)
+- Components (hero, cards, gallery, etc.)
+- Spacing patterns (padding, gaps, margins)
+- Typography hierarchy (headings, body, captions)
+- Color usage (backgrounds, text, accents)
+
+## Step 3: Generate JSON
+
+The agent produces Bricks Builder JSON following these rules:
+
+- Every element gets a unique 6-character alphanumeric ID
+- Parent-child relationships are properly linked
+- ACSS variables used for ALL colors, spacing, typography
+- BEM-named global classes on EVERY element (Frames methodology)
+- Responsive styles included for tablet/mobile breakpoints
+
+## Step 4: Validate
+
+Run the validation script before importing:
+
+```bash
+node ~/.claude/projects/bricks-builder/scripts/validate-bricks-json.js output.json
+```
+
+Checks performed:
+- JSON schema compliance
+- ID uniqueness
+- Parent-child integrity
+- Global class cross-references
+
+## Step 5: Test and Iterate
+
+1. Copy JSON output
+2. Paste into Bricks Builder (Structure panel > right-click > Paste)
+3. Review in the builder
+4. Provide corrections to the agent
+5. Agent regenerates with fixes
+
+## Step 6: Learn from Corrections
+
+When the user provides corrected JSON or feedback:
+
+1. Run `/learn` command
+2. Agent extracts reusable patterns
+3. Patterns saved to `~/.claude/skills/learned/`
+4. GUIDELINES.md updated with new patterns
+
+## Key Principles
+
+### Every Element Needs a Class
+No element should be without a global class. This follows Frames methodology.
+
+| Element | Class Pattern |
+|---------|--------------|
+| Section | `{prefix}-{component}` |
+| Container | `{prefix}-{component}__container` |
+| Block/Div | `{prefix}-{component}__[role]` |
+| Heading | `{prefix}-{component}__title` |
+| Text | `{prefix}-{component}__text` |
+| Image | `{prefix}-{component}__image` |
+| Button | `{prefix}-{component}__btn` |
+
+### Images as Elements, Not CSS Backgrounds
+Use actual `<image>` elements with absolute positioning instead of CSS background properties. Better for accessibility and SEO.
+
+### ACSS Variables Always
+Never hardcode colors, spacing, or typography values. Always use ACSS variables like `var(--primary)`, `var(--space-m)`, `var(--h1)`.
