@@ -3,10 +3,12 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
+import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://docs.jbcloud.app',
+	adapter: cloudflare(),
 	integrations: [
 		starlight({
 			title: 'JB Cloud Docs',

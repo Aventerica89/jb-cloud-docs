@@ -2,7 +2,9 @@
 import type { Props } from '@astrojs/starlight/props';
 import Default from '@astrojs/starlight/components/Footer.astro';
 import FloatingStyleGuideButton from './FloatingStyleGuideButton.astro';
+import { Chat } from './chat';
 ---
 
 <Default {...Astro.props}><slot /></Default>
 <FloatingStyleGuideButton />
+<Chat client:load />
