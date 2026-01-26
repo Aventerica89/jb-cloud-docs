@@ -5,6 +5,13 @@ import type { ChatMessage, ChatResponse } from '../../types/chat';
 
 export const prerender = false;
 
+interface CloudflareEnv {
+  CHAT_PASSWORD: string;
+  JWT_SECRET: string;
+  ANTHROPIC_API_KEY: string;
+  GITHUB_TOKEN: string;
+}
+
 // Simple in-memory rate limiting
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT = 20; // requests per window
@@ -27,7 +34,7 @@ function checkRateLimit(ip: string): boolean {
   return true;
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     // Get client IP for rate limiting
     const ip = request.headers.get('cf-connecting-ip') ||
@@ -41,10 +48,14 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
+    // Access env vars from Cloudflare runtime
+    const runtime = (locals as { runtime?: { env?: CloudflareEnv } }).runtime;
+    const env = runtime?.env;
+
     // Verify authentication
     const cookieHeader = request.headers.get('cookie');
     const token = getSessionFromCookie(cookieHeader);
-    const jwtSecret = import.meta.env.JWT_SECRET;
+    const jwtSecret = env?.JWT_SECRET || import.meta.env.JWT_SECRET;
 
     if (!token || !jwtSecret) {
       return new Response(
@@ -62,8 +73,8 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Get API keys
-    const anthropicKey = import.meta.env.ANTHROPIC_API_KEY;
-    const githubToken = import.meta.env.GITHUB_TOKEN;
+    const anthropicKey = env?.ANTHROPIC_API_KEY || import.meta.env.ANTHROPIC_API_KEY;
+    const githubToken = env?.GITHUB_TOKEN || import.meta.env.GITHUB_TOKEN;
 
     if (!anthropicKey || !githubToken) {
       console.error('Missing ANTHROPIC_API_KEY or GITHUB_TOKEN');

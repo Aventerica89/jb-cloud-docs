@@ -3,7 +3,14 @@ import { validatePassword, createSession, createSessionCookie } from '../../../l
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
+interface CloudflareEnv {
+  CHAT_PASSWORD: string;
+  JWT_SECRET: string;
+  ANTHROPIC_API_KEY: string;
+  GITHUB_TOKEN: string;
+}
+
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { password } = body as { password: string };
@@ -15,8 +22,12 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    const correctPassword = import.meta.env.CHAT_PASSWORD;
-    const jwtSecret = import.meta.env.JWT_SECRET;
+    // Access env vars from Cloudflare runtime
+    const runtime = (locals as { runtime?: { env?: CloudflareEnv } }).runtime;
+    const env = runtime?.env;
+
+    const correctPassword = env?.CHAT_PASSWORD || import.meta.env.CHAT_PASSWORD;
+    const jwtSecret = env?.JWT_SECRET || import.meta.env.JWT_SECRET;
 
     if (!correctPassword || !jwtSecret) {
       console.error('Missing CHAT_PASSWORD or JWT_SECRET environment variables');
