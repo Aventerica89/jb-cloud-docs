@@ -47,6 +47,10 @@ export default defineConfig({
 					label: 'BCMS',
 					autogenerate: { directory: 'bcms' },
 				},
+				{
+					label: 'Bricks Builder Agent',
+					autogenerate: { directory: 'bricks-builder-agent' },
+				},
 			],
 			customCss: ['./src/styles/custom.css'],
 		}),
