@@ -53,6 +53,10 @@ export default defineConfig({
 					label: 'Bricks Builder Agent',
 					autogenerate: { directory: 'bricks-builder-agent' },
 				},
+				{
+					label: 'UI Resources',
+					autogenerate: { directory: 'ui-resources' },
+				},
 			],
 			customCss: ['./src/styles/custom.css'],
 		}),
