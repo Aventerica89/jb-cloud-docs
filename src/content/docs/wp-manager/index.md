@@ -27,6 +27,7 @@ WP Manager is a lightweight, self-hosted WordPress site management dashboard. Th
 
 ### Phase 2 (In Progress)
 - [Bulk plugin/theme updates](/wp-manager/bulk-updates/)
+- [Activity logging](/wp-manager/activity-logging/)
 - Site credential editing
 - Style guide page
 
