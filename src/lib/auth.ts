@@ -72,5 +72,5 @@ export function getSessionFromCookie(cookieHeader: string | null): string | null
 }
 
 export function createSessionCookie(token: string): string {
-  return `chat_session=${token}; HttpOnly; Secure; SameSite=Strict; Max-Age=3600; Path=/`;
+  return `chat_session=${token}; HttpOnly; Secure; SameSite=Lax; Max-Age=3600; Path=/`;
 }
