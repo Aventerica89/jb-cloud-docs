@@ -1,0 +1,120 @@
+---
+title: Bulk Updates
+description: How to update plugins and themes across multiple WordPress sites at once.
+sidebar:
+  order: 1
+---
+
+The Bulk Updates feature lets you update plugins and themes across all your managed WordPress sites from a single interface.
+
+## Accessing Bulk Updates
+
+Navigate to `/updates` in your WP Manager dashboard, or click **Updates** in the navigation.
+
+## Overview
+
+The updates page shows:
+
+- **Summary cards**: Total pending updates, plugins, themes, sites affected
+- **Filterable table**: All available updates with site, type, item name, and version info
+- **Bulk actions**: Select multiple items and update them at once
+
+## Using the Updates Table
+
+### Filtering
+
+Use the tabs to filter by:
+- **All**: Show all pending updates
+- **Plugins**: Only plugin updates
+- **Themes**: Only theme updates
+
+### Grouping
+
+Toggle **Group by Site** to organize updates by site instead of a flat list.
+
+### Selection
+
+- Click individual checkboxes to select specific updates
+- Use the header checkbox to select all visible items
+- Indeterminate state shows when some (but not all) items are selected
+
+## Running Bulk Updates
+
+1. Select the updates you want to apply
+2. Click **Update Selected**
+3. Review the confirmation dialog showing what will be updated
+4. Click **Start Updates**
+
+### Concurrency Control
+
+Updates run with a maximum of 3 sites updating simultaneously. This prevents overwhelming your sites and helps identify failures.
+
+### Progress Tracking
+
+During updates, you'll see:
+- Real-time progress bar
+- Current/total count
+- Status of each update (pending, in progress, success, failed)
+- Error messages for any failures
+
+## Requirements
+
+### For Standard WordPress Sites
+
+Updates use the WordPress REST API with Application Passwords. Requires:
+- WordPress 5.6+
+- Admin user with update capabilities
+- Application Password configured
+
+### For Connector Plugin Sites
+
+For sites using the WP Manager Connector plugin:
+
+1. Ensure the connector plugin is **v1.1.0 or later**
+2. The plugin handles updates via the `/wp-manager/v1/plugins/update` endpoint
+
+#### Updating the Connector Plugin
+
+If you're getting 404 errors on updates:
+
+1. Download the latest `wp-manager-connector.zip` from the repo
+2. Go to **Plugins > Add New > Upload Plugin** in WordPress
+3. Upload and replace the existing plugin
+4. Verify the version in **Settings > WP Manager** shows 1.1.0+
+
+## Troubleshooting
+
+### 404 "rest_no_route" Errors
+
+This means the connector plugin on your WordPress site is outdated. Update to v1.1.0+.
+
+### Decryption Errors
+
+If you see decryption errors:
+1. Ensure `ENCRYPTION_SECRET` is set in your `.env.local`
+2. If you changed the secret, you'll need to re-enter credentials for each site via the Edit page
+
+### Updates Failing for Premium Plugins
+
+Some premium plugins (like Admin Site Enhancements Pro) require valid license keys. If updates fail:
+1. Go to your WordPress admin
+2. Check if the plugin can update manually
+3. Verify your license is active
+
+## Database Schema
+
+Updates are tracked in the `update_log` table:
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id | integer | Primary key |
+| siteId | integer | Reference to sites table |
+| itemType | text | "plugin" or "theme" |
+| itemSlug | text | Plugin/theme identifier |
+| itemName | text | Display name |
+| fromVersion | text | Version before update |
+| toVersion | text | Target version |
+| status | text | pending, in_progress, success, failed |
+| errorMessage | text | Error details if failed |
+| startedAt | text | Timestamp when update started |
+| completedAt | text | Timestamp when update finished |
