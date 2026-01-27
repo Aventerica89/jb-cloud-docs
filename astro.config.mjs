@@ -17,6 +17,28 @@ export default defineConfig({
 				dark: './src/assets/logo-dark.svg',
 				replacesTitle: true,
 			},
+			head: [
+				{
+					tag: 'meta',
+					attrs: { property: 'og:image', content: 'https://docs.jbcloud.app/og-image.png' },
+				},
+				{
+					tag: 'meta',
+					attrs: { property: 'og:image:width', content: '1200' },
+				},
+				{
+					tag: 'meta',
+					attrs: { property: 'og:image:height', content: '630' },
+				},
+				{
+					tag: 'meta',
+					attrs: { name: 'twitter:card', content: 'summary_large_image' },
+				},
+				{
+					tag: 'meta',
+					attrs: { name: 'twitter:image', content: 'https://docs.jbcloud.app/og-image.png' },
+				},
+			],
 			components: {
 				Footer: './src/components/Footer.astro',
 			},
