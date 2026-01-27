@@ -24,6 +24,7 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ messages: [{ role: 'user', content: 'ping' }] }),
+          credentials: 'include',
         });
 
         if (response.ok) {
@@ -52,6 +53,7 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: newMessages }),
+        credentials: 'include',
       });
 
       if (response.status === 401) {
