@@ -82,6 +82,8 @@ Complete reference for all custom slash commands available in Claude Code.
 | `/jbdocs update` | Update existing docs |
 | `/jbdocs progress` | Update progress only |
 | `/jbdocs commands` | Sync this commands reference |
+| `/jbdocs --dry-run` | Preview changes without committing |
+| `/jbdocs --fix` | Auto-fix validation issues |
 | `/update-docs` | Update project documentation |
 | `/update-codemaps` | Update code architecture maps |
 
@@ -268,7 +270,19 @@ Sync documentation to docs.jbcloud.app:
 /jbdocs update         # Update all docs
 /jbdocs progress       # Progress only
 /jbdocs commands       # Sync this reference
+
+# Phase 1 Flags
+/jbdocs --dry-run      # Preview changes without applying
+/jbdocs --fix          # Auto-fix validation issues
+/jbdocs update --dry-run  # Combine mode with flag
 ```
+
+**Features**:
+- **Dry-run mode**: Preview what would be synced without committing
+- **Validation**: Checks frontmatter, markdown syntax, broken links
+- **Auto-fix**: Corrects missing descriptions, code block languages
+- **Conflict detection**: Prevents overwriting different projects with same slug
+- **Retry logic**: Deployment verification with exponential backoff
 
 ---
 
