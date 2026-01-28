@@ -1,0 +1,63 @@
+---
+/**
+ * Custom PageTitle component that adds reading time estimate
+ * Overrides Starlight's default PageTitle
+ */
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
+// Get the current page content for reading time calculation
+const currentPage = Astro.props;
+const content = Astro.slots.has('default') ? await Astro.slots.render('default') : '';
+
+// Calculate reading time (average 200 words per minute)
+function calculateReadingTime(text: string): number {
+  const wordsPerMinute = 200;
+  // Strip HTML tags and count words
+  const plainText = text.replace(/<[^>]*>/g, '');
+  const wordCount = plainText.trim().split(/\s+/).filter(Boolean).length;
+  const minutes = Math.ceil(wordCount / wordsPerMinute);
+  return Math.max(1, minutes); // Minimum 1 minute
+}
+
+// Try to get content from the page
+let readingTime = 1;
+try {
+  // Access the raw content if available via Astro.props or slots
+  const rawContent = Astro.props.entry?.body || content || '';
+  if (rawContent) {
+    readingTime = calculateReadingTime(rawContent);
+  }
+} catch {
+  readingTime = 1;
+}
+---
+
+<div class="page-title-wrapper">
+  <h1 id="_top">{title}</h1>
+  <div class="page-header-meta">
+    <span class="reading-time">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+      </svg>
+      {readingTime} min read
+    </span>
+  </div>
+</div>
+
+<style>
+  .page-title-wrapper {
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: var(--sl-text-h1);
+    font-weight: 600;
+    line-height: var(--sl-line-height-headings);
+    color: var(--sl-color-white);
+  }
+</style>

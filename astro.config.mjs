@@ -17,6 +17,17 @@ export default defineConfig({
 				dark: './src/assets/logo-dark.svg',
 				replacesTitle: true,
 			},
+			// Quick wins: Last updated timestamps
+			lastUpdated: true,
+			// Quick wins: Enhanced code blocks with copy button
+			expressiveCode: {
+				themes: ['github-dark', 'github-light'],
+				styleOverrides: {
+					borderRadius: '0.5rem',
+					codePaddingBlock: '0.875rem',
+					codePaddingInline: '1rem',
+				},
+			},
 			head: [
 				{
 					tag: 'meta',
@@ -41,6 +52,7 @@ export default defineConfig({
 			],
 			components: {
 				Footer: './src/components/Footer.astro',
+				PageTitle: './src/components/PageTitle.astro',
 			},
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/Aventerica89/jb-cloud-docs' }],
 			sidebar: [
