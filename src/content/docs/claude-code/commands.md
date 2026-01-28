@@ -1,17 +1,19 @@
 ---
 title: Available Commands
-description: Reference for all Claude Code slash commands
+description: Reference for all 32 Claude Code slash commands
 sidebar:
   order: 1
 ---
 
 Complete reference for all custom slash commands available in Claude Code.
 
+**Total Commands**: 27 main + 5 security sub-commands = 32
+
 ## Project Creation
 
 | Command | Description |
 |---------|-------------|
-| `/new-project` | Initialize new project with full setup |
+| `/new-project` | Initialize a new project with full setup - platform selection, style guide, architecture, and implementation plan |
 | `/new-project --quick` | Fast mode with smart defaults |
 | `/new-project --preset saas` | Use preset (saas, landing, api, portfolio, experiment) |
 
@@ -19,10 +21,10 @@ Complete reference for all custom slash commands available in Claude Code.
 
 | Command | Description |
 |---------|-------------|
-| `/tdd` | Test-driven development workflow |
-| `/plan` | Create implementation plan |
+| `/tdd` | Enforce test-driven development workflow. Scaffold interfaces, generate tests FIRST, then implement |
+| `/plan` | Restate requirements, assess risks, and create step-by-step implementation plan |
 | `/code-review` | Review code for quality and security |
-| `/fix-issue <#>` | Analyze and fix GitHub issue by number |
+| `/fix-issue <#>` | Analyze and fix a GitHub issue by number. Fetches issue details, creates plan, and fixes |
 | `/build-fix` | Fix build errors |
 | `/refactor-clean` | Clean up and refactor code |
 
@@ -30,15 +32,15 @@ Complete reference for all custom slash commands available in Claude Code.
 
 | Command | Description |
 |---------|-------------|
-| `/standup` | Generate standup notes from git history |
+| `/standup` | Generate standup notes from recent git activity and session context |
 | `/checkpoint` | Create a checkpoint commit |
 
 ## Testing
 
 | Command | Description |
 |---------|-------------|
-| `/tdd` | Test-driven development cycle |
-| `/e2e` | Run end-to-end tests with Playwright |
+| `/tdd` | Test-driven development cycle (RED → GREEN → REFACTOR) |
+| `/e2e` | Generate and run end-to-end tests with Playwright |
 | `/test-coverage` | Check test coverage |
 | `/verify` | Verify tests pass |
 
@@ -46,40 +48,40 @@ Complete reference for all custom slash commands available in Claude Code.
 
 | Command | Description |
 |---------|-------------|
-| `/context-save [name]` | Save session state for later |
-| `/context-restore [name]` | Resume saved session |
-| `/end` | End session cleanly with sync |
-| `/remind` | Quick context reminder |
+| `/context-save [name]` | Save current session context for later restoration |
+| `/context-restore [name]` | Restore a previously saved session context. Resume exactly where you left off |
+| `/end` | End session cleanly - sync docs, commit to memory, shutdown |
+| `/remind` | Remind user what project they're working on and current status |
 
 ## Quality & Deployment
 
 | Command | Description |
 |---------|-------------|
-| `/deploy-check` | Pre-deployment verification checklist |
-| `/deps-audit` | Audit dependencies for security/updates |
+| `/deploy-check` | Pre-deployment verification checklist. Run before deploying to catch common issues |
+| `/deps-audit` | Audit dependencies for security vulnerabilities, outdated packages, and unused dependencies |
 | `/eval` | Evaluate code quality |
 
 ## Security Suite
 
-| Command | Description | Frequency |
-|---------|-------------|-----------|
+| Command | Description | When to Run |
+|---------|-------------|-------------|
 | `/security` | Full security audit (all checks) | Weekly, before deploy |
 | `/security --quick` | Critical checks only | Before commits |
-| `/security:secrets-scan` | Find leaked secrets in code/git | Every commit |
-| `/security:headers` | Check HTTP security headers | Before deploy |
-| `/security:license-audit` | Check dependency licenses | Before release |
-| `/security:api-security` | API endpoint security audit | After API changes |
-| `/security:env-check` | Environment variable security | After config changes |
+| `/security:secrets-scan` | Deep secrets detection in code and git history | Every commit |
+| `/security:headers` | Check HTTP security headers (CSP, HSTS, etc.) | Before deploy |
+| `/security:license-audit` | Check dependency licenses for compliance | Before release |
+| `/security:api-security` | API endpoint security audit (auth, validation, rate limiting) | After API changes |
+| `/security:env-check` | Validate environment variable security | After config changes |
 
 ## Documentation
 
 | Command | Description |
 |---------|-------------|
-| `/jbdocs` | Sync project docs to docs.jbcloud.app |
-| `/jbdocs init` | Initial documentation setup |
+| `/jbdocs` | Sync project documentation to docs.jbcloud.app |
+| `/jbdocs init` | Initial documentation setup for new project |
 | `/jbdocs update` | Update existing docs |
 | `/jbdocs progress` | Update progress only |
-| `/jbdocs commands` | Sync commands reference |
+| `/jbdocs commands` | Sync this commands reference |
 | `/update-docs` | Update project documentation |
 | `/update-codemaps` | Update code architecture maps |
 
@@ -87,15 +89,15 @@ Complete reference for all custom slash commands available in Claude Code.
 
 | Command | Description |
 |---------|-------------|
-| `/learn` | Extract reusable patterns |
+| `/learn` | Extract reusable patterns from current session |
 | `/ideas` | Capture and manage ideas |
 
 ## Advanced
 
 | Command | Description |
 |---------|-------------|
-| `/orchestrate` | Multi-agent orchestration |
-| `/setup-pm` | Setup project management |
+| `/orchestrate` | Multi-agent orchestration for complex tasks |
+| `/setup-pm` | Configure your preferred package manager (npm/pnpm/yarn/bun) |
 
 ---
 
@@ -103,84 +105,158 @@ Complete reference for all custom slash commands available in Claude Code.
 
 ### /new-project
 
-Full project initialization with:
-- Platform selection (framework, database, auth, hosting)
-- Style guide generation
-- Architecture design
-- Implementation planning
-- Scaffolding
+Full project initialization with phases:
+1. **Basics** - Name, description, problem, users
+2. **Platform** - Framework, database, auth, hosting
+3. **Style Guide** - Colors, typography, components
+4. **Architecture** - System design, data models
+5. **Plan** - Implementation phases, MVP scope
+6. **Scaffold** - Create files, git init
+7. **Ready** - Handoff with next steps
 
-**Presets:**
-- `saas` - Next.js + Supabase + Vercel
-- `landing` - Astro + Cloudflare
-- `api` - Hono + Turso + Cloudflare Workers
-- `portfolio` - Astro + Cloudflare
-- `experiment` - Next.js + SQLite + Local
+**Presets**:
+
+| Preset | Stack |
+|--------|-------|
+| `saas` | Next.js + Supabase + Vercel + shadcn/ui |
+| `landing` | Astro + Cloudflare + Tailwind |
+| `api` | Hono + Turso + Cloudflare Workers |
+| `portfolio` | Astro + Cloudflare + Tailwind |
+| `experiment` | Next.js + SQLite + Local |
+
+**Flags**:
+- `--quick` or `-q` - Skip confirmations
+- `--preset <name>` - Use preset config
+- `--name <name>` - Set project name
+- `--github` - Auto-create GitHub repo
+- `--docs` - Auto-sync to docs.jbcloud.app
+
+---
 
 ### /fix-issue
 
 ```bash
 /fix-issue 123        # Fix issue #123
-/fix-issue 123 --dry  # Analyze only
+/fix-issue 123 --dry  # Analyze only, don't change code
 ```
 
-Fetches GitHub issue, creates plan, implements fix.
+Workflow:
+1. Fetch issue via `gh issue view`
+2. Analyze requirements
+3. Create implementation plan
+4. Implement fix (TDD approach)
+5. Commit with "Fixes #123"
+
+---
 
 ### /context-save / /context-restore
 
-Save session state including:
+Save session state for later:
+
+```bash
+/context-save auth-refactor     # Save with name
+/context-save                   # Auto-generate name
+/context-save --list            # List saved contexts
+```
+
+Resume later:
+
+```bash
+/context-restore auth-refactor  # Restore specific
+/context-restore --latest       # Restore most recent
+```
+
+**What gets saved**:
 - Current task and progress
 - Uncommitted changes (as patch)
 - Key decisions made
 - Next steps planned
 
+---
+
+### /security
+
+Comprehensive security audit suite:
+
 ```bash
-/context-save auth-refactor
-# ... close session ...
-/context-restore auth-refactor
+/security                    # Full audit (all checks)
+/security --quick            # Critical checks only (secrets + deps)
+/security secrets            # Run secrets-scan
+/security headers            # Run headers check
+/security licenses           # Run license-audit
+/security api                # Run api-security
+/security env                # Run env-check
 ```
+
+**When to Run**:
+
+| Schedule | Command | Why |
+|----------|---------|-----|
+| Every commit | `/security --quick` | Catch secrets |
+| Before deploy | `/security` | Full verification |
+| Weekly | `/security` | New CVEs daily |
+| After API changes | `/security api` | Verify auth/validation |
+| After config changes | `/security env` | Check env vars |
+| Before release | `/security licenses` | License compliance |
+
+**Sub-Commands**:
+
+| Command | Checks |
+|---------|--------|
+| `secrets-scan` | API keys, tokens, passwords in code and git history |
+| `headers` | CSP, HSTS, X-Frame-Options, cookies |
+| `license-audit` | GPL/AGPL flags, compliance, attribution |
+| `api-security` | Auth, authorization, validation, rate limiting |
+| `env-check` | .env files, hardcoded secrets, validation |
+
+---
 
 ### /deploy-check
 
-Pre-deployment checklist:
-- Build verification
-- Test suite
-- Environment variables
-- Dependencies audit
-- Database migrations
-- Security checks
-- Git status
+Pre-deployment verification:
 
 ```bash
-/deploy-check          # Full check
+/deploy-check          # Full checklist
 /deploy-check --quick  # Essential only
 /deploy-check --fix    # Auto-fix issues
 ```
 
+**Checks**:
+- Build verification
+- Test suite (80% coverage)
+- Environment variables
+- Dependency vulnerabilities
+- Database migrations
+- Security scan
+- Git status
+
+---
+
 ### /deps-audit
 
-Comprehensive dependency analysis:
-- Security vulnerabilities
-- Outdated packages
-- Unused dependencies
-- Duplicate packages
-- License compliance
+Dependency analysis:
 
 ```bash
-/deps-audit            # Full audit
-/deps-audit --security # Security only
-/deps-audit --fix      # Auto-fix safe issues
+/deps-audit              # Full audit
+/deps-audit --security   # Security only
+/deps-audit --outdated   # Outdated packages
+/deps-audit --unused     # Unused dependencies
+/deps-audit --fix        # Auto-fix safe issues
 ```
+
+---
 
 ### /standup
 
-Generate standup notes from git history:
+Generate standup notes:
 
 ```bash
 /standup               # Daily summary
 /standup --week        # Weekly summary
-/standup --slack       # Slack-formatted
+/standup --slack       # Slack-formatted with emoji
 ```
+
+---
 
 ### /jbdocs
 
@@ -196,43 +272,6 @@ Sync documentation to docs.jbcloud.app:
 
 ---
 
-### /security
-
-Comprehensive security audit suite with sub-commands:
-
-```bash
-/security                    # Full audit (all checks)
-/security --quick            # Critical checks only
-/security secrets            # Secrets detection
-/security headers            # HTTP headers check
-/security licenses           # License compliance
-/security api                # API endpoint audit
-/security env                # Environment vars check
-```
-
-**When to Run**:
-
-| Trigger | Command |
-|---------|---------|
-| Before every commit | `/security --quick` |
-| Before deployment | `/security` (full) |
-| Weekly scheduled | `/security` (full) |
-| New API endpoint | `/security api` |
-| Config changes | `/security env` |
-| New dependencies | `/security licenses` |
-
-**Sub-Commands**:
-
-| Command | Purpose |
-|---------|---------|
-| `secrets-scan` | Deep secrets detection in code and git history |
-| `headers` | Check CSP, HSTS, X-Frame-Options, etc. |
-| `license-audit` | Flag GPL/AGPL, check compliance |
-| `api-security` | Auth, authorization, input validation, rate limiting |
-| `env-check` | Validate .env files and env var usage |
-
----
-
 ## Adding Custom Commands
 
 Create a markdown file in `~/.claude/commands/`:
@@ -245,8 +284,46 @@ description: Brief description of command
 # Command Name
 
 Instructions for Claude to follow...
+
+Use `$ARGUMENTS` for parameters.
 ```
 
 Access with `/command-name` or `/command-name arguments`.
 
-Use `$ARGUMENTS` placeholder for parameters.
+### Sub-Commands
+
+Create a directory for grouped commands:
+
+```
+~/.claude/commands/
+└── security/
+    ├── secrets-scan.md    → /security:secrets-scan
+    ├── headers.md         → /security:headers
+    └── api-security.md    → /security:api-security
+```
+
+---
+
+## Quick Reference
+
+```bash
+# Project lifecycle
+/new-project              # Start new project
+/plan                     # Plan implementation
+/tdd                      # Write code TDD style
+/end                      # End session
+
+# Quality
+/code-review              # Review code
+/deploy-check             # Pre-deploy check
+/security                 # Security audit
+
+# Session
+/context-save             # Save for later
+/context-restore          # Resume session
+/remind                   # Quick reminder
+
+# Documentation
+/jbdocs                   # Sync docs
+/standup                  # Generate notes
+```
