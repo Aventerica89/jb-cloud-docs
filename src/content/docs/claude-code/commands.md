@@ -52,6 +52,8 @@ Complete reference for all custom slash commands available in Claude Code.
 | `/context-restore [name]` | Restore a previously saved session context. Resume exactly where you left off |
 | `/end` | End session cleanly - sync docs, commit to memory, shutdown |
 | `/remind` | Remind user what project they're working on and current status |
+| `/remind --on` | Enable auto-reminders (every 2nd response) |
+| `/remind --off` | Disable auto-reminders |
 
 ## Quality & Deployment
 
@@ -174,6 +176,55 @@ Resume later:
 - Uncommitted changes (as patch)
 - Key decisions made
 - Next steps planned
+
+---
+
+### /remind
+
+Context reminder for multi-window workflows:
+
+```bash
+/remind              # Manual reminder (once)
+/remind --on         # Enable auto-reminders
+/remind --off        # Disable auto-reminders
+/remind --on -f 3    # Remind every 3rd response
+/remind --full       # Include git status
+/remind --tasks      # Include task list
+```
+
+**Manual Reminder Output**:
+```
+**Current Project: jb-cloud-app-tracker**
+- Path: /Users/jb/jb-cloud-app-tracker
+- Description: Track cloud apps across multiple providers
+- Current Task: Implementing Vercel API integration
+- Waiting On: Database migration
+```
+
+**Auto-Remind Mode**:
+
+When enabled with `--on`, Claude automatically shows a compact reminder every Nth response:
+
+```
+---
+**Context:** jb-cloud-app-tracker | Cloud app tracking
+**Working on:** Implementing Vercel API integration
+```
+
+**Skip Conditions** (reminder won't show if):
+- You have pending choices (AskUserQuestion active)
+- Just showed a reminder
+- Mid-task that needs continuation
+
+**Frequency Options**:
+- `-f 1` - Every response (frequent)
+- `-f 2` - Every other response (default)
+- `-f 5` - Every 5th response (occasional)
+
+**Use Cases**:
+- Juggling multiple projects/terminal windows
+- Long sessions where you lose track
+- Returning after a break
 
 ---
 
@@ -360,6 +411,8 @@ Create a directory for grouped commands:
 /context-save             # Save for later
 /context-restore          # Resume session
 /remind                   # Quick reminder
+/remind --on              # Auto-remind every 2nd response
+/remind --off             # Disable auto-remind
 
 # Documentation
 /jbdocs                   # Sync docs
