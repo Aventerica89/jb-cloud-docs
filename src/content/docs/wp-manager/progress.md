@@ -40,7 +40,13 @@ sidebar:
 
 ## Recent Updates
 
-### 2025-01-27
+### 2025-01-27 (Session 2)
+- Added `/jbdocs` automation to Claude Code workflow
+- Enabled docs.jbcloud.app sync for this project
+- Updated CLAUDE.md with docs sync configuration
+- Updated phase status (Phases 1-3 complete)
+
+### 2025-01-27 (Session 1)
 - Integrated TDD utilities, charts, toasts, and mobile sidebar
 - Added comprehensive test suite with 100% coverage
 - Updated sidebar navigation across all pages
