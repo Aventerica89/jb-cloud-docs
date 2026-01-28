@@ -1,0 +1,128 @@
+---
+title: Terminal Environment Setup
+description: Modern terminal configuration with Ghostty, Zsh, Starship, and Rust-based CLI tools
+sidebar:
+  order: 90
+---
+
+This document outlines the configuration for the high-performance terminal environment using **Ghostty**, **Zsh**, and modern Rust-based CLI replacements.
+
+## Tech Stack
+
+| Component | Tool | Description |
+| :--- | :--- | :--- |
+| **Terminal Emulator** | [Ghostty](https://ghostty.org/) | GPU-accelerated, native macOS UI, incredibly fast |
+| **Shell** | Zsh | Standard macOS shell |
+| **Prompt** | [Starship](https://starship.rs/) | Cross-shell, customizable, minimal prompt with Git status |
+| **Font** | JetBrains Mono Nerd Font | Required for icons and glyphs |
+
+## Quality of Life Enhancements
+
+Modern replacements for standard Unix tools:
+
+- **zoxide** (Replaces `cd`): Smarter navigation. Remembers frequency and recency of directories.
+- **eza** (Replaces `ls`): A modern file lister with Git status, icons, and tree views.
+- **bat** (Replaces `cat`): A file reader with syntax highlighting and line numbers.
+- **fzf** (Fuzzy Finder): Command-line fuzzy finder for history and files.
+- **yazi**: A blazingly fast terminal file manager with native image previews.
+- **zsh-autosuggestions**: Suggests commands as you type based on history (grey text).
+- **zsh-syntax-highlighting**: Colors commands green (valid) or red (invalid) before execution.
+
+---
+
+## Cheat Sheet & Usage
+
+### Navigation & Files
+
+| Action | Old Command | **New Command** | Notes |
+| :--- | :--- | :--- | :--- |
+| **Change Directory** | `cd projects/api` | `z api` | Jumps to best match instantly |
+| **List Files** | `ls -la` | `ls` (aliased to `eza`) | Shows icons and permissions |
+| **Tree View** | `tree` | `eza --tree` | Visual hierarchy of folders |
+| **Read File** | `cat file.json` | `bat file.json` | Syntax highlighted output |
+| **Search History** | `history \| grep ...` | `Ctrl + R` | Opens FZF fuzzy search |
+| **File Manager** | Finder | `yazi` | Visual navigation with image previews |
+
+### Ghostty Keybindings (Window Management)
+
+Configured for Vim-like split navigation:
+
+| Action | Keybinding |
+| :--- | :--- |
+| Split Right | `Cmd + D` |
+| Split Down | `Cmd + Shift + D` |
+| Focus Left/Right | `Cmd + H` / `Cmd + L` |
+| Focus Up/Down | `Cmd + K` / `Cmd + J` |
+| Toggle Zoom | `Cmd + Z` |
+| Reload Config | `Cmd + Shift + ,` |
+
+---
+
+## Configuration Reference
+
+### Ghostty Config
+
+**Location:** `~/.config/ghostty/config`
+
+```ini
+theme = catppuccin-mocha
+font-family = "JetBrainsMono Nerd Font Mono"
+font-size = 14
+
+# Window Aesthetics
+background-opacity = 0.94
+background-blur-radius = 20
+macos-titlebar-style = tabs
+
+# Mouse
+copy-on-select = true
+mouse-hide-while-typing = true
+
+# Keybindings (Vim-style splits)
+keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
+keybind = cmd+h=goto_split:left
+keybind = cmd+l=goto_split:right
+keybind = cmd+k=goto_split:top
+keybind = cmd+j=goto_split:bottom
+keybind = cmd+z=toggle_split_zoom
+keybind = cmd+shift+,=reload_config
+```
+
+### Zsh Configuration
+
+**Location:** `~/.zshrc`
+
+```bash
+# Initialize Starship Prompt
+eval "$(starship init zsh)"
+
+# Initialize Zoxide (Smart CD)
+eval "$(zoxide init zsh)"
+
+# Aliases
+alias ls="eza --icons"
+alias cat="bat"
+
+# Plugins (Homebrew installed)
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+```
+
+---
+
+## Troubleshooting
+
+### Home Directory as Git Repo
+
+**Symptom:** Starship prompt showed `on main [!?]` immediately upon opening terminal at `~`.
+
+**Cause:** The user home directory (`/Users/username`) was accidentally initialized as a git repository (`.git` folder present).
+
+**Fix:** Remove the tracking folder:
+
+```bash
+rm -rf ~/.git
+```
+
+**Result:** Prompt is clean; Git status now only appears when inside actual project folders.
