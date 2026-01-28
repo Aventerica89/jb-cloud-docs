@@ -3,7 +3,24 @@ title: Bricks Builder Agent
 description: AI agent that converts screenshots to valid Bricks Builder JSON with ACSS variables.
 ---
 
+import Mermaid from '../../../components/Mermaid.astro';
+
 An AI agent built on Claude Code that converts web design screenshots into valid, importable Bricks Builder JSON with AutomaticCSS (ACSS) variables and BEM-named global classes.
+
+<Mermaid title="Bricks Builder Agent Overview">
+{`flowchart LR
+    A[Screenshot] --> B[Claude Code Agent]
+    B --> C{Analysis}
+    C --> D[Layout Structure]
+    C --> E[Components]
+    C --> F[Styling Patterns]
+    D --> G[Generate JSON]
+    E --> G
+    F --> G
+    G --> H[Validate]
+    H --> I[Import to Bricks]
+`}
+</Mermaid>
 
 ## Overview
 
@@ -21,6 +38,33 @@ The Bricks Builder Agent automates the tedious process of manually creating Bric
 
 ## Key Features
 
+<Mermaid title="Agent Components">
+{`flowchart TB
+    subgraph Knowledge["Knowledge Base"]
+        K1[JSON Structure Docs]
+        K2[ACSS Variables]
+        K3[Responsive Patterns]
+        K4[Element Guides]
+    end
+
+    subgraph Patterns["Pattern Library"]
+        P1[Heroes]
+        P2[Headers]
+        P3[Card Grids]
+        P4[Footers]
+    end
+
+    subgraph Tools["Tools"]
+        T1[Validation Script]
+        T2[Learning System]
+    end
+
+    Knowledge --> Agent[Bricks Agent]
+    Patterns --> Agent
+    Tools --> Agent
+`}
+</Mermaid>
+
 ### Knowledge Base
 Pre-built documentation covering Bricks Builder JSON structure, ACSS variables, responsive patterns, and element-specific guides.
 
@@ -31,6 +75,24 @@ Reusable JSON patterns for common sections: heroes, headers, card grids, galleri
 Checks JSON schema compliance, ID uniqueness, parent-child relationships, and global class cross-references.
 
 ### Learning System
+
+<Mermaid title="Learning System Flow">
+{`sequenceDiagram
+    participant User
+    participant Agent
+    participant Learn as /learn Command
+    participant Skills as ~/.claude/skills/learned/
+
+    User->>Agent: Provide correction
+    Agent->>Agent: Generate fixed JSON
+    User->>Learn: Run /learn
+    Learn->>Learn: Extract patterns
+    Learn->>Skills: Save pattern.md
+    Learn->>Agent: Update GUIDELINES.md
+    Note over Agent: Future generations use new patterns
+`}
+</Mermaid>
+
 The agent learns from user corrections using the /learn command, extracting patterns and saving them as reusable skills.
 
 ## Quick Links

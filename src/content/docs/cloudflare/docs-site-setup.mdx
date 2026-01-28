@@ -5,7 +5,39 @@ sidebar:
   order: 1
 ---
 
+import Mermaid from '../../../components/Mermaid.astro';
+
 This guide documents how this documentation site was set up, including the tech stack choices and configuration steps.
+
+<Mermaid title="Docs Site Architecture">
+{`flowchart TB
+    subgraph Local["Local Development"]
+        CC[Claude Code]
+        MD[MDX Files]
+        CC --> MD
+    end
+
+    subgraph GitHub["GitHub Repository"]
+        Repo[jb-cloud-docs]
+    end
+
+    subgraph Cloudflare["Cloudflare"]
+        Pages[Cloudflare Pages]
+        Worker[OAuth Worker]
+        CDN[Global CDN]
+    end
+
+    subgraph CMS["Content Management"]
+        Decap[Decap CMS]
+    end
+
+    MD -->|git push| Repo
+    Repo -->|webhook| Pages
+    Pages -->|build| CDN
+    Decap -->|commit| Repo
+    Worker -->|auth| Decap
+`}
+</Mermaid>
 
 ## Tech Stack
 
@@ -43,6 +75,17 @@ This guide documents how this documentation site was set up, including the tech 
 - **Contentful/Sanity**: Overkill for docs, and have user/content limits on free tiers
 
 ## Setup Steps
+
+<Mermaid title="Setup Process">
+{`flowchart LR
+    A[Create Astro Project] --> B[Configure Starlight]
+    B --> C[Set Up Decap CMS]
+    C --> D[Create GitHub OAuth App]
+    D --> E[Create Cloudflare Worker]
+    E --> F[Deploy to Pages]
+    F --> G[Add Custom Domain]
+`}
+</Mermaid>
 
 ### 1. Create the Astro Project
 
@@ -127,7 +170,7 @@ collections:
 
 ### 4. Create GitHub OAuth App
 
-1. Go to **GitHub → Settings → Developer settings → OAuth Apps**
+1. Go to **GitHub > Settings > Developer settings > OAuth Apps**
 2. Click **New OAuth App**
 3. Fill in:
    - **Application name**: Your Docs CMS
@@ -137,9 +180,29 @@ collections:
 
 ### 5. Create Cloudflare Worker for OAuth
 
+<Mermaid title="OAuth Flow">
+{`sequenceDiagram
+    participant User
+    participant Decap as Decap CMS
+    participant Worker as CF Worker
+    participant GitHub
+
+    User->>Decap: Click Login
+    Decap->>Worker: /auth
+    Worker->>GitHub: Redirect to OAuth
+    GitHub->>User: Login prompt
+    User->>GitHub: Authorize
+    GitHub->>Worker: /callback with code
+    Worker->>GitHub: Exchange code for token
+    GitHub->>Worker: Access token
+    Worker->>Decap: Token via postMessage
+    Decap->>User: Logged in
+`}
+</Mermaid>
+
 Cloudflare Pages doesn't have built-in OAuth like Netlify, so we need a Worker to handle GitHub authentication.
 
-1. Go to **Cloudflare → Workers & Pages → Create Worker**
+1. Go to **Cloudflare > Workers & Pages > Create Worker**
 2. Name it `github-oauth`
 3. Deploy, then edit with this code:
 
@@ -211,14 +274,14 @@ export default {
 };
 ```
 
-4. Add environment variables in **Worker Settings → Variables**:
+4. Add environment variables in **Worker Settings > Variables**:
    - `CLIENT_ID` = Your GitHub OAuth Client ID
    - `CLIENT_SECRET` = Your GitHub OAuth Client Secret (encrypt this)
 
 ### 6. Deploy to Cloudflare Pages
 
 1. Push your code to GitHub
-2. Go to **Cloudflare → Workers & Pages → Create → Pages**
+2. Go to **Cloudflare > Workers & Pages > Create > Pages**
 3. Connect to your GitHub repo
 4. Configure build settings:
    - **Framework**: Astro
@@ -365,15 +428,13 @@ It does NOT have direct access to:
 
 Here's roughly how the conversation went to create this site:
 
-1. **"Create a docs site for my cloud processes"** → Claude Code suggested the tech stack options
-2. **"Use Decap CMS, host on Cloudflare Pages"** → Created the project and configuration
-3. **"Set up the GitHub repo"** → Initialized and pushed to GitHub
-4. **"Deploy failed, wrong username"** → Fixed the config
-5. **"OAuth isn't working"** → Created the Cloudflare Worker
-6. **"Still getting errors"** → Debugged Safari popup issues
-7. **"Document how we set this up"** → Generated this guide
-
-Total time: ~30 minutes from idea to fully deployed docs site with CMS.
+1. **"Create a docs site for my cloud processes"** > Claude Code suggested the tech stack options
+2. **"Use Decap CMS, host on Cloudflare Pages"** > Created the project and configuration
+3. **"Set up the GitHub repo"** > Initialized and pushed to GitHub
+4. **"Deploy failed, wrong username"** > Fixed the config
+5. **"OAuth isn't working"** > Created the Cloudflare Worker
+6. **"Still getting errors"** > Debugged Safari popup issues
+7. **"Document how we set this up"** > Generated this guide
 
 ### When to Use Claude Code vs Manual Setup
 

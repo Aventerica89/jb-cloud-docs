@@ -5,7 +5,25 @@ sidebar:
   order: 0
 ---
 
+import Mermaid from '../../../components/Mermaid.astro';
+
 This guide covers setting up SSH key authentication for your xCloud server.
+
+<Mermaid title="SSH Connection Flow">
+{`sequenceDiagram
+    participant Local as Your Mac
+    participant xCloud as xCloud Dashboard
+    participant Server as xCloud Server
+
+    Local->>Local: Generate SSH key pair
+    Local->>Local: Copy public key
+    Local->>xCloud: Add public key to SSH settings
+    xCloud->>Server: Sync authorized keys
+    Local->>Server: SSH connection request
+    Server->>Server: Verify key signature
+    Server->>Local: Connection established
+`}
+</Mermaid>
 
 ## Generate an SSH Key
 

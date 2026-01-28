@@ -5,7 +5,43 @@ sidebar:
   order: 0
 ---
 
+import Mermaid from '../../../components/Mermaid.astro';
+
 This documents the custom Claude Code setup used across JB Cloud projects, including slash commands, agents, and automated workflows.
+
+<Mermaid title="Claude Code Architecture">
+{`flowchart TB
+    subgraph Config["~/.claude/"]
+        CLAUDE[CLAUDE.md]
+        subgraph Commands["commands/"]
+            NewProj[new-project.md]
+            Plan[plan.md]
+            TDD[tdd.md]
+            End[end.md]
+        end
+        subgraph Agents["agents/"]
+            Planner[planner.md]
+            Reviewer[code-reviewer.md]
+            Security[security-reviewer.md]
+        end
+        subgraph Rules["rules/"]
+            Style[coding-style.md]
+            Git[git-workflow.md]
+            Test[testing.md]
+        end
+        subgraph Skills["skills/learned/"]
+            Patterns[*.md]
+        end
+    end
+
+    User[User] -->|claude| CC[Claude Code]
+    CC --> CLAUDE
+    CLAUDE --> Commands
+    CLAUDE --> Agents
+    CLAUDE --> Rules
+    CC -->|/learn| Skills
+`}
+</Mermaid>
 
 ## Quick Start
 
@@ -31,6 +67,33 @@ All configuration lives in `~/.claude/`:
 | [Workflows](/claude-code/workflows/) | Common development workflows |
 
 ## Key Commands
+
+<Mermaid title="Command Categories">
+{`flowchart LR
+    subgraph Lifecycle["Project Lifecycle"]
+        NP[/new-project]
+        P[/plan]
+        T[/tdd]
+        E[/end]
+    end
+
+    subgraph Docs["Documentation"]
+        JD[/jbdocs]
+    end
+
+    subgraph Session["Session Management"]
+        CS[/context-save]
+        CR[/context-restore]
+        R[/remind]
+    end
+
+    subgraph Quality["Quality"]
+        Rev[/code-review]
+        DC[/deploy-check]
+        DA[/deps-audit]
+    end
+`}
+</Mermaid>
 
 ### Project Lifecycle
 
@@ -65,6 +128,21 @@ All configuration lives in `~/.claude/`:
 ```
 
 ## Philosophy
+
+<Mermaid title="Development Philosophy">
+{`flowchart TD
+    A[New Task] --> B{Complex?}
+    B -->|Yes| C[Plan Mode]
+    B -->|No| D[Direct Implementation]
+    C --> E[Delegate to Agents]
+    E --> F[Parallel Execution]
+    F --> G[TDD Approach]
+    D --> G
+    G --> H[Security Review]
+    H --> I[Document]
+    I --> J[Complete]
+`}
+</Mermaid>
 
 1. **Agent-First**: Delegate complex tasks to specialized agents
 2. **Parallel Execution**: Use Task tool with multiple agents when possible

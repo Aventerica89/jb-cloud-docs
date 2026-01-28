@@ -5,7 +5,21 @@ sidebar:
   order: 1
 ---
 
+import Mermaid from '../../../components/Mermaid.astro';
+
 This guide documents the complete process of building the Med Spa Ranker website from scratch using Claude Code CLI. The entire project was built through conversation with Claude, from initial setup to production deployment.
+
+<Mermaid title="Build Process Overview">
+{`flowchart LR
+    A[BCMS CLI] --> B[Create Project]
+    B --> C[Customize Design]
+    C --> D[Connect BCMS]
+    D --> E[Fix Issues]
+    E --> F[Deploy Vercel]
+    F --> G[GitHub Repo]
+    G --> H[Auto-Deploy]
+`}
+</Mermaid>
 
 ## Project Links
 
@@ -30,6 +44,24 @@ This guide documents the complete process of building the Med Spa Ranker website
 ---
 
 ## Phase 1: Project Creation
+
+<Mermaid title="Project Creation Flow">
+{`sequenceDiagram
+    participant Dev as Developer
+    participant CLI as BCMS CLI
+    participant Browser
+    participant BCMS as BCMS Cloud
+
+    Dev->>CLI: npx @thebcms/cli create next starter agency
+    CLI->>Browser: Open auth page
+    Browser->>BCMS: Authenticate
+    BCMS->>CLI: Auth token
+    CLI->>CLI: Clone starter template
+    CLI->>BCMS: Create project
+    BCMS->>CLI: API keys
+    CLI->>Dev: Project ready
+`}
+</Mermaid>
 
 ### Step 1: Create BCMS Project
 
@@ -69,6 +101,34 @@ Site running at `http://localhost:3000`
 ## Phase 2: Design Customization
 
 The goal was to recreate the Med Spa Ranker website design - a dark-themed medical spa marketing agency site.
+
+<Mermaid title="Component Structure">
+{`flowchart TB
+    subgraph Layout["Layout Components"]
+        Header
+        Footer
+    end
+
+    subgraph Pages["Page Components"]
+        Hero
+        Features
+        Testimonials
+        Services
+        WebDesign
+        Benefits
+        CTA
+    end
+
+    Header --> Hero
+    Hero --> Features
+    Features --> Testimonials
+    Testimonials --> Services
+    Services --> WebDesign
+    WebDesign --> Benefits
+    Benefits --> CTA
+    CTA --> Footer
+`}
+</Mermaid>
 
 ### Step 4: Update Color Scheme
 
@@ -162,6 +222,15 @@ const HomePage = () => {
 
 ## Phase 3: BCMS Integration
 
+<Mermaid title="BCMS Data Flow">
+{`flowchart LR
+    A[BCMS Dashboard] -->|Edit Content| B[BCMS Cloud]
+    B -->|API| C[Next.js]
+    C -->|Props| D[Components]
+    D -->|Fallback| E[Static Content]
+`}
+</Mermaid>
+
 ### Step 10: Connect Components to BCMS
 
 Updated Hero and CTA components to accept optional BCMS props with static fallbacks:
@@ -239,6 +308,16 @@ Verified all pages built successfully:
 ---
 
 ## Phase 5: Deployment
+
+<Mermaid title="Deployment Pipeline">
+{`flowchart LR
+    A[Local Dev] -->|git push| B[GitHub]
+    B -->|webhook| C[Vercel]
+    C -->|build| D[Production]
+
+    E[Vercel CLI] -->|vercel --prod| C
+`}
+</Mermaid>
 
 ### Step 15: Deploy to Vercel
 
@@ -374,10 +453,6 @@ claude
 - Connected Vercel to GitHub
 - Updated documentation
 
-### Total Time
-
-From initial command to live production site: ~45 minutes
-
 ---
 
 ## Managing the Site
@@ -409,7 +484,7 @@ npx bcms --pull types --lng ts
 
 ### Add Custom Domain
 
-1. Go to Vercel Dashboard → Settings → Domains
+1. Go to Vercel Dashboard > Settings > Domains
 2. Add your domain (e.g., `medsparanker.com`)
 3. Update DNS records as instructed
 

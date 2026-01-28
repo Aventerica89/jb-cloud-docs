@@ -5,7 +5,30 @@ sidebar:
   order: 1
 ---
 
+import Mermaid from '../../../components/Mermaid.astro';
+
 The Bulk Updates feature lets you update plugins and themes across all your managed WordPress sites from a single interface.
+
+<Mermaid title="Bulk Update Flow">
+{`flowchart TD
+    A[View Updates Page] --> B[Filter & Select Updates]
+    B --> C[Click Update Selected]
+    C --> D[Review Confirmation]
+    D --> E[Start Updates]
+    E --> F{Concurrent Queue}
+    F --> G[Site 1 Update]
+    F --> H[Site 2 Update]
+    F --> I[Site 3 Update]
+    G --> J{Success?}
+    H --> J
+    I --> J
+    J -->|Yes| K[Mark Complete]
+    J -->|No| L[Log Error]
+    K --> M[Next in Queue]
+    L --> M
+    M --> F
+`}
+</Mermaid>
 
 ## Accessing Bulk Updates
 
@@ -40,6 +63,26 @@ Toggle **Group by Site** to organize updates by site instead of a flat list.
 
 ## Running Bulk Updates
 
+<Mermaid title="Update Execution">
+{`sequenceDiagram
+    participant UI as Dashboard UI
+    participant API as WP Manager API
+    participant Queue as Update Queue
+    participant WP as WordPress Site
+
+    UI->>API: POST /api/updates/bulk
+    API->>Queue: Add updates to queue
+    loop Max 3 concurrent
+        Queue->>WP: POST /wp-json/wp/v2/plugins/{slug}
+        WP->>WP: Download & install update
+        WP->>Queue: Success/failure response
+        Queue->>API: Update status
+        API->>UI: Real-time progress
+    end
+    API->>UI: All complete
+`}
+</Mermaid>
+
 1. Select the updates you want to apply
 2. Click **Update Selected**
 3. Review the confirmation dialog showing what will be updated
@@ -67,6 +110,16 @@ Updates use the WordPress REST API with Application Passwords. Requires:
 - Application Password configured
 
 ### For Connector Plugin Sites
+
+<Mermaid title="Connector Plugin Flow">
+{`flowchart LR
+    A[WP Manager] -->|Secret Key| B[Connector Plugin]
+    B --> C{Validate Key}
+    C -->|Valid| D[Execute Update]
+    C -->|Invalid| E[401 Unauthorized]
+    D --> F[Return Result]
+`}
+</Mermaid>
 
 For sites using the WP Manager Connector plugin:
 

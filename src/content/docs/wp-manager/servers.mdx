@@ -5,7 +5,27 @@ sidebar:
   order: 5
 ---
 
+import Mermaid from '../../../components/Mermaid.astro';
+
 WP Manager supports organizing sites by hosting provider and server, with direct links to provider dashboards, documentation, and support channels.
+
+<Mermaid title="Provider/Server/Site Hierarchy">
+{`flowchart TB
+    subgraph P1["Provider: xCloud"]
+        S1[Server: Production]
+        S2[Server: Staging]
+        S1 --> Site1[Site 1]
+        S1 --> Site2[Site 2]
+        S2 --> Site3[Site 3]
+    end
+
+    subgraph P2["Provider: Cloudways"]
+        S3[Server: Client A]
+        S3 --> Site4[Site 4]
+        S3 --> Site5[Site 5]
+    end
+`}
+</Mermaid>
 
 ## Data Model
 
@@ -38,6 +58,41 @@ WP Manager includes 14 pre-configured hosting providers:
 
 ## Provider Metadata
 
+<Mermaid title="Provider Data Structure">
+{`classDiagram
+    class Provider {
+        +string slug
+        +string name
+        +string logoUrl
+        +string dashboardUrl
+        +string serverUrlPattern
+        +string docsUrl
+        +string supportUrl
+        +string communityUrl
+    }
+
+    class Server {
+        +int id
+        +int providerId
+        +string name
+        +string ipAddress
+        +string externalId
+        +string region
+        +string notes
+    }
+
+    class Site {
+        +int id
+        +int serverId
+        +string url
+        +string status
+    }
+
+    Provider "1" --> "*" Server
+    Server "1" --> "*" Site
+`}
+</Mermaid>
+
 Each provider stores:
 
 ```typescript
@@ -54,6 +109,21 @@ interface ProviderMetadata {
 ```
 
 ## Server Dashboard Links
+
+<Mermaid title="Dashboard URL Generation">
+{`flowchart LR
+    A[Provider Dashboard URL] --> D[Final URL]
+    B[Server URL Pattern] --> D
+    C[Server ID] --> D
+
+    subgraph Example
+        E["my.xcloud.host"]
+        F["/servers/{serverId}"]
+        G["12345"]
+        H["my.xcloud.host/servers/12345"]
+    end
+`}
+</Mermaid>
 
 When you add a server with a Provider ID (from your provider's dashboard URL), WP Manager generates direct links:
 

@@ -5,7 +5,24 @@ sidebar:
   order: 1
 ---
 
+import Mermaid from '../../../components/Mermaid.astro';
+
 xCloud manages Docker applications but doesn't automatically update them. You'll need to manually update your Docker apps using the Server Command Runner.
+
+<Mermaid title="Docker Update Process">
+{`flowchart TD
+    A[Need to Update] --> B{Access Method?}
+    B -->|SSH| C[Permission Denied]
+    C --> D[Use Command Runner]
+    B -->|Command Runner| D
+    D --> E[docker ps]
+    E --> F[Find Container Name]
+    F --> G[docker pull image:tag]
+    G --> H[cd /var/www/domain]
+    H --> I[docker compose up -d]
+    I --> J[Verify App Working]
+`}
+</Mermaid>
 
 ## Prerequisites
 
@@ -16,7 +33,23 @@ xCloud manages Docker applications but doesn't automatically update them. You'll
 
 Docker commands (`docker ps`, `docker exec`, etc.) **cannot be run via SSH** on xCloud. The SSH user doesn't have Docker socket permissions.
 
-Instead, use the **Server Dashboard → Management → Commands** runner, which has the necessary permissions.
+Instead, use the **Server Dashboard > Management > Commands** runner, which has the necessary permissions.
+
+<Mermaid title="SSH vs Command Runner">
+{`flowchart LR
+    subgraph SSH["SSH Connection"]
+        SSHUser[SSH User]
+        Socket1[Docker Socket]
+        SSHUser -.->|No Access| Socket1
+    end
+
+    subgraph Runner["Command Runner"]
+        Root[Root Context]
+        Socket2[Docker Socket]
+        Root -->|Full Access| Socket2
+    end
+`}
+</Mermaid>
 
 ## Update Process
 
@@ -24,7 +57,7 @@ Instead, use the **Server Dashboard → Management → Commands** runner, which 
 
 1. Log into your xCloud dashboard
 2. Go to your **Server Dashboard** (not the site dashboard)
-3. Navigate to **Management → Commands**
+3. Navigate to **Management > Commands**
 
 ### Step 2: Find Your Container
 
@@ -60,6 +93,27 @@ This will:
 - Preserve your data (stored in volumes)
 
 ## Example: Updating OpenWebUI
+
+<Mermaid title="OpenWebUI Update Flow">
+{`sequenceDiagram
+    participant You
+    participant xCloud as xCloud Dashboard
+    participant Server as xCloud Server
+    participant Registry as GitHub Registry
+
+    You->>xCloud: Open Command Runner
+    xCloud->>Server: docker ps
+    Server->>You: Container list
+    You->>xCloud: docker pull ghcr.io/open-webui/open-webui:main
+    xCloud->>Server: Pull command
+    Server->>Registry: Request latest image
+    Registry->>Server: Download layers
+    Server->>You: Pull complete
+    You->>xCloud: cd /var/www/... && docker compose up -d
+    xCloud->>Server: Restart container
+    Server->>You: Container running
+`}
+</Mermaid>
 
 ```bash
 # Pull latest image

@@ -5,7 +5,35 @@ sidebar:
   order: 0
 ---
 
+import Mermaid from '../../../components/Mermaid.astro';
+
 WP Manager is a lightweight, self-hosted WordPress site management dashboard. Think MainWP, but built with modern tech and focused on simplicity.
+
+<Mermaid title="WP Manager Architecture">
+{`flowchart TB
+    subgraph Dashboard["WP Manager Dashboard"]
+        UI[Next.js Frontend]
+        API[API Routes]
+        DB[(Turso SQLite)]
+    end
+
+    subgraph Sites["WordPress Sites"]
+        WP1[Site 1]
+        WP2[Site 2]
+        WP3[Site N...]
+    end
+
+    UI --> API
+    API --> DB
+    API <-->|REST API| WP1
+    API <-->|REST API| WP2
+    API <-->|REST API| WP3
+
+    WP1 -->|Health Check| API
+    WP2 -->|Health Check| API
+    WP3 -->|Health Check| API
+`}
+</Mermaid>
 
 ## Tech Stack
 
@@ -59,6 +87,35 @@ WP Manager is a lightweight, self-hosted WordPress site management dashboard. Th
 
 ## Dashboard Overview
 
+<Mermaid title="Dashboard Data Flow">
+{`flowchart LR
+    subgraph Input["Data Sources"]
+        Sites[WordPress Sites]
+        Health[Health Checks]
+        Updates[Update Status]
+    end
+
+    subgraph Processing["Processing"]
+        Sync[Sync Service]
+        Score[Health Scoring]
+    end
+
+    subgraph Display["Dashboard"]
+        Cards[Summary Cards]
+        Charts[Charts]
+        Alerts[Attention List]
+    end
+
+    Sites --> Sync
+    Health --> Sync
+    Updates --> Sync
+    Sync --> Score
+    Score --> Cards
+    Score --> Charts
+    Score --> Alerts
+`}
+</Mermaid>
+
 The dashboard provides at-a-glance status:
 
 | Stat | Description |
@@ -84,6 +141,24 @@ Sites are scored 0-100 based on:
 Sites with scores below 80 appear in the "Sites Needing Attention" section.
 
 ## Connecting a WordPress Site
+
+<Mermaid title="Site Connection Options">
+{`flowchart TD
+    Start[Add New Site] --> Check{Host Type?}
+    Check -->|Standard| AppPass[Application Passwords]
+    Check -->|Restricted| Connector[WP Manager Connector]
+
+    AppPass --> WP56[WordPress 5.6+]
+    WP56 --> Profile[Users > Profile]
+    Profile --> Create[Create App Password]
+    Create --> Add[Add to WP Manager]
+
+    Connector --> Upload[Upload Plugin]
+    Upload --> Activate[Activate]
+    Activate --> Secret[Set Secret Key]
+    Secret --> Add
+`}
+</Mermaid>
 
 ### Option 1: Application Passwords (Standard)
 

@@ -5,7 +5,23 @@ sidebar:
   order: 1
 ---
 
+import Mermaid from '../../components/Mermaid.astro';
+
 This site is built differently from traditional documentation. Instead of writing docs after the fact, I document processes **as they happen** using Claude Code as my assistant.
+
+<Mermaid title="Real-Time Documentation Workflow">
+{`flowchart LR
+    A[Start Task] --> B[Work with Claude Code]
+    B --> C{Problem?}
+    C -->|Yes| D[Share Error/Screenshot]
+    D --> E[Solve Together]
+    E --> C
+    C -->|No| F[Task Complete]
+    F --> G[Ask Claude to Document]
+    G --> H[Review & Publish]
+    H --> I[Auto-Deploy]
+`}
+</Mermaid>
 
 ## The Problem with Traditional Docs
 
@@ -21,6 +37,26 @@ We've all been there:
 I keep Claude Code running in my terminal while I work. When I solve a problem or set something up, the conversation itself becomes the documentation.
 
 ### How It Works
+
+<Mermaid title="Documentation Capture Flow">
+{`sequenceDiagram
+    participant You
+    participant Claude as Claude Code
+    participant Docs as Docs Site
+    participant CF as Cloudflare
+
+    You->>Claude: Share task/problem
+    Claude->>You: Suggests solution
+    You->>You: Test solution
+    You->>Claude: Share results/errors
+    Claude->>You: Refine solution
+    You->>Claude: "Document this process"
+    Claude->>Docs: Creates/updates MDX file
+    Claude->>Docs: Git commit & push
+    Docs->>CF: Webhook triggers deploy
+    CF->>CF: Build & publish
+`}
+</Mermaid>
 
 1. **Start working on a task** with Claude Code open
 2. **Share what you're trying to do** - Claude helps you figure it out

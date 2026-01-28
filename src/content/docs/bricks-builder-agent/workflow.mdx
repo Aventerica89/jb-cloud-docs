@@ -3,9 +3,30 @@ title: Workflow Guide
 description: Step-by-step guide for using the Bricks Builder Agent.
 ---
 
+import Mermaid from '../../../components/Mermaid.astro';
+
 ## Workflow Overview
 
 The Bricks Builder Agent follows a systematic workflow to convert screenshots into valid Bricks Builder JSON.
+
+<Mermaid title="Bricks Builder Agent Workflow">
+{`flowchart TD
+    A[Screenshot Input] --> B[Analyze Layout]
+    B --> C[Identify Components]
+    C --> D[Map ACSS Variables]
+    D --> E[Generate JSON]
+    E --> F{Validate}
+    F -->|Pass| G[Copy to Bricks]
+    F -->|Fail| H[Fix Issues]
+    H --> E
+    G --> I[Test in Builder]
+    I --> J{Corrections?}
+    J -->|Yes| K[User Feedback]
+    K --> L[Learn Patterns]
+    L --> E
+    J -->|No| M[Done]
+`}
+</Mermaid>
 
 ## Step 1: Setup Campaign
 
