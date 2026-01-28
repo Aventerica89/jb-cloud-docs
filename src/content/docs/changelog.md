@@ -1,11 +1,11 @@
 ---
-title: What's New
-description: Recent updates and changes to JB Cloud Docs
+title: Documentation Updates
+description: New and updated documentation for JB Cloud projects
 ---
 
-# Changelog
+# Documentation Updates
 
-Track recent documentation updates, new guides, and site improvements.
+Track when new documentation is added for jbcloud.app projects.
 
 ---
 
@@ -13,45 +13,40 @@ Track recent documentation updates, new guides, and site improvements.
 
 ### January 28, 2026
 
-**Site Improvements**
-- Added breadcrumbs navigation for easier orientation
-- Added expandable accordion sections for FAQ-style content
-- Added Mermaid diagram support for architecture visualizations
-- Added this changelog page
+**New Documentation**
+- [Env Var Assistant](/env-var-assistant/) - API key management extension for Claude Code
+  - Syncs secrets between 1Password and deployment platforms
+  - For apps.jbcloud.app
 
-### January 27, 2026
-
-**UI/UX Quick Wins**
-- Added reading time estimates to all doc pages
-- Added "Last updated" timestamps
-- Enhanced code block copy buttons with better styling
-- Added search result highlighting
-
-**Infrastructure**
-- Fixed Docs Assistant authentication persistence
-- Added Open Graph image for social sharing
+**Updated Documentation**
+- [WP Manager](/wp-manager/) v1.3 - Added Phase 5 organization features
+  - Multi-site management capabilities
+  - Team collaboration workflows
 
 ### January 24, 2026
 
 **New Documentation**
-- Added WP Manager documentation
-- Added Claude new-project workflow guide
-- Added Bricks Builder Agent workflow documentation
+- [WP Manager](/wp-manager/) - WordPress site management for xCloud
+  - For cloud-manager.jbcloud.app
+- [Claude new-project](/claude-new-project/) - Project initialization workflow
+- [Bricks Builder Agent](/bricks-builder-agent/) - AI-assisted page building
 
 **Initial Release**
-- Launched JB Cloud Docs site
-- Added xCloud, Cloudflare, Supabase, Vercel sections
-- Added BCMS and Bricks Builder Agent documentation
-- Integrated AI-powered Docs Assistant
+- [xCloud](/xcloud/) - Cloud hosting platform documentation
+- [Cloudflare](/cloudflare/) - DNS and edge deployment guides
+- [Supabase](/supabase/) - Backend-as-a-service patterns
+- [Vercel](/vercel/) - Frontend deployment workflows
+- [BCMS](/bcms/) - Headless CMS integration
 
 ---
 
-## How to Use This Changelog
+## How This Page Works
 
-This page tracks significant updates to the documentation. Each entry includes:
+This changelog tracks documentation for JB Cloud projects. Each entry includes:
 
-- **Date** - When the change was made
-- **Category** - Type of change (New Docs, Site Improvements, Fixes)
+- **Project link** - Direct link to the documentation
+- **Version** - Doc version if applicable (e.g., v1.3)
 - **Description** - What was added or changed
+- **Target app** - Which jbcloud.app the docs apply to
 
-Subscribe to the [GitHub repository](https://github.com/Aventerica89/jb-cloud-docs) to get notified of all changes.
+Docs with `addedDate` frontmatter automatically appear here when added.

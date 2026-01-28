@@ -18,13 +18,14 @@ curl -fsSL https://raw.githubusercontent.com/Aventerica89/claude-new-project/mai
 A 7-phase workflow that takes you from idea to scaffolded project with Claude Code.
 
 ```
-Phase 1: BASICS      - Project name, description, problem, users
-Phase 2: PLATFORM    - Framework, database, auth, hosting, UI
-Phase 3: STYLE GUIDE - Colors, typography, spacing defaults
+Phase 1: BASICS       - Project name, description, problem, users, mobile app?
+Phase 2: PLATFORM     - Framework, database, auth, hosting, UI
+Phase 3: STYLE GUIDE  - Colors, typography, spacing defaults
 Phase 4: ARCHITECTURE - System design with architect agent
-Phase 5: PLAN        - Implementation phases with planner agent
-Phase 6: SCAFFOLD    - Create files, CLAUDE.md, docs/
-Phase 7: READY       - Run framework CLI, handoff
+Phase 5: PLAN         - Implementation phases with planner agent
+Phase 6: SCAFFOLD     - Create files, CLAUDE.md, docs/
+Phase 6.5: MOBILE APP - Companion app mockup (optional)
+Phase 7: READY        - Run framework CLI, handoff
 ```
 
 Each phase waits for your approval before proceeding.
@@ -33,11 +34,24 @@ Each phase waits for your approval before proceeding.
 
 ### `/new-project`
 
-Start a new project with guided prompts through all 7 phases.
+Start a new project with guided prompts through all phases.
 
+```bash
+/new-project                           # Full guided workflow
+/new-project --quick                   # Fast mode with defaults
+/new-project --preset saas             # SaaS starter
+/new-project myapp --preset api -q     # Quick API project
+/new-project myapp --mobile            # Include mobile app companion
+/new-project myapp -q -m               # Quick mode with mobile app
 ```
-claude> /new-project
-```
+
+**Flags:**
+- `--quick` or `-q` - Skip confirmations, use smart defaults
+- `--preset <name>` - Use preset (saas, landing, api, portfolio, experiment)
+- `--name <name>` - Project name (skips prompt)
+- `--github` - Auto-create GitHub repo
+- `--no-docs` - Skip syncing to docs.jbcloud.app
+- `--mobile` or `-m` - Include companion mobile app mockup
 
 ### `/end`
 
@@ -59,7 +73,40 @@ claude> /end
 - **Agent Integration**: Uses architect and planner agents for design
 - **Documentation**: Creates CLAUDE.md, ARCHITECTURE.md, PLAN.md
 - **Style Guide Page**: Generates a /style-guide route with all UI components
-- **Dev Button**: Shows style guide link in development mode
+- **Dev Button Menu**: Floating button with dropdown for dev tools
+- **Mobile App Companion**: Optional mockup page for future mobile app
+
+## Mobile App Companion (New)
+
+When using `--mobile` flag or selecting "Yes" for mobile app in Phase 1:
+
+### What Gets Created
+
+1. **`/mobile-app` page** - Coming soon mockup with:
+   - Phone device frame visual
+   - Customizable feature cards
+   - Email signup CTA for launch notifications
+
+2. **Dev Button Dropdown** - Floating menu (bottom-right) with:
+   - Style Guide link
+   - Mobile App link
+   - Easy to extend with more items
+
+3. **Mobile Planning Section** - Added to `docs/PLAN.md`:
+   - Platform strategy (React Native/Expo)
+   - Core mobile features
+   - Technical considerations
+   - Timeline phases
+
+### Example Output
+
+```
+Scaffolding project...
+✓ Created /style-guide page
+✓ Created /mobile-app mockup page
+✓ Created dev-button with dropdown menu
+✓ Added mobile app section to PLAN.md
+```
 
 ## Platform Recommendations
 
@@ -71,6 +118,18 @@ The workflow recommends based on project type:
 | Marketing Site | Astro | None | None |
 | API Backend | Hono/Fastify | Turso/Supabase | Clerk |
 | Experiment | Next.js | localStorage | None |
+
+## Presets
+
+Quick scaffolding with predefined stacks:
+
+| Preset | Framework | Database | Auth | Hosting | UI |
+|--------|-----------|----------|------|---------|-----|
+| `saas` | Next.js | Supabase | Supabase Auth | Vercel | shadcn/ui |
+| `landing` | Astro | None | None | Cloudflare | Tailwind |
+| `api` | Hono | Turso | JWT | Cloudflare Workers | None |
+| `portfolio` | Astro | None | None | Cloudflare | Tailwind |
+| `experiment` | Next.js | SQLite | None | Local | Tailwind |
 
 ## Manual Installation
 

@@ -1,14 +1,23 @@
 ---
 /**
  * Custom PageTitle component that adds reading time estimate
+ * and version info display for docs with versioning
  * Overrides Starlight's default PageTitle
  */
+import DocVersionInfo from './DocVersionInfo.astro';
 
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
+
+// Access entry data for version info
+const entry = Astro.locals.starlightRoute?.entry;
+const docVersion = entry?.data?.docVersion;
+const appVersion = entry?.data?.appVersion;
+const appName = entry?.data?.appName;
+const versionHistory = entry?.data?.versionHistory;
 
 // Get the current page content for reading time calculation
 const currentPage = Astro.props;
@@ -47,6 +56,12 @@ try {
       {readingTime} min read
     </span>
   </div>
+  <DocVersionInfo
+    docVersion={docVersion}
+    appVersion={appVersion}
+    appName={appName}
+    versionHistory={versionHistory}
+  />
 </div>
 
 <style>

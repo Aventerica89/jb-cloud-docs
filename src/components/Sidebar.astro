@@ -1,11 +1,15 @@
 ---
 /**
  * Custom Sidebar Component
- * Extends Starlight's default sidebar with expand/collapse all buttons
- * and a What's New link
+ * Extends Starlight's default sidebar with expand/collapse all buttons,
+ * What's New link, and Popular badge injection
  */
 import type { Props } from '@astrojs/starlight/props';
 import Default from '@astrojs/starlight/components/Sidebar.astro';
+import popularityData from '../data/popularity.json';
+
+// Get popular paths for client-side badge injection
+const popularPaths = popularityData.topPages?.slice(0, 5).map((p: { path: string }) => p.path) ?? [];
 ---
 
 <div class="sidebar-header">
@@ -36,7 +40,8 @@ import Default from '@astrojs/starlight/components/Sidebar.astro';
 
 <Default {...Astro.props}><slot /></Default>
 
-<script>
+<!-- Pass popular paths to client-side script -->
+<script define:vars={{ popularPaths }}>
   function initSidebarControls() {
     const expandBtn = document.getElementById('expand-all');
     const collapseBtn = document.getElementById('collapse-all');
@@ -58,8 +63,39 @@ import Default from '@astrojs/starlight/components/Sidebar.astro';
     });
   }
 
+  function injectPopularBadges() {
+    if (!popularPaths || popularPaths.length === 0) return;
+
+    // Find sidebar links matching popular paths
+    const sidebarLinks = document.querySelectorAll('.sidebar-pane a, nav[aria-label="Main"] a');
+
+    sidebarLinks.forEach((link) => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+
+      // Normalize href to match popularity data format
+      const normalizedHref = href.replace(/\/$/, '') || '/';
+
+      if (popularPaths.includes(normalizedHref)) {
+        // Check if badge already exists (from frontmatter)
+        if (link.querySelector('.sl-badge, .popular-badge')) return;
+
+        // Create and append popular badge
+        const badge = document.createElement('span');
+        badge.className = 'popular-badge';
+        badge.textContent = 'Popular';
+        badge.title = 'Frequently visited page';
+        link.appendChild(badge);
+      }
+    });
+  }
+
   initSidebarControls();
-  document.addEventListener('astro:page-load', initSidebarControls);
+  injectPopularBadges();
+  document.addEventListener('astro:page-load', () => {
+    initSidebarControls();
+    injectPopularBadges();
+  });
 </script>
 
 <style>
@@ -137,5 +173,27 @@ import Default from '@astrojs/starlight/components/Sidebar.astro';
 
   .sidebar-control-btn:active {
     transform: scale(0.95);
+  }
+
+  /* Popular badge styling */
+  :global(.popular-badge) {
+    display: inline-block;
+    font-size: 0.5625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    padding: 0.125rem 0.375rem;
+    margin-left: 0.375rem;
+    background: linear-gradient(135deg, rgba(255, 128, 181, 0.15), rgba(255, 128, 181, 0.1));
+    color: #ff80b5;
+    border: 1px solid rgba(255, 128, 181, 0.25);
+    border-radius: 4px;
+    vertical-align: middle;
+  }
+
+  :root[data-theme='light'] :global(.popular-badge) {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(236, 72, 153, 0.05));
+    color: #db2777;
+    border-color: rgba(236, 72, 153, 0.2);
   }
 </style>

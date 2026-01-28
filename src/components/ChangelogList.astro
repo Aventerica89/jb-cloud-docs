@@ -1,0 +1,185 @@
+---
+/**
+ * ChangelogList component
+ * Auto-generates changelog entries from docs with addedDate frontmatter
+ */
+import { getCollection } from 'astro:content';
+
+interface DocEntry {
+  slug: string;
+  data: {
+    title: string;
+    description?: string;
+    addedDate?: string;
+    docVersion?: string;
+    appName?: string;
+    projectUrl?: string;
+  };
+}
+
+// Fetch all docs with addedDate
+const allDocs = await getCollection('docs');
+const docsWithDates = allDocs
+  .filter((doc): doc is DocEntry & typeof doc => !!doc.data.addedDate)
+  .sort((a, b) => {
+    const dateA = new Date(a.data.addedDate || '');
+    const dateB = new Date(b.data.addedDate || '');
+    return dateB.getTime() - dateA.getTime();
+  });
+
+// Group by month
+interface GroupedDocs {
+  [monthYear: string]: {
+    [date: string]: DocEntry[];
+  };
+}
+
+const grouped: GroupedDocs = {};
+
+docsWithDates.forEach((doc) => {
+  const date = new Date(doc.data.addedDate || '');
+  const monthYear = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const fullDate = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  if (!grouped[monthYear]) {
+    grouped[monthYear] = {};
+  }
+  if (!grouped[monthYear][fullDate]) {
+    grouped[monthYear][fullDate] = [];
+  }
+  grouped[monthYear][fullDate].push(doc);
+});
+
+const monthYears = Object.keys(grouped);
+---
+
+{monthYears.length > 0 ? (
+  <div class="changelog-auto">
+    <h2>Recent Additions</h2>
+    {monthYears.map((monthYear) => (
+      <section class="changelog-month">
+        <h3>{monthYear}</h3>
+        {Object.entries(grouped[monthYear]).map(([date, docs]) => (
+          <div class="changelog-date">
+            <h4>{date}</h4>
+            <ul class="changelog-entries">
+              {docs.map((doc) => (
+                <li class="changelog-entry">
+                  <a href={`/${doc.slug}/`}>{doc.data.title}</a>
+                  {doc.data.docVersion && (
+                    <span class="version-badge">v{doc.data.docVersion}</span>
+                  )}
+                  {doc.data.description && (
+                    <span class="entry-description"> - {doc.data.description}</span>
+                  )}
+                  {doc.data.appName && (
+                    <span class="app-name">For {doc.data.appName}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+    ))}
+  </div>
+) : (
+  <p class="no-entries">No documented projects with dates yet.</p>
+)}
+
+<style>
+  .changelog-auto {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--sl-color-hairline);
+  }
+
+  .changelog-auto h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--sl-color-text);
+  }
+
+  .changelog-month {
+    margin-bottom: 2rem;
+  }
+
+  .changelog-month h3 {
+    font-size: 1.25rem;
+    color: var(--sl-color-accent);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--sl-color-hairline-light);
+  }
+
+  .changelog-date {
+    margin-bottom: 1.25rem;
+  }
+
+  .changelog-date h4 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--sl-color-gray-2);
+    margin-bottom: 0.5rem;
+  }
+
+  .changelog-entries {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .changelog-entry {
+    padding: 0.5rem 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--sl-color-hairline);
+    margin-left: 0.5rem;
+  }
+
+  .changelog-entry:hover {
+    border-left-color: var(--sl-color-accent);
+  }
+
+  .changelog-entry a {
+    color: var(--sl-color-text);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .changelog-entry a:hover {
+    color: var(--sl-color-accent);
+  }
+
+  .version-badge {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.125rem 0.375rem;
+    margin-left: 0.375rem;
+    background: rgba(99, 91, 255, 0.1);
+    color: #635BFF;
+    border-radius: 4px;
+  }
+
+  :root[data-theme='light'] .version-badge {
+    color: #5521B5;
+  }
+
+  .entry-description {
+    color: var(--sl-color-gray-3);
+    font-size: 0.875rem;
+  }
+
+  .app-name {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+    margin-top: 0.25rem;
+  }
+
+  .no-entries {
+    color: var(--sl-color-gray-3);
+    font-style: italic;
+  }
+</style>
