@@ -114,6 +114,10 @@ export default defineConfig({
 					autogenerate: { directory: 'env-var-assistant' },
 				},
 				{
+					label: 'JB Cloud App Tracker',
+					autogenerate: { directory: 'jb-cloud-app-tracker' },
+				},
+				{
 					label: 'JB Cloud Docs',
 					autogenerate: { directory: 'jb-cloud-docs' },
 				},
