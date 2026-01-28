@@ -12,7 +12,9 @@ WP Manager is a lightweight, self-hosted WordPress site management dashboard. Th
 - **Framework**: Next.js 16 (App Router)
 - **Database**: Turso (SQLite edge database)
 - **ORM**: Drizzle ORM
-- **UI**: Tailwind CSS + custom shadcn-style components
+- **UI**: shadcn/ui + Tailwind CSS
+- **Charts**: Recharts
+- **Testing**: Vitest (63 tests, 100% coverage)
 - **Deployment**: Vercel
 
 ## Features
@@ -25,18 +27,52 @@ WP Manager is a lightweight, self-hosted WordPress site management dashboard. Th
 - Bulk sync functionality
 - WP Manager Connector plugin for restricted hosts
 
-### Phase 2 (In Progress)
+### Phase 2 (Complete)
 - [Bulk plugin/theme updates](/wp-manager/bulk-updates/)
 - [Activity logging](/wp-manager/activity-logging/)
+- [TDD Utilities](/wp-manager/tdd-utilities/) - Validation, health scoring, scheduling
+- [UI Components](/wp-manager/ui-components/) - Charts, toasts, mobile sidebar
 - Site credential editing
 - Style guide page
 
+### Phase 3 Features
+- Dashboard charts (site status pie chart, updates bar chart)
+- Health score calculation with "Sites Needing Attention" section
+- Toast notifications for user feedback
+- Mobile responsive sidebar with hamburger menu
+- Client-side form validation
+
 ### Planned
 - User management across sites
-- Activity logging
 - Scheduled syncing
 - Backup coordination
 - Security scanning
+
+## Dashboard Overview
+
+The dashboard provides at-a-glance status:
+
+| Stat | Description |
+|------|-------------|
+| Total Sites | Number of connected sites |
+| Online | Sites responding to health checks |
+| Offline | Sites not responding |
+| Updates Available | Combined plugin + theme updates |
+
+### Charts
+
+- **Site Status**: Pie chart showing online/offline/unknown distribution
+- **Pending Updates**: Bar chart showing plugin vs theme updates
+
+### Health Scores
+
+Sites are scored 0-100 based on:
+- Online/offline status
+- SSL certificate validity
+- Number of pending updates
+- Time since last health check
+
+Sites with scores below 80 appear in the "Sites Needing Attention" section.
 
 ## Connecting a WordPress Site
 
@@ -60,6 +96,52 @@ For hosts that block REST API (like xCloud.host) or have security plugins:
 
 WP Manager automatically detects the connector plugin and uses it for syncing.
 
+## Development
+
+### Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Set up environment
+cp .env.example .env.local
+# Add TURSO_DATABASE_URL and TURSO_AUTH_TOKEN
+
+# Push database schema
+npm run db:push
+
+# Start development server
+npm run dev
+```
+
+### Testing
+
+```bash
+# Run all tests
+npm test
+
+# Watch mode
+npm test -- --watch
+
+# Coverage report
+npm test -- --coverage
+```
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Build for production |
+| `npm run db:push` | Push schema to database |
+| `npm run db:studio` | Open Drizzle Studio |
+| `npm test` | Run test suite |
+
 ## Repository
 
 [GitHub: jb-cloud-wp-manager](https://github.com/Aventerica89/jb-cloud-wp-manager)
+
+## Live Site
+
+[cloud-manager.jbcloud.app](https://cloud-manager.jbcloud.app)
