@@ -72,6 +72,10 @@ export default defineConfig({
 					autogenerate: { directory: 'bcms' },
 				},
 				{
+					label: 'WP Manager',
+					autogenerate: { directory: 'wp-manager' },
+				},
+				{
 					label: 'Bricks Builder Agent',
 					autogenerate: { directory: 'bricks-builder-agent' },
 				},
