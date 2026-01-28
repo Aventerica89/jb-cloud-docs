@@ -1,13 +1,13 @@
 ---
 title: Available Commands
-description: Reference for all 32 Claude Code slash commands
+description: Reference for all 33 Claude Code slash commands
 sidebar:
   order: 1
 ---
 
 Complete reference for all custom slash commands available in Claude Code.
 
-**Total Commands**: 27 main + 5 security sub-commands = 32
+**Total Commands**: 28 main + 5 security sub-commands = 33
 
 ## Project Creation
 
@@ -58,6 +58,7 @@ Complete reference for all custom slash commands available in Claude Code.
 | Command | Description |
 |---------|-------------|
 | `/deploy-check` | Pre-deployment verification checklist. Run before deploying to catch common issues |
+| `/deploy-env` | Auto-deploy env vars from 1Password to platforms (Vercel, Cloudflare, GitHub, etc.) |
 | `/deps-audit` | Audit dependencies for security vulnerabilities, outdated packages, and unused dependencies |
 | `/eval` | Evaluate code quality |
 
@@ -231,6 +232,29 @@ Pre-deployment verification:
 - Database migrations
 - Security scan
 - Git status
+
+---
+
+### /deploy-env
+
+Automatically deploy environment variables from 1Password to platforms:
+
+```bash
+/deploy-env              # Auto-detect platform and keys
+/deploy-env vercel       # Deploy to Vercel
+/deploy-env cloudflare   # Deploy to Cloudflare Pages/Workers
+/deploy-env github org/repo  # Deploy to GitHub Actions
+```
+
+**Workflow**:
+1. Scans project for required env vars (`.env.example`, code)
+2. Detects platform from config files
+3. Matches keys in 1Password
+4. Deploys via platform CLI
+
+**Supported Platforms**: Vercel, Netlify, Cloudflare, GitHub Actions, Railway, Fly.io
+
+**Requirements**: Platform CLI installed + 1Password CLI authenticated
 
 ---
 
