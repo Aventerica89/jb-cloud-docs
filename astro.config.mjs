@@ -125,6 +125,10 @@ export default defineConfig({
 					label: 'UI Resources',
 					autogenerate: { directory: 'ui-resources' },
 				},
+				{
+					label: 'Resources',
+					autogenerate: { directory: 'resources' },
+				},
 			],
 			customCss: ['./src/styles/custom.css'],
 		}),

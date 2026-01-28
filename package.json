@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "npm run validate:sidebar && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "validate:sidebar": "node scripts/validate-sidebar.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.71.2",
