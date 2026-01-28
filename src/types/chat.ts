@@ -65,5 +65,5 @@ export interface GitHubCommit {
 // Session/Auth
 export interface SessionPayload {
   authenticated: boolean;
-  exp: number;
+  exp?: number; // Set automatically by jose JWT library
 }

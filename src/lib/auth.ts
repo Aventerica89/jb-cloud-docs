@@ -1,14 +1,11 @@
 import * as jose from 'jose';
 import type { SessionPayload } from '../types/chat';
 
-const SESSION_DURATION_MS = 3600000; // 1 hour
-
 export async function createSession(jwtSecret: string): Promise<string> {
   const secret = new TextEncoder().encode(jwtSecret);
 
   const payload: SessionPayload = {
     authenticated: true,
-    exp: Date.now() + SESSION_DURATION_MS,
   };
 
   const token = await new jose.SignJWT(payload as unknown as jose.JWTPayload)
@@ -31,8 +28,8 @@ export async function verifySession(
 
     const session = payload as unknown as SessionPayload;
 
-    // Check if session is expired
-    if (session.exp && session.exp < Date.now()) {
+    // Check if session is expired (exp is in seconds, Date.now() is in ms)
+    if (session.exp && session.exp < Math.floor(Date.now() / 1000)) {
       return null;
     }
 
