@@ -6,6 +6,8 @@ sidebar:
 ---
 
 import Mermaid from '../../../components/Mermaid.astro';
+import Tabs from '../../../components/Tabs.astro';
+import RelatedDocs from '../../../components/RelatedDocs.astro';
 
 This guide documents how this documentation site was set up, including the tech stack choices and configuration steps.
 
@@ -89,11 +91,29 @@ This guide documents how this documentation site was set up, including the tech 
 
 ### 1. Create the Astro Project
 
+<Tabs labels={['npm', 'pnpm', 'yarn']}>
+  <Fragment slot="tab-1">
 ```bash
 npm create astro@latest jb-cloud-docs -- --template starlight
 cd jb-cloud-docs
 npm install
 ```
+  </Fragment>
+  <Fragment slot="tab-2">
+```bash
+pnpm create astro@latest jb-cloud-docs -- --template starlight
+cd jb-cloud-docs
+pnpm install
+```
+  </Fragment>
+  <Fragment slot="tab-3">
+```bash
+yarn create astro jb-cloud-docs --template starlight
+cd jb-cloud-docs
+yarn install
+```
+  </Fragment>
+</Tabs>
 
 ### 2. Configure Astro (`astro.config.mjs`)
 
@@ -450,3 +470,8 @@ Here's roughly how the conversation went to create this site:
 - Sensitive operations (adding secrets, production deployments)
 - You want to understand each step deeply
 - The task requires visual/GUI interaction
+
+<RelatedDocs links={[
+  { href: '/documentation-workflow/', label: 'Documentation Workflow', description: 'How to document processes in real-time with Claude Code' },
+  { href: '/changelog/', label: "What's New", description: 'Latest updates and features' }
+]} />

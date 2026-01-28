@@ -1,0 +1,213 @@
+---
+/**
+ * Tabs Component
+ * Display content in tabbed interface - great for multi-language code examples
+ *
+ * Usage:
+ * <Tabs labels={['npm', 'yarn', 'pnpm']}>
+ *   <Fragment slot="tab-1">npm install package</Fragment>
+ *   <Fragment slot="tab-2">yarn add package</Fragment>
+ *   <Fragment slot="tab-3">pnpm add package</Fragment>
+ * </Tabs>
+ */
+
+interface Props {
+  labels: string[];
+  defaultTab?: number;
+}
+
+const { labels, defaultTab = 0 } = Astro.props;
+const id = `tabs-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class="tabs-container" data-tabs-id={id}>
+  <div class="tabs-header" role="tablist">
+    {labels.map((label, index) => (
+      <button
+        role="tab"
+        aria-selected={index === defaultTab ? 'true' : 'false'}
+        aria-controls={`${id}-panel-${index}`}
+        id={`${id}-tab-${index}`}
+        class={`tab-button ${index === defaultTab ? 'active' : ''}`}
+        data-tab-index={index}
+      >
+        {label}
+      </button>
+    ))}
+  </div>
+  <div class="tabs-content">
+    <div
+      role="tabpanel"
+      id={`${id}-panel-0`}
+      aria-labelledby={`${id}-tab-0`}
+      class={`tab-panel ${0 === defaultTab ? 'active' : ''}`}
+      data-panel-index="0"
+    >
+      <slot name="tab-1" />
+    </div>
+    <div
+      role="tabpanel"
+      id={`${id}-panel-1`}
+      aria-labelledby={`${id}-tab-1`}
+      class={`tab-panel ${1 === defaultTab ? 'active' : ''}`}
+      data-panel-index="1"
+    >
+      <slot name="tab-2" />
+    </div>
+    <div
+      role="tabpanel"
+      id={`${id}-panel-2`}
+      aria-labelledby={`${id}-tab-2`}
+      class={`tab-panel ${2 === defaultTab ? 'active' : ''}`}
+      data-panel-index="2"
+    >
+      <slot name="tab-3" />
+    </div>
+    <div
+      role="tabpanel"
+      id={`${id}-panel-3`}
+      aria-labelledby={`${id}-tab-3`}
+      class={`tab-panel ${3 === defaultTab ? 'active' : ''}`}
+      data-panel-index="3"
+    >
+      <slot name="tab-4" />
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.tabs-container').forEach((container) => {
+      const buttons = container.querySelectorAll('.tab-button');
+      const panels = container.querySelectorAll('.tab-panel');
+
+      // Hide panels that have no content
+      panels.forEach((panel) => {
+        if (!panel.innerHTML.trim()) {
+          panel.style.display = 'none';
+        }
+      });
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const index = button.getAttribute('data-tab-index');
+
+          // Update buttons
+          buttons.forEach((btn) => {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+          });
+          button.classList.add('active');
+          button.setAttribute('aria-selected', 'true');
+
+          // Update panels
+          panels.forEach((panel) => {
+            panel.classList.remove('active');
+          });
+          const activePanel = container.querySelector(`[data-panel-index="${index}"]`);
+          if (activePanel) {
+            activePanel.classList.add('active');
+          }
+        });
+
+        // Keyboard navigation
+        button.addEventListener('keydown', (e) => {
+          const currentIndex = parseInt(button.getAttribute('data-tab-index') || '0');
+          let newIndex = currentIndex;
+
+          if (e.key === 'ArrowRight') {
+            newIndex = (currentIndex + 1) % buttons.length;
+          } else if (e.key === 'ArrowLeft') {
+            newIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+          } else if (e.key === 'Home') {
+            newIndex = 0;
+          } else if (e.key === 'End') {
+            newIndex = buttons.length - 1;
+          } else {
+            return;
+          }
+
+          e.preventDefault();
+          const newButton = container.querySelector(`[data-tab-index="${newIndex}"]`) as HTMLElement;
+          if (newButton) {
+            newButton.click();
+            newButton.focus();
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .tabs-container {
+    margin: 1.5rem 0;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .tabs-header {
+    display: flex;
+    background: var(--sl-color-bg-nav);
+    border-bottom: 1px solid var(--sl-color-hairline);
+    overflow-x: auto;
+  }
+
+  .tab-button {
+    flex: 0 0 auto;
+    padding: 0.75rem 1.25rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--sl-color-gray-3);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .tab-button:hover {
+    color: var(--sl-color-text);
+    background: rgba(99, 91, 255, 0.05);
+  }
+
+  .tab-button.active {
+    color: var(--sl-color-accent);
+    border-bottom-color: var(--sl-color-accent);
+    background: transparent;
+  }
+
+  .tab-button:focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: -2px;
+  }
+
+  .tabs-content {
+    padding: 0;
+  }
+
+  .tab-panel {
+    display: none;
+    padding: 1rem;
+  }
+
+  .tab-panel.active {
+    display: block;
+  }
+
+  /* Code blocks inside tabs should have no margin */
+  .tab-panel :global(.expressive-code) {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+  }
+
+  /* Override the frame styling inside tabs */
+  .tab-panel :global(.expressive-code .frame) {
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+</style>

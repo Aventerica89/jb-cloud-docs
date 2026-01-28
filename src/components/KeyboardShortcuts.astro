@@ -1,0 +1,136 @@
+---
+/**
+ * KeyboardShortcuts Component
+ * Displays available keyboard shortcuts in a nice card
+ *
+ * Usage:
+ * <KeyboardShortcuts />
+ */
+
+interface Shortcut {
+  keys: string[];
+  description: string;
+}
+
+const shortcuts: Shortcut[] = [
+  { keys: ['Cmd/Ctrl', 'K'], description: 'Open search' },
+  { keys: ['Esc'], description: 'Close search / dialogs' },
+  { keys: ['/'], description: 'Focus search (when not in input)' },
+  { keys: ['Arrow keys'], description: 'Navigate search results' },
+  { keys: ['Enter'], description: 'Select search result' },
+];
+---
+
+<aside class="keyboard-shortcuts">
+  <h4 class="shortcuts-title">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="20" height="16" x="2" y="4" rx="2"/>
+      <path d="M6 8h.001"/>
+      <path d="M10 8h.001"/>
+      <path d="M14 8h.001"/>
+      <path d="M18 8h.001"/>
+      <path d="M8 12h.001"/>
+      <path d="M12 12h.001"/>
+      <path d="M16 12h.001"/>
+      <path d="M7 16h10"/>
+    </svg>
+    Keyboard Shortcuts
+  </h4>
+  <dl class="shortcuts-list">
+    {shortcuts.map((shortcut) => (
+      <div class="shortcut-item">
+        <dt class="shortcut-keys">
+          {shortcut.keys.map((key, i) => (
+            <>
+              <kbd>{key}</kbd>
+              {i < shortcut.keys.length - 1 && <span class="key-separator">+</span>}
+            </>
+          ))}
+        </dt>
+        <dd class="shortcut-desc">{shortcut.description}</dd>
+      </div>
+    ))}
+  </dl>
+</aside>
+
+<style>
+  .keyboard-shortcuts {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    background: var(--sl-color-bg-nav);
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 12px;
+  }
+
+  .shortcuts-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--sl-color-text);
+  }
+
+  .shortcuts-title svg {
+    color: var(--sl-color-accent);
+  }
+
+  .shortcuts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0;
+  }
+
+  .shortcut-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--sl-color-hairline-light);
+  }
+
+  .shortcut-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .shortcut-keys {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0;
+  }
+
+  .shortcut-keys kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.75rem;
+    height: 1.5rem;
+    padding: 0 0.5rem;
+    background: var(--sl-color-bg);
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--sl-color-text);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .key-separator {
+    color: var(--sl-color-gray-3);
+    font-size: 0.75rem;
+    margin: 0 0.125rem;
+  }
+
+  .shortcut-desc {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--sl-color-gray-3);
+    text-align: right;
+  }
+</style>

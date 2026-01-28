@@ -19,6 +19,10 @@ export default defineConfig({
 			},
 			// Quick wins: Last updated timestamps
 			lastUpdated: true,
+			// Edit on GitHub link
+			editLink: {
+				baseUrl: 'https://github.com/Aventerica89/jb-cloud-docs/edit/main/',
+			},
 			// Quick wins: Enhanced code blocks with copy button
 			expressiveCode: {
 				themes: ['github-dark', 'github-light'],

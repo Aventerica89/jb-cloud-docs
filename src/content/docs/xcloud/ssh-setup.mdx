@@ -6,6 +6,7 @@ sidebar:
 ---
 
 import Mermaid from '../../../components/Mermaid.astro';
+import RelatedDocs from '../../../components/RelatedDocs.astro';
 
 This guide covers setting up SSH key authentication for your xCloud server.
 
@@ -88,3 +89,8 @@ When pasting your key in xCloud, ensure:
 - It's all on one continuous line
 - Starts with `ssh-ed25519` or `ssh-rsa`
 - No extra line breaks or spaces
+
+<RelatedDocs links={[
+  { href: '/xcloud/updating-docker-apps/', label: 'Updating Docker Apps', description: 'How to update Docker containers on xCloud' },
+  { href: '/xcloud/ollama-memory-configuration/', label: 'Ollama Memory Config', description: 'Configure memory for Ollama on xCloud' }
+]} />

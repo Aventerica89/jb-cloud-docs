@@ -1,0 +1,115 @@
+---
+/**
+ * Steps Component
+ * Display a numbered list of steps with visual styling
+ *
+ * Usage:
+ * <Steps>
+ *   1. First step content
+ *   2. Second step content
+ *   3. Third step content
+ * </Steps>
+ *
+ * Or with slot items:
+ * <Steps>
+ *   <li>First step with **markdown**</li>
+ *   <li>Second step</li>
+ * </Steps>
+ */
+
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div class="steps-container">
+  {title && <h4 class="steps-title">{title}</h4>}
+  <ol class="steps">
+    <slot />
+  </ol>
+</div>
+
+<style>
+  .steps-container {
+    margin: 1.5rem 0;
+  }
+
+  .steps-title {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--sl-color-text);
+  }
+
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: step-counter;
+  }
+
+  .steps > :global(li) {
+    position: relative;
+    padding-left: 3rem;
+    padding-bottom: 1.5rem;
+    counter-increment: step-counter;
+  }
+
+  .steps > :global(li):last-child {
+    padding-bottom: 0;
+  }
+
+  /* Step number circle */
+  .steps > :global(li)::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(135deg, var(--sl-color-accent), #8B5CF6);
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(99, 91, 255, 0.3);
+  }
+
+  /* Connecting line */
+  .steps > :global(li):not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: calc(1rem - 1px);
+    top: 2.25rem;
+    width: 2px;
+    height: calc(100% - 2.25rem);
+    background: linear-gradient(to bottom, var(--sl-color-accent) 0%, var(--sl-color-hairline) 100%);
+  }
+
+  /* Content styling */
+  .steps > :global(li) > :global(*:first-child) {
+    margin-top: 0.25rem;
+  }
+
+  .steps > :global(li) > :global(p:first-child) {
+    font-weight: 500;
+    color: var(--sl-color-text);
+  }
+
+  /* Nested content */
+  .steps > :global(li) :global(ul),
+  .steps > :global(li) :global(ol) {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Code blocks in steps */
+  .steps > :global(li) :global(.expressive-code) {
+    margin: 0.75rem 0;
+  }
+</style>

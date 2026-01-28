@@ -1,0 +1,124 @@
+---
+/**
+ * RelatedDocs Component
+ * Displays "See also" links at the bottom of doc pages
+ *
+ * Usage:
+ * <RelatedDocs links={[
+ *   { href: '/xcloud/ssh-setup/', label: 'SSH Setup Guide' },
+ *   { href: '/cloudflare/docs-site-setup/', label: 'Docs Site Setup' }
+ * ]} />
+ */
+
+interface Link {
+  href: string;
+  label: string;
+  description?: string;
+}
+
+interface Props {
+  links: Link[];
+  title?: string;
+}
+
+const { links, title = 'Related Documentation' } = Astro.props;
+---
+
+<aside class="related-docs">
+  <h3 class="related-docs-title">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+      <path d="m9 9.5 2 2 4-4"/>
+    </svg>
+    {title}
+  </h3>
+  <ul class="related-docs-list">
+    {links.map((link) => (
+      <li>
+        <a href={link.href} class="related-docs-link">
+          <span class="related-docs-label">{link.label}</span>
+          {link.description && (
+            <span class="related-docs-description">{link.description}</span>
+          )}
+          <svg class="related-docs-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/>
+            <path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+      </li>
+    ))}
+  </ul>
+</aside>
+
+<style>
+  .related-docs {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 12px;
+    background: var(--sl-color-bg-nav);
+  }
+
+  .related-docs-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--sl-color-text);
+  }
+
+  .related-docs-title svg {
+    color: var(--sl-color-accent);
+  }
+
+  .related-docs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .related-docs-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .related-docs-link:hover {
+    background: rgba(99, 91, 255, 0.05);
+    border-color: var(--sl-color-accent);
+  }
+
+  .related-docs-label {
+    flex: 1;
+    font-weight: 500;
+    color: var(--sl-color-text);
+  }
+
+  .related-docs-description {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--sl-color-gray-3);
+    margin-top: 0.25rem;
+  }
+
+  .related-docs-arrow {
+    color: var(--sl-color-gray-3);
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+
+  .related-docs-link:hover .related-docs-arrow {
+    transform: translateX(4px);
+    color: var(--sl-color-accent);
+  }
+</style>

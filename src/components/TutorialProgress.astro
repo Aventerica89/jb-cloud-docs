@@ -1,0 +1,221 @@
+---
+/**
+ * TutorialProgress Component
+ * Shows progress through a multi-step tutorial
+ *
+ * Usage:
+ * <TutorialProgress
+ *   currentStep={2}
+ *   steps={[
+ *     { label: 'Setup', href: '/tutorial/setup/' },
+ *     { label: 'Configuration', href: '/tutorial/config/' },
+ *     { label: 'Deployment', href: '/tutorial/deploy/' }
+ *   ]}
+ * />
+ */
+
+interface Step {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  steps: Step[];
+  currentStep: number;
+}
+
+const { steps, currentStep } = Astro.props;
+const progressPercent = ((currentStep) / steps.length) * 100;
+---
+
+<nav class="tutorial-progress" aria-label="Tutorial progress">
+  <div class="progress-header">
+    <span class="progress-label">
+      Step {currentStep} of {steps.length}
+    </span>
+    <span class="progress-percent">{Math.round(progressPercent)}% complete</span>
+  </div>
+
+  <div class="progress-bar-container">
+    <div class="progress-bar" style={`width: ${progressPercent}%`}></div>
+  </div>
+
+  <ol class="progress-steps">
+    {steps.map((step, index) => {
+      const stepNumber = index + 1;
+      const isComplete = stepNumber < currentStep;
+      const isCurrent = stepNumber === currentStep;
+      const isUpcoming = stepNumber > currentStep;
+
+      return (
+        <li class={`progress-step ${isComplete ? 'complete' : ''} ${isCurrent ? 'current' : ''} ${isUpcoming ? 'upcoming' : ''}`}>
+          <a href={step.href} class="step-link" aria-current={isCurrent ? 'step' : undefined}>
+            <span class="step-indicator">
+              {isComplete ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              ) : (
+                <span class="step-number">{stepNumber}</span>
+              )}
+            </span>
+            <span class="step-label">{step.label}</span>
+          </a>
+        </li>
+      );
+    })}
+  </ol>
+</nav>
+
+<style>
+  .tutorial-progress {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--sl-color-bg-nav);
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 12px;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .progress-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--sl-color-text);
+  }
+
+  .progress-percent {
+    font-size: 0.8125rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  .progress-bar-container {
+    height: 4px;
+    background: var(--sl-color-hairline);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sl-color-accent), #00D4FF);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+
+  .progress-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .progress-step {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .step-link {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+  }
+
+  .step-link:hover {
+    background: rgba(99, 91, 255, 0.05);
+  }
+
+  .step-indicator {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+  }
+
+  .step-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    transition: color 0.15s ease;
+  }
+
+  /* Complete state */
+  .progress-step.complete .step-indicator {
+    background: var(--sl-color-accent);
+    color: white;
+  }
+
+  .progress-step.complete .step-label {
+    color: var(--sl-color-gray-3);
+  }
+
+  .progress-step.complete .step-link:hover .step-label {
+    color: var(--sl-color-text);
+  }
+
+  /* Current state */
+  .progress-step.current .step-link {
+    background: rgba(99, 91, 255, 0.1);
+    border-color: var(--sl-color-accent);
+  }
+
+  .progress-step.current .step-indicator {
+    background: var(--sl-color-accent);
+    color: white;
+    box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.2);
+  }
+
+  .progress-step.current .step-label {
+    color: var(--sl-color-text);
+    font-weight: 600;
+  }
+
+  /* Upcoming state */
+  .progress-step.upcoming .step-indicator {
+    background: var(--sl-color-bg);
+    border: 2px solid var(--sl-color-hairline);
+    color: var(--sl-color-gray-3);
+  }
+
+  .progress-step.upcoming .step-label {
+    color: var(--sl-color-gray-3);
+  }
+
+  .progress-step.upcoming .step-link:hover .step-indicator {
+    border-color: var(--sl-color-accent);
+    color: var(--sl-color-accent);
+  }
+
+  .progress-step.upcoming .step-link:hover .step-label {
+    color: var(--sl-color-text);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .progress-steps {
+      flex-direction: column;
+    }
+
+    .progress-step {
+      min-width: auto;
+    }
+  }
+</style>
