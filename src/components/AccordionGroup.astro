@@ -1,0 +1,52 @@
+---
+/**
+ * Group of accordions - only one can be open at a time (optional)
+ * Usage in MDX:
+ * <AccordionGroup>
+ *   <Accordion title="First">Content 1</Accordion>
+ *   <Accordion title="Second">Content 2</Accordion>
+ * </AccordionGroup>
+ */
+
+interface Props {
+  exclusive?: boolean;
+}
+
+const { exclusive = false } = Astro.props;
+---
+
+<div class="accordion-group" data-exclusive={exclusive}>
+  <slot />
+</div>
+
+{exclusive && (
+  <script>
+    document.querySelectorAll('.accordion-group[data-exclusive="true"]').forEach(group => {
+      group.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const summary = target.closest('summary');
+        if (!summary) return;
+
+        const details = summary.parentElement as HTMLDetailsElement;
+        if (!details.open) {
+          // Close all others in this group
+          group.querySelectorAll('details[open]').forEach(d => {
+            if (d !== details) (d as HTMLDetailsElement).open = false;
+          });
+        }
+      });
+    });
+  </script>
+)}
+
+<style>
+  .accordion-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .accordion-group :global(.accordion) {
+    margin: 0;
+  }
+</style>

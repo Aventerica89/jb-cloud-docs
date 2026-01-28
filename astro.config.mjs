@@ -17,6 +17,8 @@ export default defineConfig({
 				dark: './src/assets/logo-dark.svg',
 				replacesTitle: true,
 			},
+			// Navigation: Breadcrumbs
+			breadcrumbs: true,
 			// Quick wins: Last updated timestamps
 			lastUpdated: true,
 			// Quick wins: Enhanced code blocks with copy button
@@ -61,6 +63,7 @@ export default defineConfig({
 					items: [
 						{ label: 'Introduction', slug: 'index' },
 						{ label: 'Documentation Workflow', slug: 'documentation-workflow' },
+						{ label: "What's New", slug: 'changelog' },
 					],
 				},
 				{

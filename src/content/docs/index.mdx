@@ -14,7 +14,22 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid } from "@astrojs/starlight/components";
+import { Card, CardGrid, LinkCard } from "@astrojs/starlight/components";
+
+## What's New
+
+<CardGrid>
+  <LinkCard
+    title="Breadcrumbs & Accordions"
+    description="Added navigation breadcrumbs and expandable FAQ sections"
+    href="/changelog/"
+  />
+  <LinkCard
+    title="Mermaid Diagrams"
+    description="Architecture diagrams now supported in documentation"
+    href="/changelog/"
+  />
+</CardGrid>
 
 ## Documentation
 

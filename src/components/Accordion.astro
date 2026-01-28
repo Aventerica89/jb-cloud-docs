@@ -1,0 +1,87 @@
+---
+/**
+ * Expandable/Collapsible section component
+ * Usage in MDX:
+ * <Accordion title="Click to expand">
+ *   Content goes here
+ * </Accordion>
+ */
+
+interface Props {
+  title: string;
+  open?: boolean;
+}
+
+const { title, open = false } = Astro.props;
+---
+
+<details class="accordion" open={open}>
+  <summary class="accordion-trigger">
+    <span class="accordion-title">{title}</span>
+    <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+    </svg>
+  </summary>
+  <div class="accordion-content">
+    <slot />
+  </div>
+</details>
+
+<style>
+  .accordion {
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+    background: var(--sl-color-bg-nav);
+    overflow: hidden;
+  }
+
+  .accordion-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--sl-color-white);
+    transition: background 0.15s ease;
+    list-style: none;
+  }
+
+  .accordion-trigger::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion-trigger:hover {
+    background: var(--sl-color-bg-inline-code);
+  }
+
+  .accordion-title {
+    flex: 1;
+  }
+
+  .accordion-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--sl-color-gray-3);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  details[open] .accordion-icon {
+    transform: rotate(180deg);
+  }
+
+  .accordion-content {
+    padding: 0 1.25rem 1.25rem;
+    color: var(--sl-color-text);
+  }
+
+  .accordion-content :global(p:first-child) {
+    margin-top: 0;
+  }
+
+  .accordion-content :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>
