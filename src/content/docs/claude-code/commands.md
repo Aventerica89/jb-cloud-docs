@@ -101,6 +101,7 @@ Complete reference for all custom slash commands available in Claude Code.
 
 | Command | Description |
 |---------|-------------|
+| `/cli` | List all available CLI capabilities, MCP servers, and tools |
 | `/orchestrate` | Multi-agent orchestration for complex tasks |
 | `/setup-pm` | Configure your preferred package manager (npm/pnpm/yarn/bun) |
 
@@ -361,6 +362,40 @@ Sync documentation to docs.jbcloud.app:
 
 ---
 
+### /cli
+
+List all available CLI capabilities and MCP servers:
+
+```bash
+/cli              # Full capabilities list
+/cli --mcp        # MCP servers only
+/cli --tools      # CLI tools only
+```
+
+**Output includes:**
+
+| Category | Examples |
+|----------|----------|
+| **MCP Servers** | 1Password, Vercel, Cloudflare, n8n, HubSpot, Figma |
+| **CLI Tools** | git, gh, vercel, wrangler, npm/pnpm |
+| **File Operations** | Read, Write, Edit, Glob, Grep |
+| **Project Detection** | Config files that reveal project info |
+
+**CLI-First Rule:**
+
+Claude follows a "CLI-First" rule - always check available tools BEFORE asking the user:
+
+| Instead of Asking | Claude Should |
+|-------------------|---------------|
+| "What's your Vercel project ID?" | Read `.vercel/project.json` |
+| "Paste your API key" | Check 1Password first |
+| "What platform are you deploying to?" | Check config files |
+| "What's in this file?" | Just read it |
+
+This makes interactions seamless - Claude proactively uses its capabilities rather than asking for information it can retrieve itself.
+
+---
+
 ## Adding Custom Commands
 
 Create a markdown file in `~/.claude/commands/`:
@@ -417,4 +452,7 @@ Create a directory for grouped commands:
 # Documentation
 /jbdocs                   # Sync docs
 /standup                  # Generate notes
+
+# Utilities
+/cli                      # List all CLI capabilities
 ```

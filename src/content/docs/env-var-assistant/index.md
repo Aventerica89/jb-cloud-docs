@@ -83,3 +83,4 @@ The extension detects API keys from 60+ services including:
 - [Supported Patterns](/env-var-assistant/patterns) - Full list of detected API key formats
 - [Testing Playground](/env-var-assistant/testing) - Interactive test page for all features
 - [MCP Integration](/env-var-assistant/mcp) - Claude Code integration guide
+- [Claude Code Skills](/env-var-assistant/skills) - `/secrets-audit` and `/env-example` skills
