@@ -86,6 +86,10 @@ export default defineConfig({
 					autogenerate: { directory: 'vercel' },
 				},
 				{
+					label: '1Code',
+					autogenerate: { directory: '1code' },
+				},
+				{
 					label: 'BCMS',
 					autogenerate: { directory: 'bcms' },
 				},
