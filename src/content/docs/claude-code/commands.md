@@ -1,13 +1,13 @@
 ---
 title: Available Commands
-description: Reference for all 33 Claude Code slash commands
+description: Reference for all 36 Claude Code slash commands
 sidebar:
   order: 1
 ---
 
 Complete reference for all custom slash commands available in Claude Code.
 
-**Total Commands**: 28 main + 5 security sub-commands = 33
+**Total Commands**: 31 main + 5 security sub-commands = 36
 
 ## Project Creation
 

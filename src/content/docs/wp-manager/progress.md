@@ -57,7 +57,13 @@ sidebar:
 
 ## Recent Updates
 
-### 2026-01-28
+### 2026-01-28 (Session 2)
+- Created Style Guide V2 with purple gradient theme (inspired by uiverse.io)
+- Added Mobile App companion mockup page (`/mobile-app`)
+- Updated dev-button with dropdown menu (Style Guide, Style Guide V2, Mobile App)
+- Deployed to cloud-manager.jbcloud.app
+
+### 2026-01-28 (Session 1)
 - Added authentication with JWT sessions
 - Implemented rate limiting and security headers
 - Added projects, favorites, and archive features
