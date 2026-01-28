@@ -1,0 +1,144 @@
+---
+title: Organization Features
+description: Projects, favorites, archive, and search functionality for organizing WordPress sites
+sidebar:
+  order: 5
+---
+
+import Mermaid from '../../../components/Mermaid.astro';
+
+WP Manager provides multiple ways to organize your WordPress sites beyond just servers and providers.
+
+## Projects
+
+Group sites by client, purpose, or any other criteria with color-coded projects.
+
+<Mermaid title="Project Organization">
+{`flowchart TD
+    subgraph Projects["Projects"]
+        P1[Client A - Blue]
+        P2[Personal Sites - Green]
+        P3[E-commerce - Orange]
+    end
+
+    subgraph Sites["Sites"]
+        S1[Site 1]
+        S2[Site 2]
+        S3[Site 3]
+        S4[Site 4]
+        S5[Site 5]
+    end
+
+    P1 --> S1
+    P1 --> S2
+    P2 --> S3
+    P2 --> S4
+    P3 --> S5
+`}
+</Mermaid>
+
+### Creating Projects
+
+1. Navigate to **Projects** in the sidebar
+2. Click **New Project**
+3. Enter a name and optional description
+4. Choose a color (10 preset colors)
+5. Click **Create**
+
+### Assigning Sites to Projects
+
+1. Go to **Sites** and click on a site
+2. Click **Edit** (or the pencil icon)
+3. Select a project from the dropdown
+4. Click **Save Changes**
+
+Sites can belong to only one project at a time. The project is displayed on the site card and in the site detail view.
+
+## Favorites
+
+Mark frequently accessed sites as favorites. Favorite sites:
+- Appear first in the sites list
+- Show a star icon on their card
+- Are sorted alphabetically among themselves
+
+### Toggle Favorite
+
+- Hover over a site card and click the star icon
+- Or visit the site detail page and click the star
+
+## Archive
+
+Archive sites you no longer actively manage but want to keep for reference.
+
+### Archiving Sites
+
+1. Hover over a site card
+2. Click the archive icon
+3. The site moves to the Archived section
+
+### Viewing Archived Sites
+
+1. Go to **Sites** in the sidebar
+2. Click **Archived** button in the header
+3. View all archived sites
+
+### Restoring Sites
+
+From the Archived view, hover over a site and click the archive icon again to restore it to the active sites list.
+
+## Global Search
+
+Use the command palette (Cmd+K / Ctrl+K) to search across:
+
+- Site names and URLs
+- Server names
+- Provider names
+- Project names
+
+### Keyboard Navigation
+
+| Key | Action |
+|-----|--------|
+| `Cmd+K` / `Ctrl+K` | Open command palette |
+| `↑` / `↓` | Navigate results |
+| `Enter` | Go to selected item |
+| `Escape` | Close palette |
+
+Results are grouped by type (Sites, Servers, Providers, Projects) with icons for easy identification.
+
+## CSV/JSON Export
+
+Export your sites data for reporting, backup, or migration.
+
+### Export Options
+
+Navigate to **Sites** and click the **Export** button to download a CSV file.
+
+**Included fields:**
+- Site ID, name, URL
+- Status (online/offline/unknown)
+- WordPress version, PHP version
+- SSL expiry date
+- Server and provider info
+- Project assignment
+- Plugin/theme counts and update counts
+- Favorite and archived status
+- Notes
+
+### API Endpoints
+
+```bash
+# CSV export (default)
+GET /api/sites/export
+
+# JSON export
+GET /api/sites/export?format=json
+
+# Include archived sites
+GET /api/sites/export?includeArchived=true
+
+# Include full IP addresses (masked by default)
+GET /api/sites/export?includeIps=true
+```
+
+**Security note:** IP addresses are masked by default (e.g., `192.xxx.xxx.xxx`) to prevent accidental exposure. Use `includeIps=true` only when needed.

@@ -7,8 +7,8 @@ sidebar:
 
 ## Current Status
 
-**Phase**: Phase 3 (Polish & Enhancement)
-**Last Updated**: 2025-01-27
+**Phase**: Phase 5 (Complete)
+**Last Updated**: 2026-01-28
 
 ## Completed Phases
 
@@ -38,7 +38,33 @@ sidebar:
 - Client-side form validation
 - 63 tests with 100% coverage
 
+### Phase 4: Server Management (Complete)
+- Server and provider management
+- 14 pre-configured hosting providers
+- Provider logos, dashboard links, docs, and support URLs
+- Server grouping with site counts
+- IP address display and copy functionality
+
+### Phase 5: Organization & Security (Complete)
+- Projects with color coding
+- Favorites and archive functionality
+- Global search with command palette (Cmd+K)
+- CSV/JSON export with IP masking
+- JWT authentication with optional password
+- Rate limiting (100 req/min, 5 login attempts)
+- Security headers (X-Frame-Options, X-Content-Type-Options, etc.)
+- Input validation and error sanitization
+
 ## Recent Updates
+
+### 2026-01-28
+- Added authentication with JWT sessions
+- Implemented rate limiting and security headers
+- Added projects, favorites, and archive features
+- Added global search command palette (Cmd+K)
+- Added CSV/JSON export with IP masking
+- Fixed login page layout (removed sidebar)
+- Set up Vercel CLI for env var management
 
 ### 2025-01-27 (Session 2)
 - Added `/jbdocs` automation to Claude Code workflow
