@@ -8,6 +8,59 @@ sidebar:
 
 The MCP (Model Context Protocol) server allows Claude Code to directly interact with your 1Password vault for API key management.
 
+## Automatic Integration (CLAUDE.md)
+
+When configured in your global `~/.claude/CLAUDE.md`, Claude Code will **proactively** use env-var-assistant tools without being asked.
+
+### What Claude Does Automatically
+
+| Trigger | Action |
+|---------|--------|
+| User pastes an API key | Offers to store in 1Password |
+| New project setup | Scans for `.env.example`, `process.env.*` and checks 1Password for matches |
+| Deployment mentioned | Offers to deploy env vars to the platform |
+| User asks for a key | Checks 1Password **first** before asking user to paste |
+
+### Enable Auto-Integration
+
+Add this to your `~/.claude/CLAUDE.md`:
+
+```markdown
+## 1Password / API Key Management (MANDATORY)
+
+ALWAYS use env-var-assistant MCP tools when:
+- User pastes or mentions any API key, token, or secret
+- Setting up a new project (scan for .env.example, process.env.*)
+- Deploying to any platform
+
+**Tools available:**
+- `list_api_keys` - Check 1Password first before asking user for keys
+- `store_api_key` - Save any new key user provides
+- `get_api_key` - Retrieve keys for deployment
+- `deploy_env_vars` - Push to Vercel/Cloudflare/etc.
+
+**DO NOT** ask user to paste keys if they might already be in 1Password. **CHECK FIRST.**
+```
+
+### Behavior Examples
+
+**Without auto-integration:**
+```
+User: "I need to add my OpenAI key to Vercel"
+Claude: "Please paste your OpenAI API key"
+```
+
+**With auto-integration:**
+```
+User: "I need to add my OpenAI key to Vercel"
+Claude: [Calls list_api_keys]
+Claude: "I found OPENAI_API_KEY in your 1Password. Deploying to Vercel now..."
+Claude: [Calls deploy_env_vars]
+Claude: "Done! OPENAI_API_KEY is now set in Vercel production."
+```
+
+---
+
 ## Overview
 
 ```
