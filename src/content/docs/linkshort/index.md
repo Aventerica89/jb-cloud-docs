@@ -3,9 +3,12 @@ title: LinkShort URL Shortener
 description: Fast, free URL shortener running on Cloudflare's edge network with multi-user support, categories, and analytics
 sidebar:
   order: 0
+source_project: /Users/jb/cf-url-shortener
 ---
 
 LinkShort is a production URL shortener that runs on Cloudflare's edge network. It features multi-user support, categories, tags, click analytics, and a clean dark UI inspired by Shadcn.
+
+**Source Repository**: [cf-url-shortener](https://github.com/Aventerica89/cf-url-shortener)
 
 ## Live Instances
 
@@ -33,7 +36,8 @@ LinkShort is a production URL shortener that runs on Cloudflare's edge network. 
 - **Tags** - Flexible tagging system for cross-cutting organization
 - **Search** - Instant search with Cmd+K shortcut
 - **Click Tracking** - View analytics for each shortened link
-- **Password Protected** - Optional password protection for sensitive links
+- **Password Protected** - PBKDF2 hashed passwords with constant-time comparison
+- **Security Hardened** - XSS prevention, timing attack prevention, OWASP compliant
 - **Import/Export** - Backup and restore links as JSON
 - **Dark Theme** - Clean Shadcn-inspired UI
 
@@ -101,7 +105,18 @@ No credit card required. No surprise bills.
 
 ## Repository
 
-[GitHub: cf-url-shortener](https://github.com/user/cf-url-shortener)
+[GitHub: cf-url-shortener](https://github.com/Aventerica89/cf-url-shortener)
+
+## Recent Security Updates
+
+January 28, 2026 - Critical security improvements deployed:
+- XSS prevention across 11 DOM manipulation points
+- PBKDF2 password hashing (100,000 iterations)
+- Constant-time comparison to prevent timing attacks
+- All user-controlled data properly escaped
+- NPM dependency vulnerabilities fixed
+
+See [Progress](/linkshort/progress) for full security audit details.
 
 ## Related Documentation
 

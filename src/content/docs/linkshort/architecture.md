@@ -206,15 +206,85 @@ The repository contains three separate applications:
 
 ## Security Measures
 
+### XSS Prevention (Updated January 28, 2026)
+
+Comprehensive protection against DOM-based XSS attacks:
+
+**Server-Side Escaping**:
+```javascript
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function escapeAttr(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/</g, '&lt;');
+}
+
+function escapeJs(str) {
+  return String(str)
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, '\\n')
+    .replace(/\r/g, '\\r');
+}
+```
+
+**Protected Locations** (11 critical points):
+- Category names/slugs in sidebar and dropdowns
+- Tag names in tag lists and filters
+- Link codes, destinations, descriptions in tables
+- Search results and analytics displays
+- Referrer URLs, browser names, country data
+- Bulk operation selectors
+
+### Password Security (OWASP Compliant)
+
+**Current Implementation** (January 28, 2026):
+```javascript
+// PBKDF2 with 100,000 iterations (OWASP recommended)
+const hash = await pbkdf2Hash(password, salt, 100000);
+const stored = `pbkdf2:${saltHex}:${hashHex}`;
+
+// Constant-time comparison prevents timing attacks
+const isValid = timingSafeEqual(
+  Buffer.from(storedHash),
+  Buffer.from(computedHash)
+);
+```
+
+**Backward Compatibility**:
+- Legacy SHA-256 hashes still work
+- New passwords automatically use PBKDF2
+- Migration handled transparently
+
+**Security Properties**:
+- Resistant to timing attacks
+- Resistant to rainbow table attacks
+- Resistant to brute force (100,000 iterations)
+- OWASP compliant key derivation
+
 ### Input Validation
 - All user inputs sanitized
 - SQL injection prevention via parameterized queries
-- XSS prevention via `escapeHtml()` and `escapeAttr()` helpers
+- Length limits enforced on all text fields
+- URL validation for destinations
 
 ### Authentication
-- Cloudflare Access JWT validation
+- Cloudflare Access JWT validation at edge
+- Signature verification by Cloudflare (RS256)
 - User isolation via `user_email` in all queries
 - No direct database access from frontend
+- Session duration: 24 hours (configurable)
 
 ### Rate Limiting
 - Cloudflare Workers built-in DDoS protection

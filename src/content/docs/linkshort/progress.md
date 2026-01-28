@@ -13,7 +13,22 @@ sidebar:
 
 ## Recent Updates
 
-### January 28, 2026
+### January 28, 2026 - Session 2
+
+**Critical Security Improvements**
+- Fixed XSS vulnerabilities across all user-controlled data
+- Added escapeHtml(), escapeAttr(), escapeJs() helper functions
+- Escaped innerHTML assignments in 11 locations (categories, tags, links, analytics)
+- Upgraded password hashing from SHA-256 to PBKDF2 (100,000 iterations)
+- Implemented constant-time comparison (timingSafeEqual) to prevent timing attacks
+- Maintained backward compatibility with legacy password hashes
+- Documented JWT verification at Cloudflare edge
+- Fixed npm audit vulnerabilities in mobile-app dependencies
+- Merged security fixes to main and deployed
+
+**Summary**: All critical security issues addressed. Application hardened against XSS attacks, timing attacks, and weak password hashing. OWASP compliant password storage implemented.
+
+### January 28, 2026 - Session 1
 
 **Mobile App Development**
 - Created Expo Snack demo matching mockup design
@@ -172,9 +187,22 @@ None currently.
 
 ## Security Updates
 
-### Completed
-- Fixed all XSS vulnerabilities (via Gemini security review)
-- Implemented `escapeHtml()` and `escapeAttr()` helpers
+### Completed (January 28, 2026)
+- **XSS Prevention**: Fixed DOM XSS via innerHTML in 11 locations
+  - Category names/slugs in sidebar and selects
+  - Tag names in tag lists
+  - Link codes, destinations, and metadata in tables
+  - Search results
+  - Analytics data (referrers, browsers, countries)
+  - Bulk move category options
+- **Password Hashing**: Upgraded to PBKDF2 with 100,000 iterations (OWASP compliant)
+- **Timing Attack Prevention**: Constant-time comparison (timingSafeEqual)
+- **Backward Compatibility**: Legacy SHA-256 hashes still work
+- **Helper Functions**: escapeHtml(), escapeAttr(), escapeJs() implemented
+- **JWT Validation**: Documented Cloudflare Access edge verification
+- **NPM Dependencies**: Fixed all audit vulnerabilities in mobile-app
+
+### Previously Completed
 - Added CORS headers for Chrome extension
 - User data isolation via `user_email` column
 - SQL injection prevention via parameterized queries

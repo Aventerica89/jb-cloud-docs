@@ -11,7 +11,9 @@ The LinkShort Mobile App is a React Native companion app built with Expo, provid
 
 **Status**: In active development (Beta)
 
-**Directory**: `/mobile-app`
+**Directory**: `/mobile-app` (within cf-url-shortener repository)
+
+**Source Project**: `/Users/jb/cf-url-shortener/mobile-app`
 
 ## Tech Stack
 

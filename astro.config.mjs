@@ -106,6 +106,10 @@ export default defineConfig({
 					autogenerate: { directory: 'claude-new-project' },
 				},
 				{
+					label: 'LinkShort URL Shortener',
+					autogenerate: { directory: 'linkshort' },
+				},
+				{
 					label: 'Env Var Assistant',
 					autogenerate: { directory: 'env-var-assistant' },
 				},
