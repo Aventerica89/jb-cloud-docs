@@ -59,6 +59,18 @@ Complete reference for all custom slash commands available in Claude Code.
 | `/deps-audit` | Audit dependencies for security/updates |
 | `/eval` | Evaluate code quality |
 
+## Security Suite
+
+| Command | Description | Frequency |
+|---------|-------------|-----------|
+| `/security` | Full security audit (all checks) | Weekly, before deploy |
+| `/security --quick` | Critical checks only | Before commits |
+| `/security:secrets-scan` | Find leaked secrets in code/git | Every commit |
+| `/security:headers` | Check HTTP security headers | Before deploy |
+| `/security:license-audit` | Check dependency licenses | Before release |
+| `/security:api-security` | API endpoint security audit | After API changes |
+| `/security:env-check` | Environment variable security | After config changes |
+
 ## Documentation
 
 | Command | Description |
@@ -181,6 +193,43 @@ Sync documentation to docs.jbcloud.app:
 /jbdocs progress       # Progress only
 /jbdocs commands       # Sync this reference
 ```
+
+---
+
+### /security
+
+Comprehensive security audit suite with sub-commands:
+
+```bash
+/security                    # Full audit (all checks)
+/security --quick            # Critical checks only
+/security secrets            # Secrets detection
+/security headers            # HTTP headers check
+/security licenses           # License compliance
+/security api                # API endpoint audit
+/security env                # Environment vars check
+```
+
+**When to Run**:
+
+| Trigger | Command |
+|---------|---------|
+| Before every commit | `/security --quick` |
+| Before deployment | `/security` (full) |
+| Weekly scheduled | `/security` (full) |
+| New API endpoint | `/security api` |
+| Config changes | `/security env` |
+| New dependencies | `/security licenses` |
+
+**Sub-Commands**:
+
+| Command | Purpose |
+|---------|---------|
+| `secrets-scan` | Deep secrets detection in code and git history |
+| `headers` | Check CSP, HSTS, X-Frame-Options, etc. |
+| `license-audit` | Flag GPL/AGPL, check compliance |
+| `api-security` | Auth, authorization, input validation, rate limiting |
+| `env-check` | Validate .env files and env var usage |
 
 ---
 
