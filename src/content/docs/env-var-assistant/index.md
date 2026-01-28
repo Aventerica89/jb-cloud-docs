@@ -1,11 +1,12 @@
 ---
 title: Env Var Assistant
-description: Chrome extension for secure API key management with 1Password integration
+description: Browser extension for secure API key management with 1Password integration
+source_project: /Users/jb/env-var-assistant
 sidebar:
   order: 0
 ---
 
-Env Var Assistant is a Chrome extension that helps you securely manage API keys and environment variables by integrating with 1Password.
+Env Var Assistant is a browser extension (Chrome and Safari) that helps you securely manage API keys and environment variables by integrating with 1Password.
 
 ## Features
 
@@ -14,6 +15,9 @@ Env Var Assistant is a Chrome extension that helps you securely manage API keys 
 - **Batch Mode** - Save multiple keys at once from `.env` files
 - **Auto-Fill** - Fill environment variables on provider dashboards
 - **MCP Server** - Claude Code integration for voice-based key management
+- **Cross-Browser** - Available for Chrome and Safari on macOS
+- **Hide/Restore** - Temporarily hide secrets from the list view
+- **Project Detection** - Automatically infers project name from source URL
 
 ## Quick Start
 
@@ -43,11 +47,12 @@ The extension detects API keys from 60+ services including:
 ┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
 │  Chrome         │     │  Native Host     │     │  1Password      │
 │  Extension      │────▶│  (Node.js)       │────▶│  CLI (op)       │
-│                 │     │                  │     │                 │
-│  - Popup UI     │     │  - Message       │     │  - Vault Access │
-│  - Detection    │     │    Protocol      │     │  - CRUD Ops     │
-│  - Auto-fill    │     │  - Validation    │     │                 │
 └─────────────────┘     └──────────────────┘     └─────────────────┘
+                                                         ▲
+┌─────────────────┐     ┌──────────────────┐            │
+│  Safari         │     │  App Extension   │────────────┘
+│  Extension      │────▶│  (Swift)         │
+└─────────────────┘     └──────────────────┘
          │
          │ MCP Protocol
          ▼
@@ -60,6 +65,16 @@ The extension detects API keys from 60+ services including:
 │  - get_api_key  │
 └─────────────────┘
 ```
+
+### Chrome Architecture
+- **Extension** - Popup UI, clipboard detection, auto-fill
+- **Native Host** - Node.js process using Chrome native messaging
+- **1Password CLI** - Secure vault operations
+
+### Safari Architecture
+- **Extension** - Same web extension code (Manifest V3)
+- **App Extension** - Swift-based SafariWebExtensionHandler
+- **1Password CLI** - Direct process execution from Swift
 
 ## Pages
 

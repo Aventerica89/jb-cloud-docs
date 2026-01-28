@@ -1,6 +1,7 @@
 ---
 title: Testing Playground
 description: Interactive test page for Env Var Assistant features
+source_project: /Users/jb/env-var-assistant
 sidebar:
   order: 4
 ---

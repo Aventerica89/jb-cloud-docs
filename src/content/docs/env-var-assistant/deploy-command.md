@@ -1,6 +1,7 @@
 ---
 title: /deploy-env Command
 description: Automatically deploy environment variables to platforms
+source_project: /Users/jb/env-var-assistant
 sidebar:
   order: 6
 ---

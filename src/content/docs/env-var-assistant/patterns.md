@@ -1,6 +1,7 @@
 ---
 title: Supported API Key Patterns
 description: Complete list of API key formats detected by Env Var Assistant
+source_project: /Users/jb/env-var-assistant
 sidebar:
   order: 3
 ---

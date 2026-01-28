@@ -1,6 +1,7 @@
 ---
 title: MCP Integration
 description: Using Env Var Assistant with Claude Code via MCP
+source_project: /Users/jb/env-var-assistant
 sidebar:
   order: 5
 ---

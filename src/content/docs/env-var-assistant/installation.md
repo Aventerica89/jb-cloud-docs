@@ -1,6 +1,7 @@
 ---
 title: Installation Guide
-description: Set up Env Var Assistant with Chrome and 1Password
+description: Set up Env Var Assistant with Chrome, Safari, and 1Password
+source_project: /Users/jb/env-var-assistant
 sidebar:
   order: 1
 ---
@@ -9,9 +10,9 @@ sidebar:
 
 Before installing, ensure you have:
 
-- **Google Chrome** (or Chromium-based browser)
+- **Google Chrome** or **Safari 15.4+** (macOS)
 - **1Password CLI** installed and authenticated
-- **Node.js 18+** for the native messaging host
+- **Node.js 18+** for the Chrome native messaging host (not needed for Safari)
 
 ## Install 1Password CLI
 
@@ -33,7 +34,9 @@ op signin
 
 ## Install the Extension
 
-### Option 1: Load Unpacked (Development)
+### Chrome
+
+#### Option 1: Load Unpacked (Development)
 
 1. Clone the repository:
    ```bash
@@ -47,13 +50,51 @@ op signin
 
 4. Click **Load unpacked** and select the `extension` folder
 
-### Option 2: Chrome Web Store
+#### Option 2: Chrome Web Store
 
 Coming soon!
 
-## Install Native Host
+### Safari (macOS)
 
-The native messaging host allows the Chrome extension to communicate with the 1Password CLI.
+The Safari version uses Apple's Web Extension API and includes a native Swift app extension handler.
+
+#### Build from Source
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/jbmd/env-var-assistant.git
+   cd env-var-assistant
+   ```
+
+2. Open the Xcode project:
+   ```bash
+   open safari/Env\ Var\ Assistant/Env\ Var\ Assistant.xcodeproj
+   ```
+
+3. Select your Development Team in Signing & Capabilities
+
+4. Build and run (Cmd+R)
+
+5. The app will launch and install the Safari extension
+
+6. Enable the extension in Safari:
+   - Open Safari > Settings > Extensions
+   - Check "Env Var Assistant"
+   - Grant permissions when prompted
+
+#### Add to Login Items (Optional)
+
+To have the extension available immediately on login:
+
+```bash
+osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Env Var Assistant.app", hidden:true}'
+```
+
+Or manually: System Settings > General > Login Items > add "Env Var Assistant"
+
+## Install Native Host (Chrome Only)
+
+The native messaging host allows the Chrome extension to communicate with the 1Password CLI. Safari uses a built-in Swift handler instead.
 
 ```bash
 cd env-var-assistant/native-host
