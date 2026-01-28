@@ -98,6 +98,18 @@ export default defineConfig({
 					autogenerate: { directory: 'bricks-builder-agent' },
 				},
 				{
+					label: 'Claude Code',
+					autogenerate: { directory: 'claude-code' },
+				},
+				{
+					label: 'Claude New Project',
+					autogenerate: { directory: 'claude-new-project' },
+				},
+				{
+					label: 'Env Var Assistant',
+					autogenerate: { directory: 'env-var-assistant' },
+				},
+				{
 					label: 'UI Resources',
 					autogenerate: { directory: 'ui-resources' },
 				},
