@@ -57,6 +57,7 @@ export default defineConfig({
 			components: {
 				Footer: './src/components/Footer.astro',
 				PageTitle: './src/components/PageTitle.astro',
+				Sidebar: './src/components/Sidebar.astro',
 			},
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/Aventerica89/jb-cloud-docs' }],
 			sidebar: [
