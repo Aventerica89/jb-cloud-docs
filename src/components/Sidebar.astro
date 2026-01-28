@@ -2,32 +2,36 @@
 /**
  * Custom Sidebar Component
  * Extends Starlight's default sidebar with expand/collapse all buttons
+ * and a What's New link
  */
 import type { Props } from '@astrojs/starlight/props';
 import Default from '@astrojs/starlight/components/Sidebar.astro';
 ---
 
-<div class="sidebar-controls">
-  <button type="button" class="sidebar-control-btn" id="expand-all" title="Expand all sections">
+<div class="sidebar-header">
+  <a href="/changelog/" class="whats-new-link">
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m3 8 4-4 4 4"/>
-      <path d="M7 4v16"/>
-      <path d="M11 12h4"/>
-      <path d="M11 16h7"/>
-      <path d="M11 20h10"/>
+      <path d="M12 8v4l3 3"/>
+      <circle cx="12" cy="12" r="10"/>
     </svg>
-    <span>Expand</span>
-  </button>
-  <button type="button" class="sidebar-control-btn" id="collapse-all" title="Collapse all sections">
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="m3 16 4 4 4-4"/>
-      <path d="M7 20V4"/>
-      <path d="M11 4h10"/>
-      <path d="M11 8h7"/>
-      <path d="M11 12h4"/>
-    </svg>
-    <span>Collapse</span>
-  </button>
+    <span>What's New</span>
+    <span class="new-dot"></span>
+  </a>
+
+  <div class="sidebar-controls">
+    <button type="button" class="sidebar-control-btn" id="expand-all" title="Expand all sections">
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="7 13 12 18 17 13"/>
+        <polyline points="7 6 12 11 17 6"/>
+      </svg>
+    </button>
+    <button type="button" class="sidebar-control-btn" id="collapse-all" title="Collapse all sections">
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="17 11 12 6 7 11"/>
+        <polyline points="17 18 12 13 7 18"/>
+      </svg>
+    </button>
+  </div>
 </div>
 
 <Default {...Astro.props}><slot /></Default>
@@ -40,63 +44,87 @@ import Default from '@astrojs/starlight/components/Sidebar.astro';
     if (!expandBtn || !collapseBtn) return;
 
     expandBtn.addEventListener('click', () => {
-      // Find all sidebar group details elements
       const groups = document.querySelectorAll('.sidebar-pane details, nav[aria-label="Main"] details');
       groups.forEach((group) => {
         group.setAttribute('open', '');
       });
-
-      // Also handle Starlight's specific sidebar structure
-      const starlightGroups = document.querySelectorAll('[data-sl-sidebar-group]');
-      starlightGroups.forEach((group) => {
-        const details = group.querySelector('details');
-        if (details) details.setAttribute('open', '');
-      });
     });
 
     collapseBtn.addEventListener('click', () => {
-      // Find all sidebar group details elements
       const groups = document.querySelectorAll('.sidebar-pane details, nav[aria-label="Main"] details');
       groups.forEach((group) => {
         group.removeAttribute('open');
       });
-
-      // Also handle Starlight's specific sidebar structure
-      const starlightGroups = document.querySelectorAll('[data-sl-sidebar-group]');
-      starlightGroups.forEach((group) => {
-        const details = group.querySelector('details');
-        if (details) details.removeAttribute('open');
-      });
     });
   }
 
-  // Run on initial load
   initSidebarControls();
-
-  // Re-run after Astro page transitions
   document.addEventListener('astro:page-load', initSidebarControls);
 </script>
 
 <style>
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid var(--sl-color-hairline-light);
+  }
+
+  .whats-new-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.625rem;
+    background: rgba(99, 91, 255, 0.08);
+    border: 1px solid rgba(99, 91, 255, 0.15);
+    border-radius: 6px;
+    color: var(--sl-color-text);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .whats-new-link:hover {
+    background: rgba(99, 91, 255, 0.15);
+    border-color: var(--sl-color-accent);
+  }
+
+  .whats-new-link svg {
+    color: var(--sl-color-accent);
+  }
+
+  .new-dot {
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(135deg, #10B981, #34D399);
+    border-radius: 50%;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.2); }
+  }
+
   .sidebar-controls {
     display: flex;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0.5rem;
-    border-bottom: 1px solid var(--sl-color-hairline-light);
+    gap: 0.25rem;
   }
 
   .sidebar-control-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.375rem 0.625rem;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
     background: transparent;
     border: 1px solid var(--sl-color-hairline);
     border-radius: 6px;
     color: var(--sl-color-gray-3);
-    font-size: 0.75rem;
-    font-weight: 500;
     cursor: pointer;
     transition: all 0.15s ease;
   }
@@ -108,10 +136,6 @@ import Default from '@astrojs/starlight/components/Sidebar.astro';
   }
 
   .sidebar-control-btn:active {
-    transform: scale(0.98);
-  }
-
-  .sidebar-control-btn svg {
-    flex-shrink: 0;
+    transform: scale(0.95);
   }
 </style>
