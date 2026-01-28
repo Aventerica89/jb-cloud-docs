@@ -35,18 +35,27 @@ WP Manager is a lightweight, self-hosted WordPress site management dashboard. Th
 - Site credential editing
 - Style guide page
 
-### Phase 3 Features
+### Phase 3 (Complete)
 - Dashboard charts (site status pie chart, updates bar chart)
 - Health score calculation with "Sites Needing Attention" section
 - Toast notifications for user feedback
 - Mobile responsive sidebar with hamburger menu
 - Client-side form validation
 
+### Phase 4 (Complete)
+- [Server & Provider Management](/wp-manager/servers/) - Organize sites by hosting provider
+- 14 pre-configured providers (xCloud, Cloudways, RunCloud, GridPane, etc.)
+- Direct links to provider dashboards, docs, and support
+- Server grouping view with site counts
+- IP address management and copy functionality
+- Provider community links (Facebook, Discord)
+
 ### Planned
 - User management across sites
 - Scheduled syncing
 - Backup coordination
 - Security scanning
+- Site notes/changelog
 
 ## Dashboard Overview
 
