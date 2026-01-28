@@ -189,6 +189,55 @@ Search for existing items by title.
 "Search for my database credentials"
 ```
 
+### `deploy_env_vars`
+
+Deploy environment variables from 1Password directly to a platform via CLI.
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `platform` | string | Yes | Target: `vercel`, `netlify`, `cloudflare`, `github`, `railway`, `fly` |
+| `envVars` | array | Yes | List of `{name, itemId}` or `{name, value}` objects |
+| `environment` | string | No | Target environment (e.g., "production" for Vercel) |
+| `project` | string | No | Project name/ID |
+| `repo` | string | No | Repository for GitHub (e.g., "owner/repo") |
+| `vault` | string | No | 1Password vault |
+
+**Example:**
+
+```
+"Deploy my OpenAI and Stripe keys to Vercel production"
+```
+
+Claude will:
+1. Get keys from 1Password
+2. Run `vercel env add OPENAI_API_KEY production`
+3. Run `vercel env add STRIPE_SECRET_KEY production`
+4. Report results
+
+### `list_platforms`
+
+Check which deployment platforms have CLIs installed.
+
+**Example:**
+
+```
+"Which platforms can I deploy to?"
+```
+
+**Response:**
+```json
+[
+  { "id": "vercel", "name": "Vercel", "cli": "vercel", "available": true },
+  { "id": "netlify", "name": "Netlify", "cli": "netlify", "available": true },
+  { "id": "cloudflare", "name": "Cloudflare Workers", "cli": "wrangler", "available": true },
+  { "id": "github", "name": "GitHub Actions", "cli": "gh", "available": true },
+  { "id": "railway", "name": "Railway", "cli": "railway", "available": false },
+  { "id": "fly", "name": "Fly.io", "cli": "fly", "available": false }
+]
+```
+
 ## Usage Examples
 
 ### Setting Up a New Project
@@ -223,13 +272,43 @@ Claude will:
 1. Call `search_items` to find Stripe items
 2. Call `add_token_to_existing` to add the webhook secret
 
-### Retrieving Keys for Deployment
+### Deploying to Vercel (Automatic)
 
 ```
-"I need to set up my production environment. What's my Cloudflare API token?"
+"Set up my Vercel project with OpenAI, Stripe, and Supabase keys"
 ```
 
-Claude will call `get_api_key` and return the value.
+Claude will:
+1. Call `list_api_keys` to find matching keys
+2. Call `deploy_env_vars` with platform="vercel"
+3. Report: "Deployed 3/3 env vars to Vercel"
+
+### Deploying to Multiple Platforms
+
+```
+"Deploy my API keys to both Vercel and Netlify"
+```
+
+Claude will call `deploy_env_vars` twice, once for each platform.
+
+### Deploying to GitHub Actions
+
+```
+"Set up secrets for my-org/my-repo on GitHub"
+```
+
+Claude will:
+1. Get keys from 1Password
+2. Call `deploy_env_vars` with platform="github", repo="my-org/my-repo"
+3. Each key is set via `gh secret set`
+
+### Checking Available Platforms
+
+```
+"Which platforms can I deploy to?"
+```
+
+Claude will call `list_platforms` and show which CLIs are installed.
 
 ## Security Considerations
 
