@@ -116,9 +116,8 @@ cd jb-cloud-app-tracker
 # Install dependencies
 npm install
 
-# Setup environment variables
-cp .env.example .env.local
-# Edit .env.local with your Supabase credentials
+# Setup environment variables (using 1Password CLI)
+npm run env:inject
 
 # Run development server
 npm run dev
@@ -126,7 +125,38 @@ npm run dev
 
 ## Environment Variables
 
-Required in `.env.local`:
+### 1Password CLI Integration (Recommended)
+
+This project uses 1Password CLI to securely manage environment variables. Secrets are never stored in git.
+
+**Setup:**
+
+1. Install 1Password CLI (`op`)
+2. Store your Supabase credentials in 1Password under the "Business" vault
+3. Run the env injection script:
+   ```bash
+   npm run env:inject
+   ```
+
+This generates `.env.local` from the `.env.local.tpl` template with secrets injected from 1Password.
+
+**Template Format (.env.local.tpl):**
+```bash
+NEXT_PUBLIC_SUPABASE_URL={{ op://Business/NEXT_PUBLIC_SUPABASE_URL/credential }}
+NEXT_PUBLIC_SUPABASE_ANON_KEY={{ op://Business/Supabase JWT Key/credential }}
+SUPABASE_SERVICE_ROLE_KEY={{ op://Business/SUPABASE_SERVICE_ROLE_KEY/credential }}
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+**Benefits:**
+- Secrets never touch git history
+- One command to sync all secrets
+- Team-friendly (anyone can use the template)
+- Version controlled template shows required vars
+
+### Manual Setup (Alternative)
+
+If not using 1Password, create `.env.local` manually:
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
@@ -144,6 +174,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 | `npm run start` | Start production server |
 | `npm test` | Run unit tests |
 | `npm run lint` | Lint code |
+| `npm run env:inject` | Generate .env.local from 1Password |
 
 ## Architecture Decisions
 

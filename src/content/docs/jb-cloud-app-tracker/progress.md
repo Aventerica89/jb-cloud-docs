@@ -17,6 +17,25 @@ All planned phases complete. Application is live and fully functional with provi
 
 ### January 29, 2026
 
+**1Password CLI Integration**
+- Added `.env.local.tpl` template with 1Password secret references
+- Configured `npm run env:inject` script for environment variable management
+- Secrets now stored in 1Password Business vault:
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Supabase JWT Key)
+  - `SUPABASE_SERVICE_ROLE_KEY`
+- Benefits:
+  - Secrets never committed to git
+  - Version controlled template shows required vars
+  - One command to sync all environment variables
+  - Team-friendly setup process
+
+**Animated Blob Backgrounds (Glassmorphism)**
+- Added blur-blob-bg component for glassmorphic UI effects
+- Implemented animated gradient blobs with CSS animations
+- Created test suite for component validation
+- Provides modern, polished visual design
+
 **Phase 10: Maintenance Command Scheduling**
 - Created maintenance_command_types table with 6 pre-seeded command types:
   - Security Review (weekly)

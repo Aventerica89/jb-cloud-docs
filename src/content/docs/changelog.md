@@ -14,6 +14,13 @@ Track when new documentation is added for jbcloud.app projects.
 ### January 29, 2026
 
 **Updated Documentation**
+- [JB Cloud App Tracker](/jb-cloud-app-tracker/) - 1Password CLI integration and UI enhancements
+  - 1Password CLI integration for secure environment variable management
+  - `.env.local.tpl` template with secret references
+  - `npm run env:inject` script for one-command setup
+  - Animated blob backgrounds with glassmorphism effects
+  - Improved developer experience with secrets never in git
+
 - [JB Cloud App Tracker](/jb-cloud-app-tracker/) - Added maintenance command scheduling feature
   - 6 pre-seeded maintenance command types (Security Review, Code Review, etc.)
   - Visual checklist with overdue indicators
