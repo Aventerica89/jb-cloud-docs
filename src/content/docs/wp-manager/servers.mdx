@@ -101,7 +101,7 @@ interface ProviderMetadata {
   name: string;           // Display name
   logoUrl: string;        // Provider logo
   dashboardUrl: string;   // Base dashboard URL
-  serverUrlPattern: string; // URL pattern with {serverId}
+  serverUrlPattern: string; // URL pattern with &#123;serverId&#125;
   docsUrl: string;        // Documentation
   supportUrl: string;     // Support page
   communityUrl?: string;  // Facebook, Discord, etc.
@@ -118,7 +118,7 @@ interface ProviderMetadata {
 
     subgraph Example
         E["my.xcloud.host"]
-        F["/servers/{serverId}"]
+        F["/servers/serverId"]
         G["12345"]
         H["my.xcloud.host/servers/12345"]
     end
@@ -129,7 +129,7 @@ When you add a server with a Provider ID (from your provider's dashboard URL), W
 
 ```
 Provider Dashboard URL + Server URL Pattern + Server ID
-https://my.xcloud.host + /servers/{serverId} + 12345
+https://my.xcloud.host + /servers/&#123;serverId&#125; + 12345
 = https://my.xcloud.host/servers/12345
 ```
 
@@ -277,3 +277,48 @@ See all sites on a server at a glance:
 Visualize site distribution:
 - 20 sites on old Linode server
 - Plan migration to new xCloud server
+
+## Using with Claude Code
+
+Claude Code can help you manage servers and providers through WP Manager's API.
+
+### API Testing with Claude
+
+Ask Claude to test your WP Manager API:
+
+```bash
+# Claude can run these commands
+curl http://localhost:3000/api/servers
+curl http://localhost:3000/api/providers
+```
+
+Claude interprets the responses and suggests next steps.
+
+### Bulk Server Operations
+
+Tell Claude what you need:
+
+> Add 3 servers to WP Manager: Production (xCloud, IP 192.168.1.1), Staging (xCloud, IP 192.168.1.2), and Client-A (Cloudways, IP 10.0.0.1)
+
+Claude generates the API calls:
+```bash
+curl -X POST http://localhost:3000/api/servers \
+  -H "Content-Type: application/json" \
+  -d '{"providerId": 1, "name": "Production", "ipAddress": "192.168.1.1"}'
+```
+
+### Database Schema Assistance
+
+Ask Claude about schema modifications:
+
+> I want to add a "maintenance_mode" boolean to servers
+
+Claude provides the migration SQL and TypeScript changes.
+
+### Provider Configuration
+
+Need a custom provider? Tell Claude:
+
+> Add SpinupWP as a provider with dashboard at spinupwp.app and server pattern /servers/&#123;serverId&#125;
+
+Claude generates the POST request with proper metadata.

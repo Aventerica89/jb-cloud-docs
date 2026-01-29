@@ -563,6 +563,65 @@ default-root-container-layout = 'accordion'  # Stack windows vertically
 
 Choose a template, adjust to your needs, and build from there.
 
+## Using with Claude Code
+
+Claude Code can help you design, refine, and troubleshoot AeroSpace workflows.
+
+### Workflow Design Assistance
+
+Describe your work style and let Claude create a config:
+
+> I'm a full-stack developer working on 3 projects. I need separate workspaces for each project with terminal + editor, plus a shared browser workspace for docs.
+
+Claude generates:
+```toml
+# Project workspaces
+persistent-workspaces = ["1", "2", "3", "D"]
+
+[mode.main.binding]
+    alt-1 = 'workspace 1'  # Project A
+    alt-2 = 'workspace 2'  # Project B
+    alt-3 = 'workspace 3'  # Project C
+    alt-d = 'workspace D'  # Documentation
+```
+
+### Debugging Layout Issues
+
+Share your layout problem with Claude:
+
+> My windows aren't splitting the way I expect. When I open a third window, it goes to the wrong side.
+
+Claude explains tiling tree behavior and suggests `balance-sizes` or `flatten-workspace-tree`.
+
+### Generating Window Rules
+
+Tell Claude your app preferences:
+
+> Make Finder and 1Password always float, send Slack to workspace 3
+
+Claude generates:
+```toml
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.1password.1password'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace 3'
+```
+
+### Migrating from i3/Sway
+
+If you're coming from Linux, tell Claude:
+
+> I'm used to i3 with these keybindings: [paste config]. Help me recreate this in AeroSpace.
+
+Claude translates the config to AeroSpace's TOML format.
+
 ## Philosophy
 
 Good workflows share these traits:

@@ -3,6 +3,11 @@ title: Ollama Memory Configuration
 description: How to increase Docker memory limits for Ollama on xCloud to run larger models.
 sidebar:
   order: 2
+  badge:
+    text: New
+    variant: tip
+isNew: true
+newUntil: "2026-02-01"
 ---
 
 When running Ollama on xCloud, you may encounter memory errors like:
@@ -144,3 +149,69 @@ Check Docker logs:
 ```bash
 docker logs ollama-your-domain.com
 ```
+
+## Using with Claude Code
+
+Claude Code can assist with diagnosing and fixing Ollama memory issues. Here's how to leverage Claude for this task.
+
+### Quick Diagnosis with Claude
+
+Copy the output from the xCloud Command Runner and paste it to Claude:
+
+```bash
+# Run in Command Runner, paste output to Claude
+docker inspect $(docker ps -q --filter name=ollama) | grep -i memory
+```
+
+Claude will:
+- Interpret the memory values (e.g., `2147483648` = 2GB)
+- Recommend appropriate memory limits for your model
+- Generate the exact commands to fix the issue
+
+### Claude-Assisted Workflow
+
+**Step 1: Tell Claude your situation**
+> I'm getting "model requires more system memory (4.5 GiB) than is available (2.0 GiB)" when running llama2-uncensored on Ollama via xCloud.
+
+**Step 2: Provide container info**
+Run in Command Runner and paste to Claude:
+```bash
+docker inspect ollama-your-domain.com --format '{{range .Mounts}}{{.Source}}:{{.Destination}}{{"\n"}}{{end}}'
+```
+
+**Step 3: Claude generates fix commands**
+Claude will provide the complete sequence:
+```bash
+# Stop and remove
+docker stop ollama-your-domain.com && docker rm ollama-your-domain.com
+
+# Recreate with proper memory
+docker run -d --name ollama-your-domain.com \
+  --memory=12g \
+  --restart unless-stopped \
+  -p 127.0.0.1:18016:11434 \
+  -v /var/www/your-domain.com/data:/root/.ollama \
+  ollama/ollama:latest
+```
+
+### Memory Recommendations by Model
+
+Ask Claude: "What memory limit should I set for [model name]?"
+
+Claude knows common model requirements:
+| Model | Recommended `--memory` |
+|-------|----------------------|
+| deepseek-r1:1.5b | `4g` |
+| llama2-uncensored (7B) | `8g` |
+| llama2:13b | `12g` |
+| llama2:70b | `48g` |
+
+### Troubleshooting with Claude
+
+When encountering issues, provide Claude with:
+1. **Error message** - Exact text from Open WebUI or logs
+2. **Container status** - Output of `docker ps | grep ollama`
+3. **Memory config** - Output of `docker inspect ... | grep Memory`
+4. **Network status** - For Open WebUI connection issues
+
+Claude can help diagnose network issues, generate reconnection commands, and verify the fix worked.

@@ -817,6 +817,72 @@ if.app-id = 'com.app.name'
 run = 'layout floating'
 ```
 
+## Using with Claude Code
+
+Claude Code can help you create, modify, and troubleshoot your AeroSpace configuration.
+
+### Configuration Generation
+
+Ask Claude to generate a custom config:
+
+> Create an AeroSpace config with:
+> - Minimal gaps (5px)
+> - Only 4 workspaces
+> - Float Finder and System Preferences
+> - Send Slack to workspace 3
+
+Claude will generate a complete `~/.aerospace.toml` file.
+
+### Keybinding Customization
+
+Ask Claude to add specific keybindings:
+
+> Add a keybinding to AeroSpace that launches iTerm2 with Alt+Enter
+
+Claude provides:
+```toml
+[mode.main.binding]
+    alt-enter = '''exec-and-forget osascript -e '
+    tell application "iTerm"
+        create window with default profile
+        activate
+    end tell'
+    '''
+```
+
+### Troubleshooting with Claude
+
+**Config not loading?** Share your config with Claude:
+```bash
+cat ~/.aerospace.toml
+```
+
+Claude will identify syntax errors and suggest fixes.
+
+**Keybinding conflicts?** Tell Claude what's not working:
+> My alt-h keybinding isn't working in AeroSpace
+
+Claude will help diagnose conflicts with macOS or other apps.
+
+### Finding App IDs
+
+Ask Claude to help find app bundle IDs:
+```bash
+# Run this and paste output to Claude
+aerospace list-windows --all
+```
+
+Claude can identify the correct `if.app-id` for window rules.
+
+### Session Management
+
+Save your AeroSpace troubleshooting context:
+```bash
+/context-save aerospace-config
+```
+
+Resume later with `/context-restore aerospace-config`.
+
 ## Resources
 
 - [AeroSpace Commands](https://nikitabobko.github.io/AeroSpace/commands) - Full command reference

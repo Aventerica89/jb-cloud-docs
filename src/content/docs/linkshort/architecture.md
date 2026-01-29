@@ -374,3 +374,56 @@ Planned enhancements:
 - API key authentication (for mobile app)
 - Link preview cards (Open Graph)
 - Geographic analytics
+
+## Using with Claude Code
+
+Claude Code can help you develop, debug, and extend LinkShort.
+
+### Worker Development
+
+Ask Claude to add new features:
+
+> Add a QR code generation endpoint to the LinkShort worker
+
+Claude generates the Cloudflare Worker code with proper D1 integration.
+
+### Database Migrations
+
+Tell Claude what you need:
+
+> Add an 'expires_at' column to the links table with automatic cleanup
+
+Claude writes the migration SQL and Worker code to handle expiration.
+
+### Debugging API Issues
+
+Share error logs with Claude:
+
+```bash
+wrangler tail
+```
+
+Paste the output and Claude identifies the issue.
+
+### Security Review
+
+Ask Claude to audit your code:
+
+> Review this Worker code for XSS vulnerabilities: [paste code]
+
+Claude identifies potential issues and provides fixes (like the escapeHtml functions documented above).
+
+### Wrangler Commands
+
+Claude can run Wrangler for development:
+
+```bash
+# Local development
+wrangler dev
+
+# Deploy to production
+wrangler deploy
+
+# Run migrations
+wrangler d1 execute url-shortener --remote --file=migrations.sql
+```
