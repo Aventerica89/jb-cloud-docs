@@ -60,9 +60,11 @@ A personal web application for tracking cloud applications across multiple provi
 users ||--o{ applications : owns
 users ||--o{ cloud_providers : owns
 applications ||--o{ deployments : has
+applications ||--o{ maintenance_runs : has
 applications }o--o{ tags : has
 cloud_providers ||--o{ deployments : hosts
 environments ||--o{ deployments : contains
+maintenance_command_types ||--o{ maintenance_runs : defines
 ```
 
 ### Core Tables
@@ -118,13 +120,37 @@ environments ||--o{ deployments : contains
 - `cloudflare_api_token` (text, encrypted, nullable)
 - `cloudflare_account_id` (text, nullable)
 
+**maintenance_command_types** (shared, read-only for users)
+- `id` (uuid, PK)
+- `name` (text, unique)
+- `slug` (text, unique)
+- `description` (text)
+- `recommended_frequency_days` (int)
+- `icon` (text)
+- `color` (text, default: #3b82f6)
+- `sort_order` (int)
+- `is_active` (boolean)
+- `created_at` (timestamptz)
+
+**maintenance_runs**
+- `id` (uuid, PK)
+- `application_id` (uuid, FK)
+- `command_type_id` (uuid, FK to maintenance_command_types)
+- `status` (text, default: completed)
+- `results` (jsonb, nullable)
+- `notes` (text, nullable)
+- `run_at` (timestamptz)
+- `created_at` (timestamptz)
+
 ### Row Level Security (RLS)
 
 All tables have RLS enabled with policies:
 - Users can only view/modify their own data
 - Deployments accessible through application ownership
 - Tags accessible through application ownership
+- Maintenance runs accessible through application ownership
 - Environments are public read-only
+- Maintenance command types are public read-only
 
 ## API Structure
 
@@ -145,6 +171,7 @@ Located in `src/lib/actions/`:
 - `deployments.ts` - Deployment CRUD
 - `providers.ts` - Provider management
 - `tags.ts` - Tag management
+- `maintenance.ts` - Maintenance command tracking
 - `auth.ts` - Authentication actions
 - `settings.ts` - User settings (API tokens)
 - `vercel.ts` - Vercel API client
@@ -192,6 +219,7 @@ src/
 │   ├── applications/    # App list, form, detail
 │   ├── deployments/     # Deployment list, form
 │   ├── providers/       # Provider management
+│   ├── maintenance/     # Maintenance checklist, history, add dialog
 │   ├── settings/        # Token forms (Vercel, Cloudflare)
 │   ├── tags/            # Tag management
 │   └── dashboard/       # Dashboard components
@@ -215,6 +243,20 @@ src/
 - Apps by status chart
 - Provider distribution chart
 - Quick actions
+
+### Maintenance Scheduling
+- 6 pre-seeded maintenance command types:
+  - Security Review (weekly recommended)
+  - Code Review (monthly recommended)
+  - Architecture Review (quarterly recommended)
+  - Test Coverage (monthly recommended)
+  - Dependency Updates (weekly recommended)
+  - Performance Audit (quarterly recommended)
+- Visual checklist showing status per command type
+- Overdue indicators based on recommended frequency
+- Full history of maintenance runs per application
+- Quick-add dialog for logging maintenance runs
+- Color-coded badges and status indicators
 
 ### Provider Integrations
 
@@ -294,6 +336,17 @@ src/
 **Consequences:**
 - Positive: Proper normalization, easy to query, RLS-compatible
 - Negative: Extra joins required
+
+**Status:** Accepted
+
+### ADR-005: Maintenance Command Types as Reference Data
+**Decision:** Fixed reference data in shared table, seeded at migration time.
+
+**Consequences:**
+- Positive: Consistency across users, no duplication, easy to add new types
+- Positive: Users can't accidentally create duplicate or inconsistent command types
+- Negative: Users cannot define custom maintenance command types
+- Mitigation: Can add more types in future migrations based on user feedback
 
 **Status:** Accepted
 

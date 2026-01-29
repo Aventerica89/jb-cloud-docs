@@ -39,6 +39,7 @@ Track all your cloud applications in one place with automatic deployment syncing
 - Application CRUD with tagging system
 - Deployment tracking across environments (dev, staging, production)
 - Cloud provider management
+- Maintenance command scheduling and tracking
 - Search and filter applications
 
 ### Provider Integrations
@@ -67,6 +68,18 @@ Track all your cloud applications in one place with automatic deployment syncing
 - Open redirect prevention
 - Security headers (CSP, HSTS, X-Frame-Options)
 
+### Maintenance Scheduling
+- 6 pre-seeded maintenance command types:
+  - Security Review (weekly)
+  - Code Review (monthly)
+  - Architecture Review (quarterly)
+  - Test Coverage (monthly)
+  - Dependency Updates (weekly)
+  - Performance Audit (quarterly)
+- Visual checklist with overdue indicators
+- Full maintenance history per application
+- Quick-add dialog for logging maintenance runs
+
 ### User Experience
 - Dark mode support with system preference detection
 - Responsive design (mobile-first)
@@ -83,6 +96,8 @@ Track all your cloud applications in one place with automatic deployment syncing
 - `tags` - User-owned labels for organizing apps
 - `application_tags` - Junction table for many-to-many
 - `user_settings` - API tokens for provider integrations
+- `maintenance_command_types` - Reference data for maintenance commands
+- `maintenance_runs` - User maintenance command execution history
 
 ### Key Relationships
 ```
@@ -180,6 +195,7 @@ All phases complete:
 - Phase 7: Vercel Integration (API sync) ✓
 - Phase 8: Cloudflare Integration (API sync) ✓
 - Phase 9: Auto-sync deployments ✓
+- Phase 10: Maintenance Command Scheduling ✓
 
 ## Recent Updates
 
