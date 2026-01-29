@@ -90,6 +90,10 @@ export default defineConfig({
 					autogenerate: { directory: '1code' },
 				},
 				{
+					label: 'AeroSpace',
+					autogenerate: { directory: 'aerospace' },
+				},
+				{
 					label: 'Artifact Manager (macOS)',
 					autogenerate: { directory: 'artifact-manager-mac' },
 				},
