@@ -22,12 +22,16 @@ Track when new documentation is added for jbcloud.app projects.
   - Created 3 reusable skill files for common issues
   - 14 PRs merged and deployed to https://cloud-manager.jbcloud.app
 
-- [JB Cloud App Tracker](/jb-cloud-app-tracker/) - 1Password CLI integration and UI enhancements
+- [JB Cloud App Tracker](/jb-cloud-app-tracker/) - UI enhancements and visual design improvements
   - 1Password CLI integration for secure environment variable management
   - `.env.local.tpl` template with secret references
   - `npm run env:inject` script for one-command setup
-  - Animated blob backgrounds with glassmorphism effects
+  - Animated wave pattern background with dotted grid overlay
+  - Fixed CSS loading issues in Next.js 16 with styled-jsx
+  - Wave/rain gradient pattern with glowing orange dots
+  - Animated blob backgrounds with glassmorphism effects (v1 and v2)
   - Improved developer experience with secrets never in git
+  - Live at https://apps.jbcloud.app
 
 - [JB Cloud App Tracker](/jb-cloud-app-tracker/) - Added maintenance command scheduling feature
   - 6 pre-seeded maintenance command types (Security Review, Code Review, etc.)
