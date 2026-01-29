@@ -90,7 +90,107 @@ When pasting your key in xCloud, ensure:
 - Starts with `ssh-ed25519` or `ssh-rsa`
 - No extra line breaks or spaces
 
+## Using with Claude Code
+
+Claude Code can connect to your xCloud server via SSH, enabling AI-assisted server management, Docker operations, and troubleshooting.
+
+### Setting Up Claude Code for SSH Access
+
+#### Method 1: Using the Command Section
+
+In Claude Code settings, you can configure SSH as an allowed command. Add the following to your `.claude/settings.json`:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(ssh -i ~/.ssh/id_xcloud *)"
+    ]
+  }
+}
+```
+
+This allows Claude to run SSH commands to any host using your xCloud key.
+
+#### Method 2: Using Environment Variables
+
+For repeated sessions, set environment variables in your shell profile (`~/.zshrc` or `~/.bashrc`):
+
+```bash
+# xCloud SSH Configuration
+export XCLOUD_SSH_KEY="~/.ssh/id_xcloud"
+export XCLOUD_USER="your-username"
+export XCLOUD_HOST="your-server-ip"
+```
+
+Then in Claude Code, you can reference these variables:
+
+```bash
+ssh -i $XCLOUD_SSH_KEY $XCLOUD_USER@$XCLOUD_HOST
+```
+
+### Claude Code SSH Examples
+
+Once configured, you can ask Claude to:
+
+**Check server status:**
+```bash
+ssh -i ~/.ssh/id_xcloud user@host "uptime && df -h"
+```
+
+**List Docker containers:**
+> **Note:** Docker commands require the xCloud Command Runner. SSH users don't have Docker socket permissions. See [Updating Docker Apps](/xcloud/updating-docker-apps/) for details.
+
+**Edit configuration files:**
+```bash
+ssh -i ~/.ssh/id_xcloud user@host "cat /var/www/your-domain.com/docker-compose.yml"
+```
+
+### xCloud Command Runner Integration
+
+For Docker operations that require root access, use the xCloud Command Runner instead of SSH. You can provide Claude with command runner outputs and ask it to help analyze or troubleshoot.
+
+Example workflow:
+1. Run `docker ps` in the xCloud Command Runner
+2. Paste the output to Claude
+3. Claude can help identify issues, suggest updates, or write new docker-compose configurations
+
+### Recommended Claude Code Configuration
+
+For full xCloud management, add these to your Claude Code allowed commands:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(ssh -i ~/.ssh/id_xcloud *)",
+      "Bash(scp -i ~/.ssh/id_xcloud *)"
+    ]
+  }
+}
+```
+
+This enables both SSH connections and secure file transfers.
+
+### Session Persistence
+
+For extended sessions, consider using SSH config for cleaner commands. Add to `~/.ssh/config`:
+
+```
+Host xcloud
+    HostName your-server-ip
+    User your-username
+    IdentityFile ~/.ssh/id_xcloud
+    AddKeysToAgent yes
+```
+
+Then simply use:
+```bash
+ssh xcloud
+```
+
 <RelatedDocs links={[
   { href: '/xcloud/updating-docker-apps/', label: 'Updating Docker Apps', description: 'How to update Docker containers on xCloud' },
-  { href: '/xcloud/ollama-memory-configuration/', label: 'Ollama Memory Config', description: 'Configure memory for Ollama on xCloud' }
+  { href: '/xcloud/ollama-memory-configuration/', label: 'Ollama Memory Config', description: 'Configure memory for Ollama on xCloud' },
+  { href: '/claude-code/', label: 'Claude Code Setup', description: 'Custom Claude Code configuration and workflows' }
 ]} />
