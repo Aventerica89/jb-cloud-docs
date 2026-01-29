@@ -406,6 +406,61 @@ jobs:
         run: swift test
 ```
 
+## Using with Claude Code
+
+Claude Code can assist with Swift/SwiftUI development for Artifact Manager.
+
+### Running Tests
+
+Ask Claude to run the test suite:
+
+```bash
+swift test
+```
+
+Claude interprets test results and suggests fixes for failures.
+
+### Adding New Features
+
+Tell Claude what you want to build:
+
+> Add a dark mode toggle to the Artifact Manager settings view
+
+Claude generates SwiftUI code following the project's patterns.
+
+### Debugging Swift Code
+
+Share error messages with Claude:
+
+```bash
+swift build 2>&1
+```
+
+Claude diagnoses compiler errors and suggests fixes.
+
+### Code Reviews
+
+Ask Claude to review your changes:
+
+> Review this SwiftUI view for performance issues: [paste code]
+
+Claude identifies unnecessary redraws, memory leaks, and suggests improvements.
+
+### Xcode Build Commands
+
+Claude can run these from the terminal:
+
+```bash
+# Build
+swift build -c release
+
+# Test specific suite
+swift test --filter NameValidatorTests
+
+# Clean and rebuild
+swift package clean && swift build
+```
+
 ## Next Steps
 
 - Read [Architecture](/artifact-manager-mac/architecture) for technical details

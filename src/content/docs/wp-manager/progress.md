@@ -3,6 +3,11 @@ title: Progress - WP Manager
 description: Development progress and current status
 sidebar:
   order: 10
+  badge:
+    text: New
+    variant: tip
+isNew: true
+newUntil: "2026-02-01"
 ---
 
 ## Current Status

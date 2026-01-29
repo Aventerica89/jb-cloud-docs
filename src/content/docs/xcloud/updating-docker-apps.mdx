@@ -128,3 +128,60 @@ cd /var/www/openweb.jbmdcreations.dev && docker compose up -d
 - Use `docker compose` (with a space), not `docker-compose` (with hyphen)
 - Your data is preserved in Docker volumes
 - Check your app after updating to ensure it's working correctly
+
+## Using with Claude Code
+
+Claude Code can assist with Docker app updates on xCloud, even though it can't directly run Docker commands via SSH.
+
+### Workflow with Claude
+
+Since Docker commands require the xCloud Command Runner (not SSH), use this workflow:
+
+**1. Run commands in xCloud Command Runner**
+**2. Paste output to Claude**
+**3. Claude analyzes and suggests next steps**
+
+### Example: Updating OpenWebUI with Claude Help
+
+**Tell Claude what you want to do:**
+> I need to update OpenWebUI on my xCloud server. Can you help me with the commands?
+
+**Claude provides the sequence:**
+```bash
+# Step 1: Find your container
+docker ps
+
+# Step 2: Pull latest image
+docker pull ghcr.io/open-webui/open-webui:main
+
+# Step 3: Restart with new image
+cd /var/www/openweb.jbmdcreations.dev && docker compose up -d
+```
+
+### Claude Can Help With
+
+- **Finding the right image tag** - Ask Claude about latest versions
+- **Troubleshooting failed updates** - Paste error messages
+- **Rollback procedures** - If an update breaks something
+- **Checking container health** - Interpret `docker logs` output
+
+### Useful Commands to Share with Claude
+
+Run these in Command Runner and paste output to Claude for analysis:
+
+| Task | Command |
+|------|---------|
+| List all containers | `docker ps -a` |
+| Check container logs | `docker logs container-name --tail 50` |
+| Inspect container config | `docker inspect container-name` |
+| Check disk space | `df -h` |
+
+### Automating with Environment Variables
+
+For repeated updates, set up environment variables (see [SSH Setup - Claude Code section](/xcloud/ssh-setup/#using-with-claude-code)):
+
+```bash
+export XCLOUD_DOMAIN="your-domain.com"
+```
+
+Then tell Claude: "Update my Docker app at $XCLOUD_DOMAIN"

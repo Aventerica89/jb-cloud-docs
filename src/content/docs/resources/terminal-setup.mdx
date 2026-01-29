@@ -139,3 +139,58 @@ rm -rf ~/.git
 ```
 
 **Result:** Prompt is clean; Git status now only appears when inside actual project folders.
+
+## Using with Claude Code
+
+Claude Code integrates seamlessly with this terminal setup and can help you customize it further.
+
+### Configuration Assistance
+
+Ask Claude to customize your setup:
+
+> Add a keybinding to Ghostty that opens a new tab with Cmd+T
+
+Claude edits `~/.config/ghostty/config`:
+```ini
+keybind = cmd+t=new_tab
+```
+
+### Starship Prompt Customization
+
+Tell Claude your preferences:
+
+> I want my Starship prompt to show Node.js version and hide the username
+
+Claude generates the `~/.config/starship.toml` configuration.
+
+### Creating Aliases
+
+Ask Claude to add useful aliases:
+
+> Add an alias for 'git status' as 'gs' and 'git diff' as 'gd'
+
+Claude edits `~/.zshrc`:
+```bash
+alias gs="git status"
+alias gd="git diff"
+```
+
+### Zsh Plugin Troubleshooting
+
+If plugins aren't loading, share your `.zshrc`:
+
+```bash
+cat ~/.zshrc
+```
+
+Claude identifies missing sources or incorrect paths.
+
+### Image Pasting with Claude
+
+In this terminal setup, paste images directly to Claude Code:
+
+1. Copy an image (screenshot, error dialog, etc.)
+2. Press `Ctrl+V` (not Cmd+V) in Claude Code
+3. Claude receives the image for analysis
+
+This is especially useful for debugging visual issues or sharing error screenshots.

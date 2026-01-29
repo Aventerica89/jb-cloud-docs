@@ -171,3 +171,56 @@ Updates are tracked in the `update_log` table:
 | errorMessage | text | Error details if failed |
 | startedAt | text | Timestamp when update started |
 | completedAt | text | Timestamp when update finished |
+
+## Using with Claude Code
+
+Claude Code can help you manage bulk updates, troubleshoot failures, and automate update workflows.
+
+### Troubleshooting Update Failures
+
+Share error logs with Claude:
+
+> My bulk update failed with "rest_no_route" error on 3 sites. Here's the API response: [paste response]
+
+Claude will identify the issue (outdated connector plugin) and provide the fix.
+
+### Analyzing Update Patterns
+
+Ask Claude to analyze your update data:
+
+```bash
+# Get recent update history
+curl http://localhost:3000/api/updates/history
+```
+
+Paste the output to Claude for analysis:
+- Which plugins update most frequently?
+- Which sites have the most failures?
+- Are there patterns in failed updates?
+
+### Generating Update Reports
+
+Tell Claude what you need:
+
+> Generate a weekly update report showing all updates from the last 7 days, grouped by site
+
+Claude can write SQL queries or API calls to extract this data.
+
+### Automating Update Workflows
+
+Ask Claude to help script updates:
+
+```bash
+# Claude can generate scripts like:
+curl -X POST http://localhost:3000/api/updates/bulk \
+  -H "Content-Type: application/json" \
+  -d '{"updateIds": [1, 2, 3]}'
+```
+
+### Pre-Update Checks
+
+Before running bulk updates, ask Claude:
+
+> Check if all my sites are reachable before I run bulk updates
+
+Claude generates health check commands for each site.
