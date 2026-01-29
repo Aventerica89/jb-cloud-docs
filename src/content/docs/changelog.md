@@ -14,6 +14,14 @@ Track when new documentation is added for jbcloud.app projects.
 ### January 29, 2026
 
 **Updated Documentation**
+- [WP Manager](/wp-manager/) - Security hardening and database migration complete
+  - Resolved all CRITICAL and HIGH security issues
+  - JWT secret enforcement, timing-safe password comparison, comprehensive input validation
+  - Deployed 15 new tables to production (Tags, Monitoring, Notifications, Multi-tenant)
+  - Added navigation links for Tags, Monitoring, and Notifications features
+  - Created 3 reusable skill files for common issues
+  - 14 PRs merged and deployed to https://cloud-manager.jbcloud.app
+
 - [JB Cloud App Tracker](/jb-cloud-app-tracker/) - 1Password CLI integration and UI enhancements
   - 1Password CLI integration for secure environment variable management
   - `.env.local.tpl` template with secret references
