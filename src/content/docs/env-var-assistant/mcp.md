@@ -391,6 +391,90 @@ The MCP server validates:
 3. **Use separate vaults** - Consider a dedicated "API Keys" vault
 4. **Rotate regularly** - Use dashboard URLs to quickly access rotation pages
 
+## Platform-Specific Known Issues
+
+### Vercel
+
+**Issue:** CLI v50.8.1 doesn't support the `--project` flag used by `deploy_env_vars`.
+
+**Error:**
+```
+Error: unknown flag: --project
+```
+
+**Workaround:** Use the Vercel API directly instead of the CLI:
+
+```bash
+# Get your Vercel token from 1Password or environment
+export VERCEL_TOKEN="your_token"
+
+# Deploy env var
+curl -X POST "https://api.vercel.com/v10/projects/YOUR_PROJECT_ID/env" \
+  -H "Authorization: Bearer $VERCEL_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "key": "ANTHROPIC_API_KEY",
+    "value": "your_value",
+    "type": "encrypted",
+    "target": ["production"]
+  }'
+```
+
+**Status:** The MCP tool works if you specify the project by navigating to the project directory first, but doesn't work with the `--project` flag.
+
+### Cloudflare
+
+**Issue:** `wrangler` doesn't handle multiple accounts correctly when using `deploy_env_vars`.
+
+**Error:**
+```
+You have access to multiple accounts, please specify an account ID
+```
+
+**Workaround:** Set `CLOUDFLARE_ACCOUNT_ID` environment variable before deployment:
+
+```bash
+# Add to ~/.zshrc or ~/.bashrc
+export CLOUDFLARE_ACCOUNT_ID="your_account_id"
+
+# Or set it temporarily
+CLOUDFLARE_ACCOUNT_ID="your_account_id" wrangler secret put KEY_NAME
+```
+
+**How to find your account ID:**
+
+1. Visit [dash.cloudflare.com](https://dash.cloudflare.com)
+2. Select any worker
+3. Copy the account ID from the URL: `dash.cloudflare.com/{account_id}/workers`
+
+**Status:** Works correctly once `CLOUDFLARE_ACCOUNT_ID` is set.
+
+### GitHub
+
+**Status:** No issues detected. The `gh secret set` commands work correctly with `deploy_env_vars`.
+
+**Tested successfully:**
+```bash
+# Repository secrets
+gh secret set ANTHROPIC_API_KEY --repo Aventerica89/jb-cloud-docs
+
+# Organization secrets
+gh secret set KEY_NAME --org your-org
+```
+
+### Testing Summary
+
+| Platform | CLI Version | MCP Tool Status | Notes |
+|----------|-------------|-----------------|-------|
+| Vercel | v50.8.1 | Partial | Use API directly or navigate to project dir |
+| Cloudflare | wrangler 3.94.0 | Works with workaround | Requires `CLOUDFLARE_ACCOUNT_ID` env var |
+| GitHub | gh 2.65.0 | Works | No issues |
+| Netlify | Not tested | Unknown | - |
+| Railway | Not tested | Unknown | - |
+| Fly.io | Not tested | Unknown | - |
+
+**Last tested:** 2026-01-28
+
 ## Troubleshooting
 
 ### "1Password CLI not authenticated"
