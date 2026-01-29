@@ -90,6 +90,10 @@ export default defineConfig({
 					autogenerate: { directory: '1code' },
 				},
 				{
+					label: 'Artifact Manager (macOS)',
+					autogenerate: { directory: 'artifact-manager-mac' },
+				},
+				{
 					label: 'BCMS',
 					autogenerate: { directory: 'bcms' },
 				},
