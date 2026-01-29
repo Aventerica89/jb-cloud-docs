@@ -92,72 +92,44 @@ When pasting your key in xCloud, ensure:
 
 ## Using with Claude Code
 
-Claude Code can connect to your xCloud server via SSH, enabling AI-assisted server management, Docker operations, and troubleshooting.
+Claude Code can connect to your xCloud server via SSH, enabling AI-assisted server management, Docker operations, and troubleshooting. This is particularly useful for complex tasks like [configuring Ollama memory](/xcloud/ollama-memory-configuration/) or [updating Docker apps](/xcloud/updating-docker-apps/).
+
+<Mermaid title="Claude Code + xCloud Integration">
+{`flowchart TB
+    subgraph Local["Your Machine"]
+        Claude[Claude Code]
+        SSH[SSH Key]
+        Config[~/.claude/settings.json]
+    end
+
+    subgraph xCloud["xCloud Server"]
+        SSHDaemon[SSH Daemon]
+        Docker[Docker Engine]
+        Apps[Docker Apps]
+    end
+
+    subgraph Dashboard["xCloud Dashboard"]
+        Runner[Command Runner]
+    end
+
+    Claude -->|"Reads"| Config
+    Claude -->|"Uses"| SSH
+    SSH -->|"Connects"| SSHDaemon
+    SSHDaemon -->|"File operations"| Apps
+    SSHDaemon -.->|"No access"| Docker
+    Runner -->|"Root access"| Docker
+    Docker --> Apps
+
+    style Docker fill:#f96,stroke:#333
+    style Runner fill:#9f6,stroke:#333
+`}
+</Mermaid>
 
 ### Setting Up Claude Code for SSH Access
 
-#### Method 1: Using the Command Section
+#### Method 1: Command Permissions (settings.json)
 
-In Claude Code settings, you can configure SSH as an allowed command. Add the following to your `.claude/settings.json`:
-
-```json
-{
-  "permissions": {
-    "allow": [
-      "Bash(ssh -i ~/.ssh/id_xcloud *)"
-    ]
-  }
-}
-```
-
-This allows Claude to run SSH commands to any host using your xCloud key.
-
-#### Method 2: Using Environment Variables
-
-For repeated sessions, set environment variables in your shell profile (`~/.zshrc` or `~/.bashrc`):
-
-```bash
-# xCloud SSH Configuration
-export XCLOUD_SSH_KEY="~/.ssh/id_xcloud"
-export XCLOUD_USER="your-username"
-export XCLOUD_HOST="your-server-ip"
-```
-
-Then in Claude Code, you can reference these variables:
-
-```bash
-ssh -i $XCLOUD_SSH_KEY $XCLOUD_USER@$XCLOUD_HOST
-```
-
-### Claude Code SSH Examples
-
-Once configured, you can ask Claude to:
-
-**Check server status:**
-```bash
-ssh -i ~/.ssh/id_xcloud user@host "uptime && df -h"
-```
-
-**List Docker containers:**
-> **Note:** Docker commands require the xCloud Command Runner. SSH users don't have Docker socket permissions. See [Updating Docker Apps](/xcloud/updating-docker-apps/) for details.
-
-**Edit configuration files:**
-```bash
-ssh -i ~/.ssh/id_xcloud user@host "cat /var/www/your-domain.com/docker-compose.yml"
-```
-
-### xCloud Command Runner Integration
-
-For Docker operations that require root access, use the xCloud Command Runner instead of SSH. You can provide Claude with command runner outputs and ask it to help analyze or troubleshoot.
-
-Example workflow:
-1. Run `docker ps` in the xCloud Command Runner
-2. Paste the output to Claude
-3. Claude can help identify issues, suggest updates, or write new docker-compose configurations
-
-### Recommended Claude Code Configuration
-
-For full xCloud management, add these to your Claude Code allowed commands:
+Configure SSH as an allowed command in your Claude Code settings. Create or edit `~/.claude/settings.json`:
 
 ```json
 {
@@ -170,11 +142,31 @@ For full xCloud management, add these to your Claude Code allowed commands:
 }
 ```
 
-This enables both SSH connections and secure file transfers.
+This allows Claude to:
+- Run SSH commands to any host using your xCloud key
+- Transfer files via SCP
 
-### Session Persistence
+#### Method 2: Environment Variables
 
-For extended sessions, consider using SSH config for cleaner commands. Add to `~/.ssh/config`:
+For repeated sessions, set environment variables in your shell profile (`~/.zshrc` or `~/.bashrc`):
+
+```bash
+# xCloud SSH Configuration
+export XCLOUD_SSH_KEY="$HOME/.ssh/id_xcloud"
+export XCLOUD_USER="your-username"
+export XCLOUD_HOST="your-server-ip"
+export XCLOUD_DOMAIN="your-domain.com"
+```
+
+Then tell Claude to use these variables:
+
+```bash
+ssh -i $XCLOUD_SSH_KEY $XCLOUD_USER@$XCLOUD_HOST
+```
+
+#### Method 3: SSH Config (Recommended)
+
+For the cleanest setup, add to `~/.ssh/config`:
 
 ```
 Host xcloud
@@ -184,10 +176,210 @@ Host xcloud
     AddKeysToAgent yes
 ```
 
-Then simply use:
-```bash
-ssh xcloud
+Then add to Claude Code permissions:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(ssh xcloud *)",
+      "Bash(scp xcloud:* *)",
+      "Bash(scp * xcloud:*)"
+    ]
+  }
+}
 ```
+
+Now Claude can simply use:
+```bash
+ssh xcloud "command here"
+```
+
+### What Claude Can Do Via SSH
+
+Once configured, Claude can run commands on your server:
+
+**Check server status:**
+```bash
+ssh xcloud "uptime && df -h && free -m"
+```
+
+**Read configuration files:**
+```bash
+ssh xcloud "cat /var/www/your-domain.com/docker-compose.yml"
+```
+
+**Edit files (using sed or heredoc):**
+```bash
+ssh xcloud "sed -i 's/old-value/new-value/' /var/www/your-domain.com/.env"
+```
+
+**Check logs:**
+```bash
+ssh xcloud "tail -100 /var/log/nginx/error.log"
+```
+
+**Manage services:**
+```bash
+ssh xcloud "sudo systemctl status nginx"
+```
+
+### SSH Limitations: Docker Access
+
+> **Important:** Docker commands (`docker ps`, `docker exec`, etc.) **cannot** be run via SSH on xCloud. The SSH user doesn't have Docker socket permissions.
+
+<Mermaid title="SSH vs Command Runner Permissions">
+{`flowchart LR
+    subgraph SSH["SSH Connection"]
+        SSHUser[SSH User]
+        Socket1[Docker Socket]
+        SSHUser -.->|"Permission Denied"| Socket1
+    end
+
+    subgraph Runner["Command Runner"]
+        Root[Root Context]
+        Socket2[Docker Socket]
+        Root -->|"Full Access"| Socket2
+    end
+`}
+</Mermaid>
+
+For Docker operations, use the **xCloud Command Runner** (Server Dashboard > Management > Commands).
+
+### Working with Claude + Command Runner
+
+Since Claude can't directly run Docker commands, use this workflow:
+
+**Step 1:** Run Docker command in xCloud Command Runner
+```bash
+docker ps
+```
+
+**Step 2:** Copy the output and paste it to Claude
+
+**Step 3:** Claude analyzes and provides next steps
+
+**Example: Diagnosing Ollama Memory Issues**
+
+Run in Command Runner:
+```bash
+docker inspect $(docker ps -q --filter name=ollama) | grep -i memory
+```
+
+Paste output to Claude. Claude will recognize patterns like:
+- `"Memory": 2147483648` = 2GB limit (often too low)
+- `"Memory": 12884901888` = 12GB limit (good for most models)
+
+Claude can then generate the exact commands to fix it:
+```bash
+# Stop and remove old container
+docker stop ollama-your-domain.com && docker rm ollama-your-domain.com
+
+# Recreate with more memory
+docker run -d --name ollama-your-domain.com \
+  --memory=12g \
+  --restart unless-stopped \
+  -p 127.0.0.1:18016:11434 \
+  -v /var/www/your-domain.com/data:/root/.ollama \
+  ollama/ollama:latest
+```
+
+### Real-World Example: Ollama + Open WebUI Setup
+
+This example shows the full workflow used to configure Ollama memory on xCloud:
+
+**1. Diagnose the problem** (Command Runner)
+```bash
+# Check current memory limit
+docker inspect ollama-your-domain.com | grep '"Memory"'
+
+# Check model requirements
+# llama2-uncensored (7B): ~4.5GB
+# deepseek-r1:1.5b: ~2GB
+# llama2:13b: ~8GB
+```
+
+**2. Get container config before removing** (Command Runner)
+```bash
+docker inspect ollama-your-domain.com --format '{{range .Mounts}}{{.Source}}:{{.Destination}}{{"\n"}}{{end}}'
+# Output: /var/www/your-domain.com/data:/root/.ollama
+```
+
+**3. Recreate with more memory** (Command Runner)
+```bash
+docker stop ollama-your-domain.com && docker rm ollama-your-domain.com
+
+docker run -d --name ollama-your-domain.com \
+  --memory=12g \
+  --restart unless-stopped \
+  -p 127.0.0.1:18016:11434 \
+  -v /var/www/your-domain.com/data:/root/.ollama \
+  ollama/ollama:latest
+```
+
+**4. Reconnect to Open WebUI network** (Command Runner)
+```bash
+# Find the network
+docker inspect $(docker ps -q --filter name=openweb) --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}}{{end}}'
+
+# Connect Ollama (alias is critical for Open WebUI)
+docker network connect --alias ollama <NETWORK_NAME> ollama-your-domain.com
+```
+
+**5. Verify** (Command Runner)
+```bash
+docker inspect ollama-your-domain.com --format '{{.HostConfig.Memory}}'
+# Should return: 12884901888 (12GB)
+```
+
+Throughout this process, Claude can help you understand error messages, suggest memory values, and generate the exact commands.
+
+### Docker Command Reference
+
+Commands to run in **xCloud Command Runner** (not SSH):
+
+| Task | Command |
+|------|---------|
+| List containers | `docker ps` |
+| Find specific container | `docker ps -q --filter name=ollama` |
+| Check memory limit | `docker inspect container-name \| grep Memory` |
+| Get volume mounts | `docker inspect container-name --format '{{range .Mounts}}{{.Source}}:{{.Destination}}{{"\\n"}}{{end}}'` |
+| Pull latest image | `docker pull image:tag` |
+| View logs | `docker logs container-name` |
+| Restart with compose | `cd /var/www/domain && docker compose up -d` |
+| Find container network | `docker inspect container-name --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}}{{end}}'` |
+| Connect to network | `docker network connect --alias name network container` |
+
+### Session Management with Claude
+
+For extended troubleshooting sessions, use Claude Code's session commands:
+
+```bash
+# Save your session context
+/context-save xcloud-ollama
+
+# Later, restore it
+/context-restore xcloud-ollama
+
+# Quick reminder of current context
+/remind
+```
+
+This preserves all the server details, commands run, and troubleshooting progress.
+
+### Troubleshooting with Claude
+
+**Claude can help diagnose issues when you provide:**
+
+1. **Error messages** - Paste the exact error text
+2. **Command output** - Results from `docker ps`, `docker logs`, etc.
+3. **Configuration files** - Contents of `docker-compose.yml`, `.env`
+4. **System info** - Output from `df -h`, `free -m`, `uptime`
+
+**Example prompt to Claude:**
+> I'm getting "model requires more system memory (4.5 GiB) than is available (2.0 GiB)" when trying to run llama2-uncensored on Ollama. Here's my docker inspect output: [paste output]. How do I fix this?
+
+Claude will walk you through the exact steps to resolve it
 
 <RelatedDocs links={[
   { href: '/xcloud/updating-docker-apps/', label: 'Updating Docker Apps', description: 'How to update Docker containers on xCloud' },
