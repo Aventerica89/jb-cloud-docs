@@ -229,6 +229,8 @@ ssh xcloud "tail -100 /var/log/nginx/error.log"
 ssh xcloud "sudo systemctl status nginx"
 ```
 
+> **Note:** Running `sudo` commands via SSH requires the SSH user to have passwordless sudo privileges configured on the server. On default xCloud setups, this may not be available. Use the xCloud Command Runner for commands requiring root access.
+
 ### SSH Limitations: Docker Access
 
 > **Important:** Docker commands (`docker ps`, `docker exec`, etc.) **cannot** be run via SSH on xCloud. The SSH user doesn't have Docker socket permissions.
@@ -347,7 +349,7 @@ Commands to run in **xCloud Command Runner** (not SSH):
 |------|---------|
 | List containers | `docker ps` |
 | Find specific container | `docker ps -q --filter name=ollama` |
-| Check memory limit | `docker inspect container-name \| grep Memory` |
+| Check memory limit | `docker inspect container-name \| grep -i memory` |
 | Get volume mounts | `docker inspect container-name --format '{{range .Mounts}}{{.Source}}:{{.Destination}}{{"\\n"}}{{end}}'` |
 | Pull latest image | `docker pull image:tag` |
 | View logs | `docker logs container-name` |
