@@ -13,15 +13,76 @@ Track when new documentation is added for jbcloud.app projects.
 
 ### January 28, 2026
 
-**New Documentation**
-- [Env Var Assistant](/env-var-assistant/) - API key management extension for Claude Code
+**New Projects**
+- [Artifact Manager (macOS)](/artifact-manager-mac/) - Native macOS app for tracking Claude.ai artifacts
+  - Built with SwiftUI and SwiftData
+  - Placeholder name prevention and cleanup utility
+  - Rich metadata tracking (language, framework, Claude model)
+  - Collections for organization
+  - Companion to artifact-manager.jbmd-creations.workers.dev
+
+- [1Code](/1code/) - Local-first Electron desktop app for AI-powered code assistance
+  - Local-first with SQLite storage
+  - Project-based chat sessions linked to folders
+  - Plan and Agent modes with real-time tool execution
+  - Built with Electron, React, tRPC, and Claude Code SDK
+
+- [JB Cloud App Tracker](/jb-cloud-app-tracker/) - Track cloud applications across multiple providers
+  - Live at apps.jbcloud.app
+  - Vercel and Cloudflare auto-sync integrations
+  - Next.js 15 + Supabase
+  - Dashboard with deployment tracking
+
+- [JB Cloud Docs](/jb-cloud-docs/) - Meta-documentation for this documentation site
+  - Architecture and contribution guide
+  - /jbdocs command integration
+  - API endpoints for chat assistant
+
+**New Documentation & Features**
+- [Terminal Environment Setup](/terminal-setup/) - Complete terminal configuration guide
+  - Image support for iTerm2 and Warp
+  - Shell environment configuration
+  - Claude Code integration
+
+- Documentation Site Enhancements
+  - Sidebar validation to prevent orphaned pages
+  - Sidebar expand/collapse with state persistence
+  - Changelog badge showing doc count
+  - UI/UX components (DocVersionInfo, ChangelogList)
+  - Mermaid diagram support across all docs
+  - Automated popularity tracking and badge expiration
+
+**Updated Documentation**
+- [Claude Code](/claude-code/) - Multiple new features documented
+  - /cli command for checking available tools and MCP servers
+  - /remind --on auto-remind feature with turn-based context reminders
+  - /jbdocs Phase 1 flags and integration
+  - Security suite documentation
+  - CLI-first rule additions
+
+- [Claude New Project](/claude-new-project/) - Mobile app companion
+  - 1Code mobile companion integration
+  - Enhanced project initialization workflow
+
+- [Env Var Assistant](/env-var-assistant/) - Major feature additions
+  - Auto-integration section in MCP documentation
+  - Safari extension support
+  - deploy_env_vars and list_platforms MCP tools
   - Syncs secrets between 1Password and deployment platforms
   - For apps.jbcloud.app
 
-**Updated Documentation**
-- [WP Manager](/wp-manager/) v1.3 - Added Phase 5 organization features
+- [LinkShort](/linkshort/) - Security and progress updates
+  - Critical security improvements documented
+  - Session progress tracking
+  - Architecture documentation
+
+- [WP Manager](/wp-manager/) - Organization and security
+  - Phase 5 organization features
   - Multi-site management capabilities
   - Team collaboration workflows
+  - Activity logging system
+  - Security documentation
+  - Commands count updates
 
 ### January 24, 2026
 
