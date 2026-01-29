@@ -1352,3 +1352,144 @@ h3:has(a[href*="Claude"]) {
 .right-sidebar a[href*="Claude"]:hover::after {
   opacity: 1;
 }
+
+/* ===========================================
+   READING PROGRESS BAR
+   Shows scroll progress at top of page
+   =========================================== */
+
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #635BFF, #8B5CF6, #00D4FF);
+  z-index: 9999;
+  transition: width 0.1s ease-out;
+}
+
+/* ===========================================
+   TOC PROGRESS HIGHLIGHT
+   Highlights current section in table of contents
+   =========================================== */
+
+.right-sidebar a.toc-active {
+  color: var(--sl-color-accent) !important;
+  font-weight: 600;
+}
+
+.right-sidebar a.toc-active::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 80%;
+  background: var(--sl-color-accent);
+  border-radius: 2px;
+}
+
+/* ===========================================
+   FEEDBACK WIDGET
+   "Was this helpful?" at bottom of docs
+   =========================================== */
+
+.feedback-widget {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 12px;
+  background: rgba(99, 91, 255, 0.03);
+  text-align: center;
+}
+
+.feedback-widget p {
+  margin: 0 0 1rem;
+  font-size: 0.9375rem;
+  color: var(--sl-color-gray-2);
+}
+
+.feedback-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.feedback-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--sl-color-text);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.feedback-btn:hover {
+  border-color: var(--sl-color-accent);
+  background: rgba(99, 91, 255, 0.08);
+}
+
+.feedback-btn.selected {
+  border-color: var(--sl-color-accent);
+  background: rgba(99, 91, 255, 0.15);
+  color: var(--sl-color-accent);
+}
+
+.feedback-thanks {
+  display: none;
+  color: var(--sl-color-accent);
+  font-weight: 500;
+}
+
+.feedback-widget.submitted .feedback-buttons {
+  display: none;
+}
+
+.feedback-widget.submitted .feedback-thanks {
+  display: block;
+}
+
+/* ===========================================
+   KEYBOARD SHORTCUTS HINT
+   Shows available shortcuts
+   =========================================== */
+
+.keyboard-hint {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  padding: 8px 12px;
+  background: var(--sl-color-bg-nav);
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--sl-color-gray-3);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.2s ease;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.keyboard-hint.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.keyboard-hint kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  background: var(--sl-color-bg);
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 11px;
+  margin: 0 2px;
+}
