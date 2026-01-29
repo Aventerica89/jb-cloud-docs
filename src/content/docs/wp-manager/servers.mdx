@@ -101,7 +101,7 @@ interface ProviderMetadata {
   name: string;           // Display name
   logoUrl: string;        // Provider logo
   dashboardUrl: string;   // Base dashboard URL
-  serverUrlPattern: string; // URL pattern with {serverId}
+  serverUrlPattern: string; // URL pattern with &#123;serverId&#125;
   docsUrl: string;        // Documentation
   supportUrl: string;     // Support page
   communityUrl?: string;  // Facebook, Discord, etc.
@@ -118,7 +118,7 @@ interface ProviderMetadata {
 
     subgraph Example
         E["my.xcloud.host"]
-        F["/servers/{serverId}"]
+        F["/servers/serverId"]
         G["12345"]
         H["my.xcloud.host/servers/12345"]
     end
@@ -129,7 +129,7 @@ When you add a server with a Provider ID (from your provider's dashboard URL), W
 
 ```
 Provider Dashboard URL + Server URL Pattern + Server ID
-https://my.xcloud.host + /servers/{serverId} + 12345
+https://my.xcloud.host + /servers/&#123;serverId&#125; + 12345
 = https://my.xcloud.host/servers/12345
 ```
 
@@ -319,6 +319,6 @@ Claude provides the migration SQL and TypeScript changes.
 
 Need a custom provider? Tell Claude:
 
-> Add SpinupWP as a provider with dashboard at spinupwp.app and server pattern /servers/{serverId}
+> Add SpinupWP as a provider with dashboard at spinupwp.app and server pattern /servers/&#123;serverId&#125;
 
 Claude generates the POST request with proper metadata.
