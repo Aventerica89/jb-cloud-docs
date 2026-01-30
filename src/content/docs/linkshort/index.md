@@ -62,7 +62,7 @@ React Native companion app with:
 
 ### Deploy Your Own Instance
 
-1. **Fork the repo**: [github.com/user/cf-url-shortener](https://github.com)
+1. **Fork the repo**: [cf-url-shortener](https://github.com/Aventerica89/cf-url-shortener)
 
 2. **Set up Cloudflare**:
 ```bash
