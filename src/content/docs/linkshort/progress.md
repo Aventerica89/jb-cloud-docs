@@ -1,6 +1,6 @@
 ---
-title: Progress - LinksToGo
-description: Development progress and recent updates for LinksToGo URL Shortener
+title: Progress - URLsToGo
+description: Development progress and recent updates for URLsToGo URL Shortener
 sidebar:
   order: 10
 ---

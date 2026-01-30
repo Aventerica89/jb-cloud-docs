@@ -1,13 +1,13 @@
 ---
-title: Architecture - LinksToGo
-description: System architecture and technical design of the LinksToGo URL shortener
+title: Architecture - URLsToGo
+description: System architecture and technical design of the URLsToGo URL shortener
 sidebar:
   order: 1
 ---
 
 ## System Overview
 
-LinksToGo is built on Cloudflare's serverless infrastructure, leveraging Workers for compute and D1 for storage. The architecture is designed for global low-latency access and zero-maintenance scaling.
+URLsToGo is built on Cloudflare's serverless infrastructure, leveraging Workers for compute and D1 for storage. The architecture is designed for global low-latency access and zero-maintenance scaling.
 
 ```
 User Request: links.jbcloud.app/shortcode
@@ -377,13 +377,13 @@ Planned enhancements:
 
 ## Using with Claude Code
 
-Claude Code can help you develop, debug, and extend LinksToGo.
+Claude Code can help you develop, debug, and extend URLsToGo.
 
 ### Worker Development
 
 Ask Claude to add new features:
 
-> Add a QR code generation endpoint to the LinksToGo worker
+> Add a QR code generation endpoint to the URLsToGo worker
 
 Claude generates the Cloudflare Worker code with proper D1 integration.
 
