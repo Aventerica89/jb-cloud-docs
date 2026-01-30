@@ -1,6 +1,6 @@
 ---
-title: Progress - LinkShort
-description: Development progress and recent updates for LinkShort URL Shortener
+title: Progress - LinksToGo
+description: Development progress and recent updates for LinksToGo URL Shortener
 sidebar:
   order: 10
 ---

@@ -1,13 +1,13 @@
 ---
-title: Architecture - LinkShort
-description: System architecture and technical design of the LinkShort URL shortener
+title: Architecture - LinksToGo
+description: System architecture and technical design of the LinksToGo URL shortener
 sidebar:
   order: 1
 ---
 
 ## System Overview
 
-LinkShort is built on Cloudflare's serverless infrastructure, leveraging Workers for compute and D1 for storage. The architecture is designed for global low-latency access and zero-maintenance scaling.
+LinksToGo is built on Cloudflare's serverless infrastructure, leveraging Workers for compute and D1 for storage. The architecture is designed for global low-latency access and zero-maintenance scaling.
 
 ```
 User Request: links.jbcloud.app/shortcode
@@ -377,13 +377,13 @@ Planned enhancements:
 
 ## Using with Claude Code
 
-Claude Code can help you develop, debug, and extend LinkShort.
+Claude Code can help you develop, debug, and extend LinksToGo.
 
 ### Worker Development
 
 Ask Claude to add new features:
 
-> Add a QR code generation endpoint to the LinkShort worker
+> Add a QR code generation endpoint to the LinksToGo worker
 
 Claude generates the Cloudflare Worker code with proper D1 integration.
 

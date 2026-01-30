@@ -24,7 +24,7 @@ Track when new documentation is added for jbcloud.app projects.
 ### January 29, 2026
 
 **Updated Documentation**
-- [LinkShort URL Shortener](/linkshort/) - Repository renamed from cf-url-shortener to URLsToGo
+- [LinksToGo](/linkshort/) - Repository renamed from cf-url-shortener to URLsToGo
   - Updated all GitHub repository links
   - Updated source project paths
   - Updated artifact manager references
@@ -180,7 +180,7 @@ Track when new documentation is added for jbcloud.app projects.
   - Syncs secrets between 1Password and deployment platforms
   - For apps.jbcloud.app
 
-- [LinkShort](/linkshort/) - Security and progress updates
+- [LinksToGo](/linkshort/) - Security and progress updates
   - Critical security improvements documented
   - Session progress tracking
   - Architecture documentation

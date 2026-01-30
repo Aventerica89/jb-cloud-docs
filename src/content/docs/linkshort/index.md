@@ -1,12 +1,14 @@
 ---
-title: LinkShort URL Shortener
+title: LinksToGo
 description: Fast, free URL shortener running on Cloudflare's edge network with multi-user support, categories, and analytics
 sidebar:
   order: 0
 source_project: /Users/jb/URLsToGo
 ---
 
-LinkShort is a production URL shortener that runs on Cloudflare's edge network. It features multi-user support, categories, tags, click analytics, and a clean dark UI inspired by Shadcn.
+LinksToGo is a production URL shortener that runs on Cloudflare's edge network. It features multi-user support, categories, tags, click analytics, and a clean dark UI inspired by Shadcn.
+
+**Live Domain**: [linkstogo.cloud](https://linkstogo.cloud)
 
 **Source Repository**: [URLsToGo](https://github.com/Aventerica89/URLsToGo)
 
@@ -126,7 +128,7 @@ See [Progress](/linkshort/progress) for full security audit details.
 
 ## Using with Claude Code
 
-Claude Code can help you deploy, customize, and maintain your LinkShort instance.
+Claude Code can help you deploy, customize, and maintain your LinksToGo instance.
 
 ### Deployment and Setup
 
@@ -142,7 +144,7 @@ wrangler deploy
 
 **Ask Claude Code for help:**
 ```
-"Set up my LinkShort instance with custom domain and Cloudflare Access"
+"Set up my LinksToGo instance with custom domain and Cloudflare Access"
 ```
 
 Claude Code will guide you through:

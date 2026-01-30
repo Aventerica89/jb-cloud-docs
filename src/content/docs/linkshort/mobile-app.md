@@ -1,5 +1,5 @@
 ---
-title: Mobile App - LinkShort
+title: Mobile App - LinksToGo
 description: React Native companion app for managing shortened links on iOS and Android
 sidebar:
   order: 2
@@ -7,7 +7,7 @@ sidebar:
 
 ## Overview
 
-The LinkShort Mobile App is a React Native companion app built with Expo, providing native iOS and Android access to your shortened links.
+The LinksToGo Mobile App is a React Native companion app built with Expo, providing native iOS and Android access to your shortened links.
 
 **Status**: In active development (Beta)
 
@@ -343,7 +343,7 @@ This mockup serves as the design reference for the React Native implementation.
 
 ## Using with Claude Code
 
-Claude Code can help you develop, test, and deploy the LinkShort mobile app.
+Claude Code can help you develop, test, and deploy the LinksToGo mobile app.
 
 ### Development Setup
 
