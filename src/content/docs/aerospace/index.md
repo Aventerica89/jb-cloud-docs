@@ -387,3 +387,154 @@ AeroSpace follows the Unix philosophy:
 - Configuration over clicking
 
 Tiling window management isn't for everyone, but if you value keyboard efficiency and hate manually resizing windows, AeroSpace might change how you work.
+
+## Using with Claude Code
+
+Claude Code can help you customize AeroSpace configuration and troubleshoot window management issues.
+
+### Configuration Management
+
+**Read and understand your config:**
+```bash
+# View current configuration
+cat ~/.aerospace.toml
+
+# Check for syntax errors
+aerospace reload-config
+```
+
+**Generate custom keybindings:**
+```
+"Add keybindings to:
+- Launch terminal with Alt+Enter
+- Toggle floating mode with Alt+Shift+F
+- Move window to specific display with Alt+Shift+M"
+```
+
+Claude Code will generate proper TOML syntax and ensure no conflicts with existing bindings.
+
+### Workspace Automation
+
+**Create workspace-specific rules:**
+```
+"Configure AeroSpace to automatically:
+- Send Slack to workspace C (communication)
+- Send VS Code to workspace D (development)
+- Send all browsers to workspace W (web)
+- Float all Preferences windows"
+```
+
+**Example output:**
+```toml
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace C'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.VSCode'
+run = 'move-node-to-workspace D'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
+run = 'layout floating'
+```
+
+### Troubleshooting
+
+**Debug keybinding conflicts:**
+```
+"Check if Alt+H conflicts with any macOS system shortcuts or other apps"
+```
+
+**Fix layout issues:**
+```
+"My windows are stuck in a weird nested layout. Show me the commands to:
+1. Flatten the workspace tree
+2. Reset to default layout
+3. Check current window tree structure"
+```
+
+**Example commands:**
+```bash
+# Enter service mode and flatten
+# Press Alt+Shift+; then 'r'
+
+# Or via CLI
+aerospace flatten-workspace-tree
+```
+
+### Custom Layouts
+
+**Design complex workspace layouts:**
+```
+"Create a development workspace with:
+- Left half: Terminal (top 60%) and file manager (bottom 40%)
+- Right half: VS Code (full height)
+- All with 10px gaps"
+```
+
+Claude Code will provide the TOML config and explain the layout structure.
+
+### Integration with Other Tools
+
+**Combine with other macOS tools:**
+```
+"Show me how to:
+- Use aerospace with Raycast for app launching
+- Integrate with yabai (if I want to try both)
+- Set up aerospace to start at login
+- Create Alfred workflows for workspace switching"
+```
+
+### Real-World Examples
+
+**Example 1: Developer workflow**
+```
+"Set up workspaces for:
+1 = Terminal + Editor
+2 = Browser (docs)
+3 = Slack + Email
+4 = Database tools
+Create keybindings to quickly switch between these"
+```
+
+**Example 2: Multi-monitor setup**
+```
+"Configure aerospace for two monitors:
+- Monitor 1: Workspaces 1-5 (development)
+- Monitor 2: Workspaces 6-9 (communication)
+- Keybindings to move windows between monitors"
+```
+
+**Example 3: Application-specific layouts**
+```
+"When I open Figma, automatically:
+- Move it to workspace G
+- Set layout to floating
+- Maximize to full screen"
+```
+
+### Debugging
+
+**Inspect current state:**
+```bash
+# List all windows and workspaces
+aerospace list-windows --all
+
+# Show current workspace
+aerospace list-workspaces --focused
+
+# Check which apps are running
+aerospace list-apps
+```
+
+**Get help from Claude Code:**
+```
+"Why isn't my Alt+/ keybinding working to toggle layout?"
+```
+
+Claude Code will check for:
+- Syntax errors in config
+- Conflicting keybindings
+- macOS system shortcut conflicts
+- Whether you need to reload config

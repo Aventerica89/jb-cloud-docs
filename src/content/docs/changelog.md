@@ -11,6 +11,85 @@ Track when new documentation is added for jbcloud.app projects.
 
 ## January 2026
 
+### January 30, 2026 (Latest)
+
+**New Documentation & Features**
+- [AeroSpace Multi-Config Setup](/aerospace/multi-config/) - Symlink-based system for managing multiple window manager configurations
+  - Switch between minimal (5 workspaces) and full (35 workspaces) configs instantly
+  - Custom configs for laptop, desktop, work, focus mode
+  - Automatic config reloading with `aerospace-switch` CLI tool
+  - Real-world examples for context-based switching
+  - Compatible with existing AeroSpace installations
+
+### January 29, 2026
+
+**Updated Documentation**
+- [LinkShort URL Shortener](/linkshort/) - Repository renamed from cf-url-shortener to URLsToGo
+  - Updated all GitHub repository links
+  - Updated source project paths
+  - Updated artifact manager references
+  - New URL: https://github.com/Aventerica89/URLsToGo
+
+### January 30, 2026 (Earlier)
+
+**New Projects**
+- [Claude Codex](/claude-codex/) - Universal Claude Code configuration system
+  - 38+ custom commands for productivity shortcuts
+  - 12+ specialized agents (TDD, security, architecture, build fixes)
+  - 15+ reusable skills (frontend/backend patterns, continuous learning)
+  - Auto-sync daemon for cross-machine synchronization
+  - Browser extension for Claude.ai Projects integration
+  - Plugin-based distribution system
+  - GitHub Actions CI/CD workflows
+  - Comprehensive documentation with architecture and implementation plan
+  - GitHub: https://github.com/Aventerica89/claude-codex
+
+### January 30, 2026 (Earlier)
+
+**New Projects**
+- [Renvio Companion App](/renvio-companion-app/) - Hemodialysis clinic companion app for charting and workflow optimization
+  - Modern re-implementation of HDFlowsheet-Cloud
+  - Next.js 15 + Turso (libSQL) + Drizzle ORM + Better Auth
+  - HIPAA-compliant design for healthcare workflows
+  - Real-time flowsheet charting and vitals entry
+  - Foundation phase: database schema, authentication, core UI components
+  - GitHub: https://github.com/Aventerica89/renvio-companion-app
+
+**New Documentation & Features**
+- [Claude Code Integration](/changelog/) - Added comprehensive "Using with Claude Code" sections to all 33 documentation pages
+  - Development workflows, testing, and debugging examples for each project
+  - Real CLI commands and code generation patterns
+  - Platform-specific integration (SwiftUI, Cloudflare Workers, Next.js, etc.)
+  - Merged via PR #5
+
+- [SSH Setup Guide](/xcloud/ssh-setup/) - Comprehensive xCloud SSH access with Claude Code remote development
+  - 3 configuration methods (settings.json, env vars, SSH config)
+  - Docker command reference and xCloud Command Runner integration
+  - Real-world Ollama memory configuration example
+  - Merged via PR #4
+
+- /jbdocs Command Enhancement - Automatic "What's New" section updates
+  - New Step 5.5: Update What's New section on homepage with every sync
+  - Keeps only 2 most recent items in CardGrid
+  - Auto-removes older entries when adding new ones
+
+**Updated Documentation**
+- [Claude Code](/claude-code/) - New release and GitHub Actions commands
+  - Added `/create-release` command for automated versioning and git tag creation
+  - Added `/setup-github-actions` command for CI/CD workflow configuration
+  - Integrated both commands into `/new-project` workflow (Phase 6.8)
+  - Updated commands reference (now 38 total commands)
+  - Added Git & Releases section to command categories
+
+- [WP Manager](/wp-manager/) - 1Password integration and environment variable automation
+  - Implemented CLI-first workflow for secure credential management
+  - Added `npm run env:inject` for one-command environment setup
+  - Created `.env.local.tpl` template with 1Password secret references
+  - Stored all secrets in 1Password Business vault
+  - Deployed environment variables to Vercel (production, preview, development)
+  - Updated development workflow with team-friendly automation
+  - Live at https://cloud-manager.jbcloud.app
+
 ### January 29, 2026
 
 **Updated Documentation**

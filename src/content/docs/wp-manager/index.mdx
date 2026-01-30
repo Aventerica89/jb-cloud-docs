@@ -1,18 +1,27 @@
 ---
 title: WP Manager
 description: A self-hosted WordPress site management dashboard for centralized plugin/theme updates and health monitoring.
+source_project: /Users/jb/.21st/worktrees/jb-cloud-wp-manager/increased-terrace
 sidebar:
   order: 0
   badge:
     text: New
     variant: tip
-docVersion: "1.3"
-appVersion: "2.1.0"
+docVersion: "1.4"
+appVersion: "2.2.0"
 appName: "cloud-manager.jbcloud.app"
 addedDate: "2026-01-24"
 isNew: true
 newUntil: "2026-02-24"
 versionHistory:
+  - version: "1.4"
+    date: "2026-01-30"
+    appVersion: "2.2.0"
+    changes:
+      - "Added 1Password integration for environment variable management"
+      - "Added npm run env:inject for one-command credential setup"
+      - "Deployed all secrets to Vercel (production, preview, development)"
+      - "Updated development workflow with team-friendly automation"
   - version: "1.3"
     date: "2026-01-28"
     appVersion: "2.1.0"
@@ -222,15 +231,53 @@ WP Manager automatically detects the connector plugin and uses it for syncing.
 
 ## Development
 
-### Getting Started
+### Prerequisites
+
+- Node.js 18+
+- [1Password CLI](https://developer.1password.com/docs/cli/get-started/) (for secure credential management)
+- [Turso CLI](https://docs.turso.tech/cli/introduction)
+
+### Getting Started (Team Setup)
+
+The project uses 1Password for secure credential management:
 
 ```bash
 # Install dependencies
 npm install
 
-# Set up environment
+# Generate .env.local from 1Password (requires Business vault access)
+npm run env:inject
+
+# Push database schema
+npm run db:push
+
+# Start development server
+npm run dev
+```
+
+### Manual Setup (Development Only)
+
+If you don't have access to the team's 1Password vault:
+
+```bash
+# Install dependencies
+npm install
+
+# Copy example file
 cp .env.example .env.local
-# Add TURSO_DATABASE_URL and TURSO_AUTH_TOKEN
+
+# Generate secrets
+ENCRYPTION_SECRET=$(openssl rand -base64 32)
+AUTH_SECRET=$(openssl rand -base64 32)
+
+# Add to .env.local
+echo "ENCRYPTION_SECRET=$ENCRYPTION_SECRET" >> .env.local
+echo "AUTH_SECRET=$AUTH_SECRET" >> .env.local
+
+# Set up your own Turso database
+turso db create wp-manager-dev
+turso db show wp-manager-dev --url    # Add to .env.local
+turso db tokens create wp-manager-dev # Add to .env.local
 
 # Push database schema
 npm run db:push
@@ -258,9 +305,133 @@ npm test -- --coverage
 |---------|-------------|
 | `npm run dev` | Start dev server |
 | `npm run build` | Build for production |
+| `npm run env:inject` | Generate .env.local from 1Password |
 | `npm run db:push` | Push schema to database |
 | `npm run db:studio` | Open Drizzle Studio |
 | `npm test` | Run test suite |
+| `npm test -- --coverage` | Run with coverage report |
+
+## Using with Claude Code
+
+Claude Code can help you develop, test, and maintain WP Manager through its complete development lifecycle.
+
+### Development Setup
+
+Ask Claude to set up your development environment:
+
+> Set up the WP Manager development environment
+
+Claude will:
+```bash
+# Clone and install
+git clone https://github.com/Aventerica89/jb-cloud-wp-manager.git
+cd jb-cloud-wp-manager
+npm install
+
+# Set up environment
+cp .env.example .env.local
+# Claude will prompt for TURSO_DATABASE_URL and TURSO_AUTH_TOKEN
+
+# Push schema and start
+npm run db:push
+npm run dev
+```
+
+### Running Tests
+
+Claude can run the test suite and interpret results:
+
+```bash
+# Run all tests
+npm test
+
+# Watch mode for TDD
+npm test -- --watch
+
+# Coverage report
+npm test -- --coverage
+```
+
+If tests fail, share the output with Claude for diagnosis.
+
+### Adding New Features
+
+Tell Claude what you need:
+
+> Add a "backup status" field to the sites table that shows when each site was last backed up
+
+Claude will:
+1. Update the Drizzle schema in `src/db/schema.ts`
+2. Generate and run the migration
+3. Update TypeScript types
+4. Add UI components to display backup status
+5. Write tests for the new feature
+
+### Database Operations
+
+Ask Claude to help with database tasks:
+
+> Show me all sites that haven't been synced in 24 hours
+
+Claude uses Drizzle Studio or writes queries:
+```bash
+npm run db:studio
+```
+
+Or generates queries:
+```typescript
+const staleSites = await db.query.sites.findMany({
+  where: lt(sites.lastSyncedAt, new Date(Date.now() - 86400000))
+})
+```
+
+### Debugging API Issues
+
+Share error messages with Claude:
+
+> I'm getting "Failed to fetch" when syncing a site. Here's the network tab: [paste error]
+
+Claude will:
+- Check CORS configuration
+- Verify REST API endpoint
+- Test application password format
+- Suggest fixes for connector plugin issues
+
+### Code Reviews
+
+Ask Claude to review your changes:
+
+> Review this PR for security issues: [paste diff or file]
+
+Claude checks for:
+- SQL injection vulnerabilities
+- XSS in React components
+- Credential exposure
+- Rate limiting gaps
+
+### Performance Optimization
+
+Tell Claude about slow operations:
+
+> The dashboard takes 5 seconds to load with 50 sites
+
+Claude will:
+- Profile database queries
+- Suggest indexes
+- Recommend caching strategies
+- Identify N+1 query problems
+
+### Deployment
+
+Claude can help with Vercel deployment:
+
+```bash
+# Build and deploy
+npm run build
+vercel --prod
+```
+
+Claude diagnoses build errors and environment variable issues.
 
 ## Repository
 

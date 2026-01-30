@@ -108,3 +108,159 @@ Use actual `<image>` elements with absolute positioning instead of CSS backgroun
 
 ### ACSS Variables Always
 Never hardcode colors, spacing, or typography values. Always use ACSS variables like `var(--primary)`, `var(--space-m)`, `var(--h1)`.
+
+## Using with Claude Code
+
+Claude Code can help you work through the Bricks Builder Agent workflow efficiently.
+
+### Setup and Configuration
+
+**Initialize new campaign:**
+```
+"Set up a new campaign folder for client 'Acme Corp' and analyze their ACSS settings export"
+```
+
+Claude Code will:
+1. Create campaign directory structure
+2. Import ACSS settings
+3. Generate active settings reference
+4. Create README template
+
+**Verify setup:**
+```bash
+# Check campaign structure
+ls -la ~/.claude/projects/bricks-builder/campaigns/acme-corp
+
+# Validate ACSS settings
+node ~/.claude/projects/bricks-builder/scripts/analyze-acss.js \
+  ~/.claude/projects/bricks-builder/campaigns/acme-corp/acss-settings.json
+```
+
+### Screenshot to JSON Workflow
+
+**Step-by-step conversion:**
+```
+"Convert this screenshot to Bricks JSON:
+1. Analyze the layout
+2. Identify components (hero, cards, etc.)
+3. Map to ACSS variables from the active campaign
+4. Generate JSON with global classes
+5. Validate before exporting"
+```
+
+**Automated analysis:**
+```
+"Analyze this screenshot and tell me:
+- Layout structure (sections, containers, grids)
+- Component types detected
+- Estimated complexity (simple/medium/complex)
+- ACSS variables needed
+- Potential challenges"
+```
+
+### Validation and Testing
+
+**Pre-import validation:**
+```bash
+# Validate JSON structure
+node ~/.claude/projects/bricks-builder/scripts/validate-bricks-json.js output.json
+
+# Check pattern compliance
+node ~/.claude/projects/bricks-builder/scripts/validate-patterns.js output.json
+
+# Verify ACSS variables exist
+node ~/.claude/projects/bricks-builder/scripts/check-acss-vars.js output.json
+```
+
+**Test in Bricks:**
+```
+"Generate a test checklist for importing this section into Bricks Builder:
+- Visual accuracy
+- Responsive behavior
+- ACSS variable application
+- Global class functionality
+- Link and interaction testing"
+```
+
+### Iteration and Refinement
+
+**Handle user corrections:**
+```
+"User feedback: 'The spacing is too tight between cards'
+
+Update the section JSON to:
+- Increase gap from var(--space-s) to var(--space-m)
+- Ensure responsive scaling
+- Maintain grid structure"
+```
+
+**Learn from corrections:**
+```
+"The user fixed the layout. Compare the original and corrected JSON to extract a reusable pattern"
+```
+
+### Component Library
+
+**Create reusable components:**
+```
+"Extract the hero section pattern as a reusable component template with customizable:
+- Background image
+- Heading text
+- CTA button text/link
+- Color scheme"
+```
+
+**Browse component library:**
+```
+"Show me all saved hero section templates for the Acme Corp campaign"
+```
+
+### Real-World Workflow Examples
+
+**Example 1: Full page build**
+```
+"Build a complete landing page from these 5 screenshots:
+1. Hero section
+2. Features grid
+3. Testimonials
+4. Pricing table
+5. Contact form
+
+Use Acme Corp ACSS settings and our established patterns"
+```
+
+**Example 2: Responsive design**
+```
+"This desktop section needs mobile variants. Generate:
+- Tablet breakpoint (grid 2 columns)
+- Mobile breakpoint (stack vertically)
+- Touch-friendly spacing adjustments"
+```
+
+**Example 3: A/B testing variants**
+```
+"Create 2 variants of this hero section:
+- Variant A: Image on left, content on right
+- Variant B: Full-width image with centered content overlay
+
+Keep colors and typography consistent"
+```
+
+### Troubleshooting
+
+**Debug import issues:**
+```
+"The section isn't importing correctly in Bricks. Debug checklist:
+- Validate JSON syntax
+- Check ID uniqueness
+- Verify parent-child relationships
+- Ensure global class references exist"
+```
+
+**Fix common errors:**
+```
+"This section has hardcoded colors. Find and replace with ACSS variables:
+- #3B82F6 → var(--primary)
+- #1F2937 → var(--base)
+- #FFFFFF → var(--white)"
+```

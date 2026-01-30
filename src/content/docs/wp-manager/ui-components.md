@@ -215,3 +215,187 @@ The add site form displays validation errors clearly.
 ```
 
 Validation happens client-side before submission using `validateSiteData()`.
+
+## Using with Claude Code
+
+Claude Code can help you build UI components, customize charts, debug responsive layouts, and add new visualizations.
+
+### Adding New Charts
+
+Tell Claude what data you want to visualize:
+
+> Add a line chart showing site count growth over the last 30 days
+
+Claude will:
+1. Design the data structure
+2. Generate Recharts component
+3. Add responsive styling
+4. Match existing color scheme
+
+Example implementation:
+```tsx
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts'
+
+const growthData = [
+  { date: 'Jan 1', count: 5 },
+  { date: 'Jan 8', count: 8 },
+  { date: 'Jan 15', count: 12 },
+  { date: 'Jan 22', count: 15 }
+]
+
+<ResponsiveContainer width="100%" height={200}>
+  <LineChart data={growthData}>
+    <XAxis dataKey="date" />
+    <YAxis />
+    <Line
+      type="monotone"
+      dataKey="count"
+      stroke="#3b82f6"
+      strokeWidth={2}
+    />
+  </LineChart>
+</ResponsiveContainer>
+```
+
+### Customizing Toast Notifications
+
+Ask Claude to enhance notifications:
+
+> Add a toast with an undo action when deleting a site
+
+Claude generates:
+```tsx
+toast.success('Site deleted', {
+  description: 'The site has been removed.',
+  action: {
+    label: 'Undo',
+    onClick: () => restoreSite(siteId)
+  },
+  duration: 5000
+})
+```
+
+### Debugging Responsive Layout
+
+Share layout issues with Claude:
+
+> The sidebar overlaps content on iPad (768px width)
+
+Claude will:
+- Check Tailwind breakpoints (`lg:flex` starts at 1024px)
+- Suggest using `md:` breakpoint for tablets
+- Provide updated className
+
+```tsx
+// Before: Breaks at 768px
+<aside className="hidden lg:flex">
+
+// After: Fixed for tablets
+<aside className="hidden md:flex">
+```
+
+### Adding shadcn/ui Components
+
+Ask Claude to add new components:
+
+> Add a dropdown menu to each site card with Edit/Delete/Archive options
+
+Claude will:
+```bash
+# Install component
+npx shadcn-ui@latest add dropdown-menu
+```
+
+Then generate the implementation:
+```tsx
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+
+<DropdownMenu>
+  <DropdownMenuTrigger>
+    <MoreVertical className="h-4 w-4" />
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem onClick={() => router.push(`/sites/${site.id}/edit`)}>
+      Edit
+    </DropdownMenuItem>
+    <DropdownMenuItem onClick={() => archiveSite(site.id)}>
+      Archive
+    </DropdownMenuItem>
+    <DropdownMenuItem className="text-red-600" onClick={() => deleteSite(site.id)}>
+      Delete
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+### Chart Interaction
+
+Add interactivity to charts:
+
+> Make the pie chart slices clickable to filter sites by status
+
+Claude adds onClick handlers:
+```tsx
+<Pie
+  data={statusData}
+  onClick={(data) => {
+    const status = data.name.toLowerCase()
+    router.push(`/sites?filter=${status}`)
+  }}
+  cursor="pointer"
+/>
+```
+
+### Dark Mode Support
+
+Ask Claude to add dark mode:
+
+> Add dark mode toggle to WP Manager
+
+Claude will:
+1. Install `next-themes`
+2. Set up theme provider
+3. Update components with dark variants
+4. Add toggle button to header
+
+### Accessibility Improvements
+
+Claude can enhance accessibility:
+
+> Make the charts accessible to screen readers
+
+Claude adds:
+```tsx
+<ResponsiveContainer
+  width="100%"
+  height={200}
+  role="img"
+  aria-label="Site status distribution: 8 online, 2 offline, 1 unknown"
+>
+  {/* Chart content */}
+</ResponsiveContainer>
+```
+
+### Performance Optimization
+
+Ask Claude to optimize rendering:
+
+> The dashboard re-renders charts on every state change
+
+Claude will:
+- Wrap charts in `React.memo()`
+- Use `useMemo()` for data transformations
+- Implement virtual scrolling for large site lists
+
+```tsx
+const chartData = useMemo(() => {
+  return calculateChartData(sites)
+}, [sites])
+
+const MemoizedPieChart = React.memo(SiteStatusChart)
+```

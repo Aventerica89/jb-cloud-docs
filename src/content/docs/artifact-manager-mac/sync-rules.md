@@ -12,7 +12,7 @@ Artifact Manager exists in two implementations:
 | Platform | Location | Tech Stack |
 |----------|----------|------------|
 | macOS | `/Users/jb/.21st/worktrees/artifact-manager-mac/distant-bluff` | Swift, SwiftUI, SwiftData |
-| Web | `/Users/jb/cf-url-shortener/artifacts-app/` | Cloudflare Workers, D1, HTML/JS |
+| Web | `/Users/jb/URLsToGo/artifacts-app/` | Cloudflare Workers, D1, HTML/JS |
 
 **Core Rule:** When modifying core functionality, apply the same changes to both versions.
 
@@ -214,7 +214,7 @@ migrations.sql (collections table)
 Reason: Faster to test and deploy
 
 ```bash
-cd /Users/jb/cf-url-shortener/artifacts-app/
+cd /Users/jb/URLsToGo/artifacts-app/
 
 # Make changes to worker.js
 # Test locally
@@ -252,7 +252,7 @@ static func isValidArtifactName(_ name: String) -> Bool {
 
 **Web:**
 ```bash
-cd /Users/jb/cf-url-shortener/artifacts-app/
+cd /Users/jb/URLsToGo/artifacts-app/
 wrangler dev
 # Manual testing in browser
 ```
@@ -506,3 +506,158 @@ If unsure whether a change needs sync:
 5. Is it deployment/auth related? → NO, platform-specific
 
 When in doubt, sync. Better to be consistent.
+
+## Using with Claude Code
+
+Claude Code can help you maintain synchronization across both platforms, translate features, and ensure consistency.
+
+### Checking Sync Requirements
+
+Ask Claude before making changes:
+
+> I want to add a "priority" field to artifacts. Do I need to update both versions?
+
+Claude reviews the sync rules and advises:
+- Priority is core data → YES, needs sync
+- Provides implementation for both platforms:
+  - SwiftData model update (macOS)
+  - D1 migration SQL (web)
+  - Validation logic for both
+  - UI updates for both
+
+### Translating Features Between Platforms
+
+When implementing in one platform first:
+
+> I added this validation function to the web version: [paste JavaScript]. Translate it to Swift.
+
+Claude converts:
+```javascript
+// Web (worker.js)
+function validateArtifactUrl(url) {
+    if (!url.startsWith('https://claude.site/')) {
+        return { valid: false, error: 'Must be a claude.site URL' };
+    }
+    return { valid: true, url };
+}
+```
+
+To Swift:
+```swift
+// macOS (NameValidator.swift)
+static func validateArtifactUrl(_ url: String) -> (valid: Bool, error: String?) {
+    guard url.hasPrefix("https://claude.site/") else {
+        return (false, "Must be a claude.site URL")
+    }
+    return (true, nil)
+}
+```
+
+### Verifying Sync Completeness
+
+Ask Claude to audit both codebases:
+
+> Check if NameValidator placeholder patterns match between macOS and web versions
+
+Claude will:
+1. Read `NameValidator.swift`
+2. Read `worker.js` validation code
+3. Compare placeholder pattern lists
+4. Report any discrepancies
+5. Provide fixes if they're out of sync
+
+### Automated Sync Checks
+
+Claude can generate sync verification tests:
+
+```swift
+// macOS test that verifies sync with web
+func testPlaceholderPatternsSyncWithWeb() {
+    let macOSPatterns = NameValidator.placeholderPatterns
+    let webPatterns = [
+        "Saving...", "Loading...", "Downloading...",
+        "Untitled", "New Artifact"
+    ]  // Copy from web version
+
+    XCTAssertEqual(Set(macOSPatterns), Set(webPatterns),
+        "Placeholder patterns out of sync with web version")
+}
+```
+
+### Migration Strategy
+
+When adding new fields, Claude helps with both platforms:
+
+> Add a "tags" array field to artifacts
+
+Claude provides complete migration:
+
+**macOS:**
+```swift
+// Update Item.swift
+var tags: [String] = []  // New field with default
+
+// Migration handled automatically by SwiftData
+```
+
+**Web:**
+```sql
+-- Add to migrations.sql
+ALTER TABLE artifacts ADD COLUMN tags TEXT DEFAULT '[]';
+
+-- Update worker.js to parse/serialize JSON
+function getArtifact(id) {
+    const artifact = await db.select().from(artifacts).where(eq(artifacts.id, id));
+    return {
+        ...artifact,
+        tags: JSON.parse(artifact.tags || '[]')
+    };
+}
+```
+
+### Coordinating Releases
+
+Ask Claude to help coordinate updates:
+
+> Create a checklist for releasing the "tags" feature to both platforms
+
+Claude generates:
+
+**Pre-Release Checklist:**
+- [ ] macOS: Update Item.swift with tags field
+- [ ] macOS: Add tags UI to AddItemView and DetailView
+- [ ] macOS: Write tests for tags functionality
+- [ ] Web: Add tags column to D1 (migration.sql)
+- [ ] Web: Update create/update endpoints
+- [ ] Web: Add tags UI to artifact modals
+- [ ] Both: Test that tags are preserved in import/export
+- [ ] Both: Verify cleanup utility handles tags correctly
+- [ ] macOS: Run `swift test` (all tests pass)
+- [ ] Web: Test with `wrangler dev`
+- [ ] Web: Deploy with `wrangler deploy`
+- [ ] macOS: Archive and distribute via Xcode
+
+### Finding Sync Violations
+
+Claude can audit codebases for violations:
+
+> Scan both codebases and find any sync violations
+
+Claude will:
+- Compare placeholder pattern lists
+- Check if model fields match
+- Verify validation logic is equivalent
+- Report discrepancies with file locations and line numbers
+
+### Documentation Updates
+
+When sync rules change, Claude updates this document:
+
+> We added a new core feature: "artifact versioning". Update the sync rules.
+
+Claude adds to the "Core Features That Must Sync" section with:
+- Feature description
+- File locations for both platforms
+- Required sync behavior
+- Example implementation
+- Testing checklist

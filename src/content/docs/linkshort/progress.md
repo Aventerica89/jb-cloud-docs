@@ -238,3 +238,186 @@ No external users yet (personal project). Considerations for future:
 - Consider open-sourcing with proper docs
 - Add video tutorials for setup
 - Create template for others to fork
+
+## Using with Claude Code
+
+Claude Code can help you track progress, document updates, and plan next features.
+
+### Progress Tracking
+
+**Generate progress summaries:**
+```
+"Summarize development progress from the last week"
+```
+
+Claude Code will:
+- Review git commits
+- List features completed
+- Note bugs fixed
+- Calculate metrics changes
+- Identify next priorities
+
+**Update progress documentation:**
+```
+"Add today's work to progress.md:
+- Implemented link expiration
+- Fixed mobile app auth flow
+- Deployed v2.1.0 to production"
+```
+
+### Metrics and Analytics
+
+**Calculate project metrics:**
+```bash
+# Deployment metrics from Cloudflare
+wrangler metrics
+
+# Database size
+wrangler d1 execute linkshort-prod --command \
+  "SELECT
+     (SELECT COUNT(*) FROM links) as total_links,
+     (SELECT COUNT(*) FROM clicks) as total_clicks,
+     (SELECT COUNT(DISTINCT user_email) FROM links) as total_users"
+```
+
+**Performance tracking:**
+```
+"Track these metrics over time:
+- Average redirect latency
+- Database query time
+- Worker invocations per day
+- Error rate percentage"
+```
+
+### Release Management
+
+**Create release notes:**
+```
+"Generate release notes for v2.1.0 including:
+- New features (link expiration, bulk operations)
+- Bug fixes (XSS prevention, timing attacks)
+- Security improvements
+- Breaking changes (none)
+- Upgrade instructions"
+```
+
+**Version comparison:**
+```
+"Compare v2.0.0 and v2.1.0:
+- Features added
+- Performance improvements
+- Security enhancements
+- Code quality metrics"
+```
+
+### Session Documentation
+
+**Document development sessions:**
+```
+"Create a session summary for today:
+- Features: Added QR code generation
+- Bugs fixed: Chrome extension CORS issue
+- Tests added: QR code endpoint tests
+- Deployed: Production update
+- Next: Mobile app QR scanning"
+```
+
+**Weekly summaries:**
+```
+"Generate a weekly summary covering:
+- Monday-Friday development work
+- Features shipped
+- Issues resolved
+- Metrics updates
+- Team updates (if applicable)"
+```
+
+### Roadmap Planning
+
+**Plan next features:**
+```
+"Based on current progress, create a roadmap for:
+- Q1: Mobile app completion, API v2
+- Q2: Team collaboration, analytics v2
+- Q3: Enterprise features
+- Q4: Open source release"
+```
+
+**Prioritize backlog:**
+```
+"Prioritize these feature requests by:
+- User impact (high/medium/low)
+- Implementation effort
+- Dependencies
+- Technical debt reduction"
+```
+
+### Real-World Examples
+
+**Example 1: Sprint retrospective**
+```
+"Run a sprint retrospective:
+- What went well? (Fast Cloudflare deploys)
+- What challenges? (Mobile auth flow complexity)
+- What to improve? (Better testing coverage)
+- Action items for next sprint"
+```
+
+**Example 2: Security audit log**
+```
+"Document all security improvements since launch:
+- XSS prevention (11 locations)
+- Password hashing upgrade (PBKDF2)
+- Timing attack prevention
+- CORS configuration
+- Input validation"
+```
+
+**Example 3: Performance tracking**
+```
+"Track performance improvements:
+- Before: 150ms average redirect
+- After caching: 45ms average redirect
+- Database optimization: 30% faster queries
+- UI improvements: 50% faster initial load"
+```
+
+### Issue Management
+
+**Track known issues:**
+```
+"List all known issues by severity:
+- Critical: None
+- High: Mobile auth on real devices untested
+- Medium: Extension icon generation intermittent
+- Low: Analytics export formatting"
+```
+
+**Create issue templates:**
+```
+"Generate GitHub issue templates for:
+- Bug reports
+- Feature requests
+- Security vulnerabilities
+- Documentation improvements"
+```
+
+### Milestone Tracking
+
+**Check milestone progress:**
+```
+"Mobile App Beta milestone:
+- 15/20 tasks complete (75%)
+- Remaining: Auth testing, offline mode, push notifications, TestFlight, Play Console
+- Estimated completion: 2 weeks"
+```
+
+**Celebrate achievements:**
+```
+"What major milestones have we hit?
+- 500+ shortened links
+- 10,000+ redirects processed
+- 99.9% uptime
+- Zero security incidents
+- Mobile app beta launched"
+```

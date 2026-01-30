@@ -16,40 +16,102 @@ Documentation for Cloudflare DNS, tunnels, and CDN configuration.
 
 ## Using with Claude Code
 
-Claude Code can help you manage Cloudflare configurations using the Wrangler CLI.
+Claude Code can help you configure and manage Cloudflare services efficiently.
 
 ### DNS Management
 
-```bash
-# List all DNS records
-wrangler dns list example.com
+**Configure DNS records:**
+```
+"Add DNS records for my domain:
+- A record pointing to 192.168.1.1
+- CNAME for www
+- MX records for email
+- TXT record for domain verification"
+```
 
-# Add a new A record
-wrangler dns create example.com --type A --name www --content 192.0.2.1
+Claude Code will generate the commands or guide you through the dashboard.
+
+**Troubleshoot DNS issues:**
+```
+"My domain isn't resolving. Debug:
+- Check nameserver configuration
+- Verify DNS propagation
+- Test with dig/nslookup
+- Check proxy status"
 ```
 
 ### Cloudflare Workers
 
+**Deploy Workers:**
 ```bash
-# Create a new worker project
+# Create new Worker
 wrangler init my-worker
 
-# Deploy to Cloudflare
+# Deploy
 wrangler deploy
 ```
 
-### Tunnels
-
-```bash
-# Create a tunnel
-cloudflared tunnel create my-tunnel
-
-# Route traffic
-cloudflared tunnel route dns my-tunnel subdomain.example.com
+**Ask Claude Code for help:**
+```
+"Create a Cloudflare Worker that:
+- Redirects old URLs to new ones
+- Adds security headers
+- Caches responses
+- Logs analytics"
 ```
 
-Ask Claude to help you:
-- Set up DNS records for new domains
-- Configure Cloudflare Workers for edge computing
-- Create and manage Cloudflare Tunnels
-- Optimize caching with Page Rules
+### Cloudflare Pages
+
+**Deploy static site:**
+```
+"Deploy my Next.js site to Cloudflare Pages with:
+- Automatic deployments from GitHub
+- Environment variables
+- Custom domain
+- Preview deployments"
+```
+
+### Real-World Examples
+
+**Example 1: URL shortener**
+```
+"Build a URL shortener on Cloudflare Workers with D1 database"
+```
+
+**Example 2: Image optimization**
+```
+"Set up Cloudflare Images for:
+- Automatic resizing
+- WebP conversion
+- CDN caching
+- Lazy loading"
+```
+
+**Example 3: API gateway**
+```
+"Create an API gateway with:
+- Rate limiting
+- Authentication
+- Request transformation
+- Response caching"
+```
+
+### Security
+
+**Configure security headers:**
+```
+"Add security headers via Workers:
+- CSP
+- HSTS
+- X-Frame-Options
+- Permissions-Policy"
+```
+
+**Set up WAF rules:**
+```
+"Create WAF rules to:
+- Block malicious traffic
+- Rate limit API endpoints
+- Prevent DDoS
+- Geo-blocking"
+```

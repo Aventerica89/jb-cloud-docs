@@ -114,6 +114,10 @@ export default defineConfig({
 					autogenerate: { directory: 'claude-code' },
 				},
 				{
+					label: 'Claude Codex',
+					autogenerate: { directory: 'claude-codex' },
+				},
+				{
 					label: 'Claude New Project',
 					autogenerate: { directory: 'claude-new-project' },
 				},
@@ -128,6 +132,10 @@ export default defineConfig({
 				{
 					label: 'JB Cloud App Tracker',
 					autogenerate: { directory: 'jb-cloud-app-tracker' },
+				},
+				{
+					label: 'Renvio Companion App',
+					autogenerate: { directory: 'renvio-companion-app' },
 				},
 				{
 					label: 'JB Cloud Docs',
