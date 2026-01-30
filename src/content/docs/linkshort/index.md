@@ -123,3 +123,190 @@ See [Progress](/linkshort/progress) for full security audit details.
 - [Architecture](/linkshort/architecture) - System design and technical details
 - [Mobile App](/linkshort/mobile-app) - React Native companion app
 - [Progress](/linkshort/progress) - Development status and recent updates
+
+## Using with Claude Code
+
+Claude Code can help you deploy, customize, and maintain your LinkShort instance.
+
+### Deployment and Setup
+
+**Deploy your own instance:**
+```bash
+# Create D1 database
+wrangler d1 create linkshort-prod
+
+# Get database ID and update wrangler.toml
+# Then deploy
+wrangler deploy
+```
+
+**Ask Claude Code for help:**
+```
+"Set up my LinkShort instance with custom domain and Cloudflare Access"
+```
+
+Claude Code will guide you through:
+- D1 database creation
+- wrangler.toml configuration
+- Custom domain setup
+- Cloudflare Access configuration
+- GitHub Actions setup
+
+### Customization
+
+**Theme customization:**
+```
+"Change the color scheme from blue to green:
+- Primary: #22c55e
+- Hover: #16a34a
+- Update all UI components"
+```
+
+**Add custom features:**
+```
+"Add QR code generation for shortened links:
+- Add QR code library
+- Create generation endpoint
+- Add download button to UI
+- Include in link details modal"
+```
+
+### Database Management
+
+**Query the database:**
+```bash
+# List all links
+wrangler d1 execute linkshort-prod --command "SELECT * FROM links LIMIT 10"
+
+# Check click analytics
+wrangler d1 execute linkshort-prod --command \
+  "SELECT code, COUNT(*) as clicks FROM clicks GROUP BY code ORDER BY clicks DESC"
+```
+
+**Database migrations:**
+```
+"Create a migration to add an 'expires_at' field to links table for auto-expiring short links"
+```
+
+### Security Enhancements
+
+**Review security:**
+```
+"Audit the password-protected links feature for:
+- Password hashing strength
+- Timing attack prevention
+- Brute force protection
+- XSS vulnerabilities"
+```
+
+**Add rate limiting:**
+```
+"Implement rate limiting on:
+- Link creation (10/hour per user)
+- Redirect attempts (100/min per IP)
+- Admin panel access (5 failed logins)"
+```
+
+### Chrome Extension
+
+**Customize the extension:**
+```
+"Modify the Chrome extension to:
+- Save links from current tab with one click
+- Add custom short code suggestion
+- Show link analytics in popup"
+```
+
+**Debug extension issues:**
+```
+"The Chrome extension isn't saving links. Check:
+- Permissions in manifest.json
+- API endpoint CORS headers
+- Authentication token passing
+- Console errors"
+```
+
+### Mobile App Development
+
+**Setup mobile environment:**
+```bash
+cd mobile-app
+npm install
+npm start
+```
+
+**Add features:**
+```
+"Implement these features in the mobile app:
+- Pull-to-refresh for link list
+- Share link to other apps
+- Quick copy with haptic feedback
+- Offline mode with sync"
+```
+
+### Real-World Examples
+
+**Example 1: Bulk import**
+```
+"Create a script to import links from a CSV file with columns: code, destination, category, tags"
+```
+
+**Example 2: Analytics dashboard**
+```
+"Build an analytics page showing:
+- Total clicks over time (line chart)
+- Top 10 links by clicks
+- Geographic distribution (if available)
+- Browser/device breakdown"
+```
+
+**Example 3: API integration**
+```
+"Create a REST API for external tools:
+- POST /api/links (create short link)
+- GET /api/links/:code (get link details)
+- GET /api/links/:code/stats (get click analytics)
+- Authentication via API key"
+```
+
+### Debugging
+
+**Check deployment:**
+```bash
+# View deployment logs
+wrangler tail
+
+# Test the Worker locally
+wrangler dev
+
+# Check D1 database
+wrangler d1 execute linkshort-prod --command "SELECT COUNT(*) FROM links"
+```
+
+**Debug common issues:**
+```
+"Users can't create links. Debug checklist:
+- Check Cloudflare Access authentication
+- Verify D1 database is accessible
+- Check Worker error logs
+- Test SQL queries
+- Verify CORS headers"
+```
+
+### Performance Optimization
+
+**Optimize for scale:**
+```
+"The app is slow with 10,000+ links. Optimize:
+- Add pagination to link list
+- Implement search indexing
+- Cache frequently accessed links
+- Add virtual scrolling to UI"
+```
+
+**Monitor performance:**
+```bash
+# Check Worker analytics in Cloudflare Dashboard
+# Or use Wrangler
+wrangler metrics
+```

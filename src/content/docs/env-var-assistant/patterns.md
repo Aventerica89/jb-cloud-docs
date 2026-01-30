@@ -160,3 +160,178 @@ If you need to detect a pattern that's not listed:
   tags: ['env-var', 'generic-service']
 }
 ```
+
+## Using with Claude Code
+
+Claude Code can help you understand, test, and extend API key pattern detection.
+
+### Understanding Patterns
+
+**Explain pattern matching:**
+```
+"How does the OpenAI API key pattern work?"
+```
+
+Claude Code will explain:
+- Pattern: `sk-[a-zA-Z0-9]{48,}`
+- Breakdown: Starts with "sk-", followed by 48+ alphanumeric chars
+- Why: OpenAI's consistent format for API keys
+- Variants: `sk-proj-` for project keys
+
+**Find pattern for a service:**
+```
+"What pattern does Env Var Assistant use to detect Stripe keys?"
+```
+
+### Testing Patterns
+
+**Test pattern matching:**
+```
+"Does this string match any patterns: pk_test_51ABCDefgh..."
+```
+
+Claude Code will:
+- Check against all 60+ patterns
+- Identify: "Stripe Test Publishable Key"
+- Show regex match details
+- Suggest tags and dashboard URL
+
+**Validate custom patterns:**
+```
+"Test this regex for my custom service API key: /myservice_[0-9]{16}/
+
+Sample keys:
+- myservice_1234567890123456 (valid)
+- myservice_abc123 (invalid)
+- service_1234567890123456 (invalid)"
+```
+
+### Adding New Patterns
+
+**Add a new service:**
+```
+"Add pattern detection for Railway API tokens:
+- Format: railway_[a-zA-Z0-9]{40}
+- Dashboard: https://railway.app/account/tokens"
+```
+
+Claude Code will:
+1. Create the pattern object
+2. Add to `API_KEY_PATTERNS` array
+3. Suggest appropriate tags
+4. Test with sample keys
+
+**Batch add patterns:**
+```
+"Add patterns for these services:
+1. Render (rnd_[a-zA-Z0-9]{32})
+2. Fly.io (fo1_[a-zA-Z0-9_-]{43})
+3. DigitalOcean (dop_v1_[a-f0-9]{64})"
+```
+
+### Pattern Debugging
+
+**Debug false positives:**
+```
+"This pattern is matching too many things: /[a-f0-9]{32}/
+
+How can I make it more specific?"
+```
+
+Claude Code will suggest:
+- Add unique prefix/suffix requirements
+- Use `contextRequired: true`
+- Check for word boundaries
+- Verify checksum if applicable
+
+**Debug false negatives:**
+```
+"My Stripe webhook secret isn't being detected. The pattern is /whsec_[a-zA-Z0-9]{32,}/
+Sample key: whsec_abc123xyz789def456ghi789"
+```
+
+Claude Code will:
+- Test the pattern against sample
+- Identify length mismatch
+- Suggest corrected pattern
+- Verify with more samples
+
+### Real-World Examples
+
+**Example 1: Add company-specific token**
+```
+"Our internal API uses tokens like: int_prod_AbCdEf123456
+Add pattern and auto-tag with 'internal' and 'env-var'"
+```
+
+**Example 2: Multiple format support**
+```
+"AWS uses several key formats:
+- Access keys: AKIA[A-Z0-9]{16}
+- Secret keys: [A-Za-z0-9/+=]{40}
+- Session tokens: longer format
+
+Add patterns for all three"
+```
+
+**Example 3: Version migration**
+```
+"Our service changed key format from v1 to v2:
+- v1: service_[a-f0-9]{32}
+- v2: srv_v2_[a-zA-Z0-9]{40}
+
+Support both formats"
+```
+
+### Pattern Organization
+
+**List patterns by category:**
+```
+"Show me all patterns for:
+- Payment providers (Stripe, Square, PayPal)
+- Email services (SendGrid, Resend, Mailgun)
+- Cloud providers (AWS, Cloudflare, Vercel)"
+```
+
+**Find overlapping patterns:**
+```
+"Check if any patterns could match the same string and cause conflicts"
+```
+
+### Advanced Pattern Features
+
+**Add validation beyond regex:**
+```
+"For GitHub tokens, verify the checksum in addition to pattern matching"
+```
+
+**Context-aware matching:**
+```
+"Add Firebase keys with contextRequired so they only match on firebase.google.com"
+```
+
+**Environment detection:**
+```
+"Distinguish between Stripe test (pk_test_) and production (pk_live_) keys and tag accordingly"
+```
+
+### Testing Suite
+
+**Run pattern tests:**
+```bash
+# Test all patterns
+node extension/tests/pattern-tests.js
+
+# Test specific provider
+node extension/tests/pattern-tests.js --provider stripe
+
+# Test with sample keys
+node extension/tests/pattern-tests.js --samples samples.txt
+```
+
+**Generate test cases:**
+```
+"Generate 10 test cases for the OpenAI pattern:
+- 5 valid keys (should match)
+- 5 invalid keys (should not match)"
+```

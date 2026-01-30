@@ -169,3 +169,174 @@ Common issues:
 - Missing frontmatter fields
 - Invalid MDX syntax
 - Broken imports
+
+## Using with Claude Code
+
+Claude Code can help you create, maintain, and validate documentation efficiently.
+
+### Creating Documentation
+
+**Generate documentation from code:**
+```
+"Create documentation for this project by analyzing:
+- README.md
+- CLAUDE.md
+- Package.json
+- Source code structure"
+```
+
+Claude Code will create:
+- index.md overview
+- Feature-specific pages
+- API documentation
+- Setup guides
+
+**Initialize new project docs:**
+```
+"Run /jbdocs init for my-new-project and create:
+- index.md from CLAUDE.md
+- architecture.md from code analysis
+- Sidebar entry in config
+- All required frontmatter"
+```
+
+### Maintaining Documentation
+
+**Update documentation:**
+```
+"Update the progress.md file with:
+- Today's completed features
+- Bugs fixed
+- Deployment status
+- Next steps"
+```
+
+**Sync documentation:**
+```
+"Run /jbdocs update to sync:
+- Latest README changes
+- New features added
+- Updated screenshots
+- Revised architecture"
+```
+
+### Validation and Quality
+
+**Validate documentation:**
+```
+"Validate all markdown files in /my-project directory for:
+- Required frontmatter
+- Code block language tags
+- Internal link validity
+- No placeholder text"
+```
+
+**Auto-fix issues:**
+```bash
+# Run validation with auto-fix
+/jbdocs --fix
+```
+
+Claude Code will:
+- Add missing frontmatter
+- Add language tags to code blocks
+- Fix broken internal links
+- Remove placeholders
+
+### Real-World Examples
+
+**Example 1: API documentation**
+```
+"Generate API documentation for these Server Actions:
+- Function signatures
+- Parameter descriptions
+- Return types
+- Usage examples
+- Error handling"
+```
+
+**Example 2: Tutorial creation**
+```
+"Create a step-by-step tutorial for:
+- Setting up the development environment
+- Creating your first feature
+- Running tests
+- Deploying to production
+
+Include code examples and screenshots"
+```
+
+**Example 3: Migration guide**
+```
+"Create a migration guide from v1 to v2:
+- Breaking changes
+- Updated API methods
+- New features
+- Step-by-step upgrade process"
+```
+
+### Style Guide Enforcement
+
+**Check style compliance:**
+```
+"Review these docs for style guide compliance:
+- Tone (direct, technical, practical)
+- Formatting (backticks, bold, italics)
+- Heading structure
+- Code example quality"
+```
+
+**Auto-format documentation:**
+```
+"Reformat this documentation to match the style guide:
+- Standardize headings
+- Add proper code blocks
+- Format tables consistently
+- Use correct components"
+```
+
+### Component Usage
+
+**Add interactive components:**
+```
+"Add Starlight components to this page:
+- Tabs for npm/pnpm/yarn commands
+- Callout for important notes
+- Code groups for multi-file examples
+- Aside for related resources"
+```
+
+**Example output:**
+```mdx
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs>
+  <TabItem label="npm">npm install</TabItem>
+  <TabItem label="pnpm">pnpm add</TabItem>
+</Tabs>
+
+:::note
+This is an important note
+:::
+```
+
+### Documentation Workflow
+
+**Complete workflow automation:**
+```
+"Automate documentation workflow:
+1. Detect code changes via git
+2. Update relevant docs
+3. Validate all pages
+4. Auto-fix issues
+5. Create PR with changes"
+```
+
+**Scheduled updates:**
+```
+"Set up weekly documentation reviews:
+- Check for outdated content
+- Verify code examples still work
+- Update metrics and progress
+- Fix broken links"
+```

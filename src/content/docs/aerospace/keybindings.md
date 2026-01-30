@@ -466,3 +466,184 @@ All keybindings can be customized in `~/.aerospace.toml`. See the [Configuration
 - [Main Documentation](/aerospace) - Overview and installation
 - [Workflows](/aerospace/workflows) - Common workflows and use cases
 - [Configuration](/aerospace/configuration) - Detailed configuration options
+
+## Using with Claude Code
+
+Claude Code can help you learn, customize, and troubleshoot AeroSpace keybindings.
+
+### Learning Keybindings
+
+**Generate a cheat sheet:**
+```
+"Create a markdown cheat sheet of the 10 most essential AeroSpace keybindings for a new user"
+```
+
+**Practice scenarios:**
+```
+"Give me 5 exercises to practice AeroSpace navigation keybindings, starting simple and getting more complex"
+```
+
+### Custom Keybindings
+
+**Add new keybindings:**
+```
+"Add these keybindings to my aerospace.toml:
+- Alt+Shift+Enter: Open new terminal window
+- Alt+B: Focus browser (Chrome)
+- Alt+Shift+R: Reload AeroSpace config"
+```
+
+**Example output:**
+```toml
+[mode.main.binding]
+    alt-shift-enter = '''exec-and-forget osascript -e '
+    tell application "Terminal"
+        do script
+        activate
+    end tell'
+    '''
+
+    alt-b = '''exec-and-forget osascript -e '
+    tell application "Google Chrome"
+        activate
+    end tell'
+    '''
+
+    alt-shift-r = 'reload-config'
+```
+
+### Conflict Detection
+
+**Check for conflicts:**
+```
+"Check if Alt+H conflicts with:
+- macOS system shortcuts
+- Chrome shortcuts
+- VS Code shortcuts
+- Slack shortcuts"
+```
+
+Claude Code will identify conflicts and suggest alternatives.
+
+### Workspace Keybinding Schemes
+
+**Create themed workspace layouts:**
+```
+"Set up keybindings where:
+- Alt+D switches to Development workspace (1)
+- Alt+C switches to Communication workspace (2)
+- Alt+B switches to Browser workspace (3)
+- Alt+M switches to Music workspace (4)
+
+Then Shift variants move windows to those workspaces"
+```
+
+### Service Mode Automation
+
+**Understand service mode:**
+```
+"Explain what each service mode keybinding does and when I should use it:
+- r (reset)
+- f (float)
+- backspace (close others)
+- join commands"
+```
+
+**Create custom service mode actions:**
+```
+"Add a service mode keybinding that:
+- Closes all windows except focused one
+- Flattens the workspace
+- Sets layout to horizontal tiles"
+```
+
+### Debugging Keybindings
+
+**Why isn't it working?**
+```
+"My Alt+/ keybinding for layout toggle isn't working. Debug checklist?"
+```
+
+Claude Code will check:
+1. TOML syntax validity
+2. Conflicting macOS shortcuts
+3. Application-specific overrides
+4. Whether config was reloaded
+
+**Test keybindings:**
+```bash
+# Reload config and watch for errors
+aerospace reload-config 2>&1
+
+# Check current mode
+aerospace list-modes
+
+# Verify binding is registered
+grep "alt-/" ~/.aerospace.toml
+```
+
+### Real-World Examples
+
+**Example 1: Developer-focused bindings**
+```
+"Create keybindings optimized for web development:
+- Quick switch between editor (1), browser (2), terminal (3)
+- Launch localhost preview
+- Open DevTools in browser
+- Toggle between horizontal/vertical layout for code and preview"
+```
+
+**Example 2: Vim-style navigation**
+```
+"I'm a Vim user. Create additional keybindings that feel natural:
+- Alt+Shift+H/J/K/L for window movement (already exists)
+- Alt+1-9 for numbered workspaces (already exists)
+- Add Alt+G+G to go to first workspace
+- Add Alt+Shift+G to go to last workspace"
+```
+
+**Example 3: Mouse-free workflow**
+```
+"Create keybindings for a completely mouse-free workflow:
+- App launcher
+- Window closer
+- Workspace jumper
+- Layout changer
+- Resize mode
+- Multi-monitor switching"
+```
+
+### Muscle Memory Training
+
+**Progressive learning:**
+```
+"Create a 7-day learning plan for AeroSpace keybindings:
+- Day 1: Navigation only (hjkl)
+- Day 2: Workspace switching (1-3)
+- Day 3: Moving windows
+- Day 4: Resizing
+- Day 5: Layouts
+- Day 6: Service mode
+- Day 7: Advanced combinations"
+```
+
+### Quick Reference Card
+
+**Generate printable reference:**
+```
+"Create a one-page PDF-ready reference card with the essential keybindings organized by:
+- Navigation
+- Workspaces
+- Layout
+- Service Mode"
+```
+
+### Keybinding Optimization
+
+**Find unused bindings:**
+```
+"Analyze my aerospace.toml and suggest:
+- Unused keybindings I could repurpose
+- Common actions I'm missing bindings for
+- More ergonomic alternatives to awkward combinations"
+```

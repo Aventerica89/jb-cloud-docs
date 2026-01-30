@@ -313,3 +313,129 @@ Proper many-to-many relationship with separate junction table for normalization 
 7. Deploy to Vercel preview
 8. Test preview deployment
 9. Merge to main for production deployment
+
+## Using with Claude Code
+
+Claude Code can help you plan features, estimate tasks, and maintain the project roadmap.
+
+### Feature Planning
+
+**Break down new features:**
+```
+"Break down the 'Team Collaboration' feature into implementable tasks with time estimates"
+```
+
+Claude Code will create:
+- Task breakdown by component
+- Dependencies between tasks
+- Estimated complexity
+- Testing requirements
+- Documentation needs
+
+**Estimate complexity:**
+```
+"How difficult would it be to add GitHub Actions integration? What are the main challenges?"
+```
+
+### Phase Management
+
+**Track phase progress:**
+```
+"Create a progress report for Phase 10 showing completed tasks and remaining work"
+```
+
+**Plan next phase:**
+```
+"Based on the completed phases, suggest 3 high-value features for Phase 11"
+```
+
+### Database Planning
+
+**Schema evolution:**
+```
+"Plan the database changes needed for multi-user team support:
+- New tables required
+- Modified tables
+- RLS policy changes
+- Migration strategy
+- Backward compatibility"
+```
+
+**Migration planning:**
+```
+"Create a migration plan to add full-text search across applications, tags, and deployments"
+```
+
+### Testing Strategy
+
+**Test plan generation:**
+```
+"Create a comprehensive test plan for the Cloudflare integration covering:
+- Unit tests
+- Integration tests
+- E2E tests
+- Edge cases
+- Error scenarios"
+```
+
+**Coverage analysis:**
+```
+"Which areas of the codebase have the lowest test coverage and highest risk?"
+```
+
+### Real-World Planning Examples
+
+**Example 1: Multi-tenancy planning**
+```
+"Plan how to convert this from single-user to multi-tenant SaaS:
+- Database schema changes
+- Authentication modifications
+- Billing integration
+- Team management
+- Deployment strategy
+- Migration path for existing users"
+```
+
+**Example 2: Performance optimization**
+```
+"Create a 4-phase plan to optimize the dashboard for 1000+ applications:
+- Phase 1: Identify bottlenecks
+- Phase 2: Add caching layer
+- Phase 3: Implement pagination
+- Phase 4: Add virtual scrolling"
+```
+
+**Example 3: Security hardening**
+```
+"Plan a security audit covering:
+- RLS policy review
+- Input validation audit
+- API token security
+- XSS prevention
+- CSRF protection
+- Rate limiting"
+```
+
+### Dependency Management
+
+**Track dependencies:**
+```
+"Which features depend on the Vercel integration being complete?"
+```
+
+**Identify blockers:**
+```
+"What needs to be finished before we can start the Email Notifications feature?"
+```
+
+### Documentation Planning
+
+**Documentation roadmap:**
+```
+"Create a documentation plan covering:
+- Setup guides
+- Feature tutorials
+- API documentation
+- Deployment guides
+- Troubleshooting"
+```

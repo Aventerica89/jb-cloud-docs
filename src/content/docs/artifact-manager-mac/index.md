@@ -141,6 +141,141 @@ ArtifactManagerTests/
 
 [GitHub: artifact-manager-mac](https://github.com/Aventerica89/artifact-manager-mac)
 
+## Using with Claude Code
+
+Claude Code can help you develop SwiftUI features, write tests, debug SwiftData issues, and maintain sync with the web version.
+
+### Running Tests
+
+Ask Claude to run the test suite:
+
+```bash
+swift test
+```
+
+Claude interprets test results and diagnoses failures:
+- Test name validation logic
+- SwiftData model relationships
+- File size formatting
+- Artifact type detection
+
+### Adding New Features
+
+Tell Claude what you need:
+
+> Add a "starred" field to artifacts so users can mark favorites
+
+Claude will:
+1. Update the SwiftData model (`Item.swift`)
+2. Add migration logic if needed
+3. Update SwiftUI views with star icon
+4. Write tests for the new field
+5. Check [Synchronization Rules](/artifact-manager-mac/sync-rules) for web version compatibility
+
+Example implementation:
+```swift
+@Model
+final class Item {
+    var name: String
+    var isStarred: Bool = false  // New field
+    // ... existing fields
+}
+
+// In ContentView.swift
+Button {
+    item.isStarred.toggle()
+} label: {
+    Image(systemName: item.isStarred ? "star.fill" : "star")
+}
+```
+
+### Debugging SwiftData Issues
+
+Share SwiftData errors with Claude:
+
+> I'm getting "failed to load persistent stores" when launching the app
+
+Claude will:
+- Check ModelContainer configuration
+- Verify schema changes are handled
+- Suggest migration strategies
+- Test with a fresh database
+
+### Building New Views
+
+Ask Claude to create SwiftUI components:
+
+> Create a detail view that shows all artifact metadata in a nice layout
+
+Claude generates SwiftUI code following macOS design patterns:
+```swift
+struct ArtifactDetailView: View {
+    let artifact: Item
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                // Metadata sections
+                // Claude generates proper layout
+            }
+        }
+        .frame(minWidth: 400, minHeight: 300)
+    }
+}
+```
+
+### Maintaining Web Version Sync
+
+When adding features, Claude checks sync rules:
+
+> I want to add a "tags" field. Does this need to be synced to the web version?
+
+Claude reviews [Synchronization Rules](/artifact-manager-mac/sync-rules) and advises:
+- Core features (validation, models) → Must sync
+- UI-only features (window size, themes) → Mac-specific
+- Provides implementation for both versions if needed
+
+### Performance Optimization
+
+Ask Claude to profile SwiftData queries:
+
+> The artifacts list is slow with 1000+ items
+
+Claude suggests:
+```swift
+// Add indexes to frequently queried fields
+@Attribute(.unique) var id: UUID
+@Attribute(.indexed) var createdAt: Date
+@Attribute(.indexed) var type: ArtifactType
+```
+
+### Code Reviews
+
+Ask Claude to review Swift code:
+
+> Review this NameValidator implementation for edge cases: [paste code]
+
+Claude checks for:
+- Unicode handling
+- Memory safety
+- SwiftUI best practices
+- Test coverage gaps
+
+### Xcode Build Commands
+
+Claude can run Xcode commands from terminal:
+
+```bash
+# Build for testing
+xcodebuild -scheme "Artifact Manager" -destination 'platform=macOS' build-for-testing
+
+# Run tests
+xcodebuild test -scheme "Artifact Manager" -destination 'platform=macOS'
+
+# Archive for distribution
+xcodebuild archive -scheme "Artifact Manager" -archivePath ./build/ArtifactManager.xcarchive
+```
+
 ## Recent Updates
 
 ### 2026-01-28: Feature Parity with Web Version

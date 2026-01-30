@@ -142,6 +142,124 @@ None currently.
 
 [GitHub: artifact-manager-mac](https://github.com/yourusername/artifact-manager-mac)
 
+## Using with Claude Code
+
+Claude Code can help you track progress, implement next steps, test new features, and maintain sync with the web version.
+
+### Implementing Next Steps
+
+Ask Claude to work on items from the roadmap:
+
+> Implement the export functionality for macOS app
+
+Claude will:
+1. Create `ExportService.swift` to generate JSON
+2. Add export button to toolbar
+3. Implement file save dialog
+4. Format data to match web app import format
+5. Write tests for export logic
+6. Update progress.md with completion status
+
+### Testing Import with Real Data
+
+Claude can help you test the import feature:
+
+```bash
+# 1. Export from web app
+curl https://artifact-manager.jbmd-creations.workers.dev/api/export > artifacts.json
+
+# 2. Share with Claude for analysis
+# Claude will verify JSON structure matches expected format
+
+# 3. Test import in macOS app
+# Claude guides you through using the import UI
+```
+
+### Debugging Import Issues
+
+Share import errors with Claude:
+
+> Import failed with "JSON decoding error". Here's the error: [paste error]
+
+Claude will:
+- Analyze JSON structure vs SwiftData model
+- Identify mismatched field types
+- Suggest fixes to `ImportExport.swift`
+- Update error handling for better diagnostics
+
+### Adding UI Enhancements
+
+Ask Claude to implement roadmap items:
+
+> Add search and filter functionality to the artifacts list
+
+Claude generates:
+```swift
+struct ContentView: View {
+    @State private var searchText = ""
+    @State private var selectedType: ArtifactType?
+
+    var filteredItems: [Item] {
+        items.filter { item in
+            (searchText.isEmpty || item.name.contains(searchText)) &&
+            (selectedType == nil || item.artifactType == selectedType)
+        }
+    }
+
+    var body: some View {
+        VStack {
+            HStack {
+                SearchField(text: $searchText)
+                Picker("Type", selection: $selectedType) {
+                    // Filter options
+                }
+            }
+            List(filteredItems) { item in
+                ItemRowView(item: item)
+            }
+        }
+    }
+}
+```
+
+### Performance Optimization
+
+Implement pagination for large lists:
+
+> The app is slow with 5000+ artifacts. Add pagination.
+
+Claude adds lazy loading:
+```swift
+@Query(
+    sort: \Item.createdAt,
+    order: .reverse
+) var items: [Item]
+
+var body: some View {
+    List {
+        ForEach(items.prefix(100)) { item in
+            ItemRowView(item: item)
+                .onAppear {
+                    if item == items[99] {
+                        // Load next batch
+                    }
+                }
+        }
+    }
+}
+```
+
+### Maintaining Sync with Web Version
+
+When implementing features, Claude checks sync requirements:
+
+> I want to add keyboard shortcuts. Does this need web version updates?
+
+Claude reviews [Sync Rules](/artifact-manager-mac/sync-rules/) and confirms:
+- Keyboard shortcuts are macOS-specific (no sync needed)
+- If shortcuts trigger core actions (add/delete), core logic must stay synced
+- Provides implementation for both if needed
+
 ## Companion Project
 
 **Web Version**: `/Users/jb/cf-url-shortener/artifacts-app/`

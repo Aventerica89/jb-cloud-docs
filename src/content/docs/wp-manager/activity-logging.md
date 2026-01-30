@@ -91,3 +91,106 @@ Fetch activity logs with optional filtering.
   }
 }
 ```
+
+## Using with Claude Code
+
+Claude Code can help you analyze activity logs, debug issues, and add new logging features.
+
+### Querying Activity Logs
+
+Ask Claude to fetch specific activity data:
+
+> Show me all failed updates from the last 24 hours
+
+Claude will use the API or query the database directly:
+```typescript
+const failedUpdates = await db.query.activityLog.findMany({
+  where: and(
+    eq(activityLog.status, 'failed'),
+    like(activityLog.action, '%update%'),
+    gte(activityLog.createdAt, new Date(Date.now() - 86400000).toISOString())
+  ),
+  with: {
+    site: true
+  }
+})
+```
+
+### Debugging Failed Operations
+
+Share activity log entries with Claude:
+
+> Why did this bulk update fail? [paste log entry]
+
+Claude analyzes the error details and suggests fixes:
+- Check site connectivity
+- Verify credentials
+- Test REST API endpoint
+- Review connector plugin status
+
+### Adding New Activity Types
+
+Tell Claude what you want to track:
+
+> Track when sites are archived or unarchived
+
+Claude will:
+1. Add new action types to the schema enum
+2. Update the logging service
+3. Add log calls to archive/unarchive operations
+4. Update the UI to display new action icons
+5. Write tests for the new logging
+
+### Analyzing Patterns
+
+Ask Claude to find insights:
+
+> Which sites have the most failed health checks?
+
+Claude generates analysis queries:
+```typescript
+const failedHealthChecks = await db
+  .select({
+    siteId: activityLog.siteId,
+    siteName: sites.name,
+    failureCount: count()
+  })
+  .from(activityLog)
+  .leftJoin(sites, eq(activityLog.siteId, sites.id))
+  .where(and(
+    eq(activityLog.action, 'health_check'),
+    eq(activityLog.status, 'failed')
+  ))
+  .groupBy(activityLog.siteId, sites.name)
+  .orderBy(desc(count()))
+```
+
+### Exporting Activity Data
+
+Ask Claude to generate exports:
+
+> Export all activity from site #5 as CSV
+
+Claude generates the export logic:
+```typescript
+const logs = await db.query.activityLog.findMany({
+  where: eq(activityLog.siteId, 5),
+  orderBy: desc(activityLog.createdAt)
+})
+
+const csv = logs.map(log =>
+  `${log.createdAt},${log.action},${log.status},"${log.details}"`
+).join('\n')
+```
+
+### Performance Optimization
+
+If activity logs are slow:
+
+> Activity page takes 3 seconds to load
+
+Claude will:
+- Suggest database indexes on `siteId`, `action`, `createdAt`
+- Recommend pagination strategies
+- Propose archiving old logs
+- Add caching for summary statistics

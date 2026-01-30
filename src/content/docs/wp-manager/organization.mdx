@@ -142,3 +142,132 @@ GET /api/sites/export?includeIps=true
 ```
 
 **Security note:** IP addresses are masked by default (e.g., `192.xxx.xxx.xxx`) to prevent accidental exposure. Use `includeIps=true` only when needed.
+
+## Using with Claude Code
+
+Claude Code can help you organize sites, analyze project data, and automate bulk organization tasks.
+
+### Creating Projects
+
+Ask Claude to set up project structure:
+
+> Create 3 projects: "E-commerce" (orange), "Client Sites" (blue), "Personal" (green)
+
+Claude will use the API to create projects:
+```typescript
+const projects = await Promise.all([
+  createProject({ name: 'E-commerce', color: 'orange' }),
+  createProject({ name: 'Client Sites', color: 'blue' }),
+  createProject({ name: 'Personal', color: 'green' })
+])
+```
+
+### Bulk Project Assignment
+
+Organize multiple sites at once:
+
+> Assign all sites with "shop" or "store" in the name to the E-commerce project
+
+Claude generates bulk update logic:
+```typescript
+const ecommerceSites = await db.query.sites.findMany({
+  where: or(
+    like(sites.name, '%shop%'),
+    like(sites.name, '%store%')
+  )
+})
+
+await Promise.all(
+  ecommerceSites.map(site =>
+    db.update(sites)
+      .set({ projectId: ecommerceProjectId })
+      .where(eq(sites.id, site.id))
+  )
+)
+```
+
+### Analyzing Project Distribution
+
+Ask Claude for insights:
+
+> Show me how many sites are in each project
+
+Claude queries the database:
+```typescript
+const projectStats = await db
+  .select({
+    projectName: projects.name,
+    projectColor: projects.color,
+    siteCount: count(sites.id)
+  })
+  .from(projects)
+  .leftJoin(sites, eq(projects.id, sites.projectId))
+  .groupBy(projects.id, projects.name, projects.color)
+  .orderBy(desc(count(sites.id)))
+```
+
+### Smart Archiving
+
+Automate archiving based on criteria:
+
+> Archive all sites that haven't been synced in 90 days and have no pending updates
+
+Claude generates the archival logic:
+```typescript
+const staleDate = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)
+
+const sitesToArchive = await db.query.sites.findMany({
+  where: and(
+    lt(sites.lastSyncedAt, staleDate.toISOString()),
+    eq(sites.pendingPluginUpdates, 0),
+    eq(sites.pendingThemeUpdates, 0),
+    eq(sites.isArchived, false)
+  )
+})
+
+await Promise.all(
+  sitesToArchive.map(site =>
+    db.update(sites)
+      .set({ isArchived: true })
+      .where(eq(sites.id, site.id))
+  )
+)
+```
+
+### Export Customization
+
+Generate custom export formats:
+
+> Export all e-commerce sites with only URL, WP version, and PHP version
+
+Claude creates a custom export:
+```typescript
+const ecommerceSites = await db.query.sites.findMany({
+  where: eq(sites.projectId, ecommerceProjectId),
+  columns: {
+    url: true,
+    wpVersion: true,
+    phpVersion: true
+  }
+})
+
+const csv = ['URL,WordPress Version,PHP Version']
+  .concat(
+    ecommerceSites.map(site =>
+      `${site.url},${site.wpVersion},${site.phpVersion}`
+    )
+  )
+  .join('\n')
+```
+
+### Search Enhancement Ideas
+
+Ask Claude to add new search features:
+
+> Add fuzzy search that handles typos
+
+Claude will:
+1. Install a fuzzy search library (e.g., Fuse.js)
+2. Update the search component
+3. Configure fuzzy matching options
+4. Add tests for fuzzy matching scenarios
