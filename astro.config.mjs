@@ -114,6 +114,10 @@ export default defineConfig({
 					autogenerate: { directory: 'claude-code' },
 				},
 				{
+					label: 'Claude Codex',
+					autogenerate: { directory: 'claude-codex' },
+				},
+				{
 					label: 'Claude New Project',
 					autogenerate: { directory: 'claude-new-project' },
 				},

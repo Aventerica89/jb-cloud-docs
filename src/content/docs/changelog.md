@@ -14,6 +14,20 @@ Track when new documentation is added for jbcloud.app projects.
 ### January 30, 2026
 
 **New Projects**
+- [Claude Codex](/claude-codex/) - Universal Claude Code configuration system
+  - 38+ custom commands for productivity shortcuts
+  - 12+ specialized agents (TDD, security, architecture, build fixes)
+  - 15+ reusable skills (frontend/backend patterns, continuous learning)
+  - Auto-sync daemon for cross-machine synchronization
+  - Browser extension for Claude.ai Projects integration
+  - Plugin-based distribution system
+  - GitHub Actions CI/CD workflows
+  - Comprehensive documentation with architecture and implementation plan
+  - GitHub: https://github.com/Aventerica89/claude-codex
+
+### January 30, 2026 (Earlier)
+
+**New Projects**
 - [Renvio Companion App](/renvio-companion-app/) - Hemodialysis clinic companion app for charting and workflow optimization
   - Modern re-implementation of HDFlowsheet-Cloud
   - Next.js 15 + Turso (libSQL) + Drizzle ORM + Better Auth
