@@ -1,14 +1,14 @@
 ---
-title: LinksToGo
+title: URLsToGo
 description: Fast, free URL shortener running on Cloudflare's edge network with multi-user support, categories, and analytics
 sidebar:
   order: 0
 source_project: /Users/jb/URLsToGo
 ---
 
-LinksToGo is a production URL shortener that runs on Cloudflare's edge network. It features multi-user support, categories, tags, click analytics, and a clean dark UI inspired by Shadcn.
+URLsToGo is a production URL shortener that runs on Cloudflare's edge network. It features multi-user support, categories, tags, click analytics, and a clean dark UI inspired by Shadcn.
 
-**Live Domain**: [linkstogo.cloud](https://linkstogo.cloud)
+**Live Domain**: [urlstogo.cloud](https://urlstogo.cloud)
 
 **Source Repository**: [URLsToGo](https://github.com/Aventerica89/URLsToGo)
 
@@ -128,7 +128,7 @@ See [Progress](/linkshort/progress) for full security audit details.
 
 ## Using with Claude Code
 
-Claude Code can help you deploy, customize, and maintain your LinksToGo instance.
+Claude Code can help you deploy, customize, and maintain your URLsToGo instance.
 
 ### Deployment and Setup
 
@@ -144,7 +144,7 @@ wrangler deploy
 
 **Ask Claude Code for help:**
 ```
-"Set up my LinksToGo instance with custom domain and Cloudflare Access"
+"Set up my URLsToGo instance with custom domain and Cloudflare Access"
 ```
 
 Claude Code will guide you through:
