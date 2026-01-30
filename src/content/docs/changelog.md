@@ -22,7 +22,23 @@ Track when new documentation is added for jbcloud.app projects.
   - Foundation phase: database schema, authentication, core UI components
   - GitHub: https://github.com/Aventerica89/renvio-companion-app
 
-### January 30, 2026 (Earlier)
+**New Documentation & Features**
+- [Claude Code Integration](/changelog/) - Added comprehensive "Using with Claude Code" sections to all 33 documentation pages
+  - Development workflows, testing, and debugging examples for each project
+  - Real CLI commands and code generation patterns
+  - Platform-specific integration (SwiftUI, Cloudflare Workers, Next.js, etc.)
+  - Merged via PR #5
+
+- [SSH Setup Guide](/xcloud/ssh-setup/) - Comprehensive xCloud SSH access with Claude Code remote development
+  - 3 configuration methods (settings.json, env vars, SSH config)
+  - Docker command reference and xCloud Command Runner integration
+  - Real-world Ollama memory configuration example
+  - Merged via PR #4
+
+- /jbdocs Command Enhancement - Automatic "What's New" section updates
+  - New Step 5.5: Update What's New section on homepage with every sync
+  - Keeps only 2 most recent items in CardGrid
+  - Auto-removes older entries when adding new ones
 
 **Updated Documentation**
 - [Claude Code](/claude-code/) - New release and GitHub Actions commands
