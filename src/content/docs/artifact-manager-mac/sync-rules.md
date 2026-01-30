@@ -12,7 +12,7 @@ Artifact Manager exists in two implementations:
 | Platform | Location | Tech Stack |
 |----------|----------|------------|
 | macOS | `/Users/jb/.21st/worktrees/artifact-manager-mac/distant-bluff` | Swift, SwiftUI, SwiftData |
-| Web | `/Users/jb/cf-url-shortener/artifacts-app/` | Cloudflare Workers, D1, HTML/JS |
+| Web | `/Users/jb/URLsToGo/artifacts-app/` | Cloudflare Workers, D1, HTML/JS |
 
 **Core Rule:** When modifying core functionality, apply the same changes to both versions.
 
@@ -214,7 +214,7 @@ migrations.sql (collections table)
 Reason: Faster to test and deploy
 
 ```bash
-cd /Users/jb/cf-url-shortener/artifacts-app/
+cd /Users/jb/URLsToGo/artifacts-app/
 
 # Make changes to worker.js
 # Test locally
@@ -252,7 +252,7 @@ static func isValidArtifactName(_ name: String) -> Bool {
 
 **Web:**
 ```bash
-cd /Users/jb/cf-url-shortener/artifacts-app/
+cd /Users/jb/URLsToGo/artifacts-app/
 wrangler dev
 # Manual testing in browser
 ```

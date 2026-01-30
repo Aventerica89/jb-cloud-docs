@@ -11,6 +11,15 @@ Track when new documentation is added for jbcloud.app projects.
 
 ## January 2026
 
+### January 29, 2026
+
+**Updated Documentation**
+- [LinkShort URL Shortener](/linkshort/) - Repository renamed from cf-url-shortener to URLsToGo
+  - Updated all GitHub repository links
+  - Updated source project paths
+  - Updated artifact manager references
+  - New URL: https://github.com/Aventerica89/URLsToGo
+
 ### January 30, 2026
 
 **New Projects**

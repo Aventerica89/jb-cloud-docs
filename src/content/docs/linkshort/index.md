@@ -3,12 +3,12 @@ title: LinkShort URL Shortener
 description: Fast, free URL shortener running on Cloudflare's edge network with multi-user support, categories, and analytics
 sidebar:
   order: 0
-source_project: /Users/jb/cf-url-shortener
+source_project: /Users/jb/URLsToGo
 ---
 
 LinkShort is a production URL shortener that runs on Cloudflare's edge network. It features multi-user support, categories, tags, click analytics, and a clean dark UI inspired by Shadcn.
 
-**Source Repository**: [cf-url-shortener](https://github.com/Aventerica89/cf-url-shortener)
+**Source Repository**: [URLsToGo](https://github.com/Aventerica89/URLsToGo)
 
 ## Live Instances
 
@@ -62,7 +62,7 @@ React Native companion app with:
 
 ### Deploy Your Own Instance
 
-1. **Fork the repo**: [github.com/user/cf-url-shortener](https://github.com)
+1. **Fork the repo**: [github.com/Aventerica89/URLsToGo](https://github.com/Aventerica89/URLsToGo)
 
 2. **Set up Cloudflare**:
 ```bash
@@ -105,7 +105,7 @@ No credit card required. No surprise bills.
 
 ## Repository
 
-[GitHub: cf-url-shortener](https://github.com/Aventerica89/cf-url-shortener)
+[GitHub: URLsToGo](https://github.com/Aventerica89/URLsToGo)
 
 ## Recent Security Updates
 

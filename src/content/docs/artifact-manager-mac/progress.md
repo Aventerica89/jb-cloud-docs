@@ -262,5 +262,5 @@ Claude reviews [Sync Rules](/artifact-manager-mac/sync-rules/) and confirms:
 
 ## Companion Project
 
-**Web Version**: `/Users/jb/cf-url-shortener/artifacts-app/`
+**Web Version**: `/Users/jb/URLsToGo/artifacts-app/`
 - See [Sync Rules](/artifact-manager-mac/sync-rules/) for keeping projects in sync
