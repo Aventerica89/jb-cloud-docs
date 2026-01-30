@@ -11,6 +11,16 @@ Track when new documentation is added for jbcloud.app projects.
 
 ## January 2026
 
+### January 30, 2026 (Latest)
+
+**New Documentation & Features**
+- [AeroSpace Multi-Config Setup](/aerospace/multi-config/) - Symlink-based system for managing multiple window manager configurations
+  - Switch between minimal (5 workspaces) and full (35 workspaces) configs instantly
+  - Custom configs for laptop, desktop, work, focus mode
+  - Automatic config reloading with `aerospace-switch` CLI tool
+  - Real-world examples for context-based switching
+  - Compatible with existing AeroSpace installations
+
 ### January 29, 2026
 
 **Updated Documentation**
@@ -20,7 +30,7 @@ Track when new documentation is added for jbcloud.app projects.
   - Updated artifact manager references
   - New URL: https://github.com/Aventerica89/URLsToGo
 
-### January 30, 2026
+### January 30, 2026 (Earlier)
 
 **New Projects**
 - [Claude Codex](/claude-codex/) - Universal Claude Code configuration system
