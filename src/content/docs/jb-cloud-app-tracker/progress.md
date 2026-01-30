@@ -338,3 +338,153 @@ All planned phases complete. Application is live and fully functional with provi
 - [GitHub Repository](#) (private)
 - [Vercel Dashboard](https://vercel.com)
 - [Supabase Dashboard](https://supabase.com)
+
+## Using with Claude Code
+
+Claude Code can help you track progress, document updates, and maintain the project status.
+
+### Progress Tracking
+
+**Generate progress reports:**
+```
+"Create a summary of work completed in the last week"
+```
+
+Claude Code will:
+- Scan git commits
+- Check completed tasks
+- Summarize features added
+- List bugs fixed
+- Note deployment updates
+
+**Update documentation:**
+```
+"Update the progress.md file with today's work:
+- Added password recovery
+- Fixed Cloudflare sync bug
+- Deployed to production"
+```
+
+### Metrics and Analytics
+
+**Calculate project metrics:**
+```bash
+# Lines of code by type
+fd -e ts -e tsx | xargs wc -l
+
+# Component count
+fd -e tsx src/components | wc -l
+
+# Server Actions
+fd -e ts src/lib/actions | wc -l
+```
+
+**Ask Claude Code for analysis:**
+```
+"Analyze the codebase and calculate:
+- Total TypeScript files
+- Component count
+- Server Action count
+- Test coverage percentage
+- Average file size"
+```
+
+### Release Notes
+
+**Generate release notes:**
+```
+"Create release notes for v1.1.0 from recent commits covering:
+- New features
+- Bug fixes
+- Breaking changes
+- Upgrade instructions"
+```
+
+**Changelog maintenance:**
+```
+"Update CHANGELOG.md with all changes since the last release"
+```
+
+### Session Summaries
+
+**Document coding sessions:**
+```
+"Summarize today's development session including:
+- Features implemented
+- Bugs fixed
+- Testing performed
+- Deployment status
+- Next steps"
+```
+
+**Weekly summaries:**
+```
+"Create a weekly summary of progress including:
+- Completed phases
+- New features
+- Performance improvements
+- Bug fixes
+- Metrics changes"
+```
+
+### Real-World Examples
+
+**Example 1: Sprint retrospective**
+```
+"Conduct a sprint retrospective:
+- What went well?
+- What challenges did we face?
+- What can be improved?
+- Action items for next sprint"
+```
+
+**Example 2: Security audit log**
+```
+"Document all security improvements made in January 2026:
+- XSS fixes
+- RLS policy updates
+- Input validation additions
+- Security header configuration"
+```
+
+**Example 3: Performance tracking**
+```
+"Track performance metrics over time:
+- Initial load time: [baseline]
+- After optimization: [improved]
+- Database query time: [before/after]
+- API response time: [before/after]"
+```
+
+### Milestone Tracking
+
+**Check milestone completion:**
+```
+"Are all Phase 10 tasks complete? Create a completion checklist"
+```
+
+**Plan next milestone:**
+```
+"Based on current progress, when can we realistically complete Phase 11?"
+```
+
+### Issue Management
+
+**Track known issues:**
+```
+"Create a list of known issues prioritized by severity:
+- Critical (blocks usage)
+- High (major functionality affected)
+- Medium (minor issues)
+- Low (cosmetic)"
+```
+
+**Bug triage:**
+```
+"Analyze this error log and determine:
+- Root cause
+- Severity
+- Affected users
+- Fix priority
+- Estimated time to fix"
+```

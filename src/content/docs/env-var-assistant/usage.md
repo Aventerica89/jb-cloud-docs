@@ -179,3 +179,156 @@ Before saving, verify the dashboard URL is correct. This makes "Visit" navigatio
 ### Keep 1Password CLI Authenticated
 
 For seamless operation, ensure 1Password CLI stays authenticated. Use biometric unlock for best experience.
+
+## Using with Claude Code
+
+Claude Code integrates with the Env Var Assistant to automate API key management workflows.
+
+### Automated Key Detection
+
+**Scan and save from clipboard:**
+```
+"I just copied an API key. Detect what type it is and save it to 1Password"
+```
+
+Claude Code will:
+1. Read clipboard content
+2. Match against 60+ patterns
+3. Identify key type (e.g., "OpenAI API Key")
+4. Suggest environment variable name
+5. Save to 1Password with tags
+
+**Batch processing:**
+```
+"I have 10 API keys in .env file. Import them all to 1Password"
+```
+
+### Smart Organization
+
+**Auto-tagging:**
+```
+"Save these keys with project-specific tags:
+OPENAI_API_KEY (project: chatbot)
+STRIPE_SECRET_KEY (project: chatbot)
+DATABASE_URL (project: chatbot)"
+```
+
+Claude Code will add:
+- Provider tags (openai, stripe, supabase)
+- env-var tag
+- Custom project tags
+
+**Workspace organization:**
+```
+"Organize all env-var items in 1Password by project:
+- Move chatbot keys to 'Chatbot' collection
+- Move ecommerce keys to 'E-commerce' collection"
+```
+
+### Deployment Workflows
+
+**Project setup automation:**
+```
+"New Next.js project needs:
+- Supabase (URL, anon key, service key)
+- OpenAI API key
+- Stripe keys (test and live)
+
+Find them in 1Password and create .env.local"
+```
+
+**Multi-environment setup:**
+```
+"Set up env vars for:
+- .env.development (test keys)
+- .env.production (live keys)
+Pull from 1Password and generate both files"
+```
+
+### Real-World Examples
+
+**Example 1: API key rotation**
+```
+"Rotate the Stripe API key:
+1. Generate new key from Stripe dashboard
+2. Save to 1Password (replace old)
+3. Update Vercel environment variables
+4. Test deployment
+5. Revoke old key"
+```
+
+**Example 2: Team onboarding**
+```
+"New developer joining. They need:
+- Read access to Development vault
+- All API keys for the mobile-app project
+- Instructions for setting up .env.local
+
+Generate onboarding checklist"
+```
+
+**Example 3: Security audit**
+```
+"Audit all API keys in 1Password:
+- Find keys without env-var tag
+- Identify keys without dashboard URLs
+- Check for duplicate keys
+- Verify all keys have rotation dates"
+```
+
+### Troubleshooting
+
+**Debug extension issues:**
+```
+"The extension isn't detecting my API key. Debug:
+- Check clipboard content format
+- Verify pattern exists for this service
+- Test regex pattern manually
+- Check browser console for errors"
+```
+
+**Fix import errors:**
+```
+"Bulk import failed for 3/10 keys. Why?"
+```
+
+Claude Code will:
+- Check pattern matching
+- Verify 1Password CLI connection
+- Test vault permissions
+- Identify malformed keys
+
+### Advanced Usage
+
+**Custom workflows:**
+```
+"Create a workflow that:
+1. Monitors clipboard for API keys
+2. Auto-saves to 1Password
+3. Adds to project's .env.local.tpl
+4. Triggers deployment if on main branch"
+```
+
+**Integration with other tools:**
+```
+"Integrate Env Var Assistant with:
+- VS Code extension (show keys in IDE)
+- Raycast extension (quick key lookup)
+- Alfred workflow (paste from 1Password)"
+```
+
+### Analytics and Insights
+
+**Usage tracking:**
+```
+"How many API keys have I saved this month? Which providers are most common?"
+```
+
+**Key inventory:**
+```
+"Generate a report of all API keys by:
+- Provider
+- Project
+- Last used date
+- Rotation schedule"
+```

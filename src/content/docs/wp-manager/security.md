@@ -126,3 +126,126 @@ To include full IPs in exports, explicitly pass `?includeIps=true`.
 | `ENCRYPTION_SECRET` | Yes | Key for encrypting WordPress credentials |
 | `TURSO_DATABASE_URL` | Yes | Database connection URL |
 | `TURSO_AUTH_TOKEN` | Yes | Database auth token |
+
+## Using with Claude Code
+
+Claude Code can help you implement security features, audit code for vulnerabilities, and manage secure deployments.
+
+### Security Audits
+
+Ask Claude to review your code for security issues:
+
+> Audit the WP Manager codebase for security vulnerabilities
+
+Claude will check for:
+- SQL injection risks (LIKE wildcards, raw queries)
+- XSS vulnerabilities (unsanitized HTML)
+- Credential exposure (hardcoded secrets, logs)
+- Authentication bypasses
+- CSRF token issues
+- Rate limiting gaps
+
+### Setting Up Encryption
+
+Claude can generate secure encryption keys:
+
+> Generate a secure encryption key for WP Manager
+
+Claude runs:
+```bash
+openssl rand -base64 32
+# Output: dGhpc2lzYXNlY3VyZTMyY2hhcmFjdGVya2V5Zm9yZW5j
+
+# Claude then helps you add it to Vercel
+vercel env add ENCRYPTION_SECRET
+```
+
+### Implementing Rate Limiting
+
+Add rate limiting to new endpoints:
+
+> Add rate limiting to the /api/sites/export endpoint
+
+Claude will:
+1. Create rate limiting middleware
+2. Apply it to the endpoint
+3. Write tests for rate limit enforcement
+4. Add proper error responses (HTTP 429)
+
+Example implementation Claude might generate:
+```typescript
+// lib/rateLimit.ts
+import rateLimit from 'express-rate-limit'
+
+export const exportLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 exports per window
+  message: 'Too many export requests, please try again later'
+})
+
+// app/api/sites/export/route.ts
+import { exportLimiter } from '@/lib/rateLimit'
+
+export async function GET(request: Request) {
+  await exportLimiter(request)
+  // ... export logic
+}
+```
+
+### Credential Rotation
+
+When credentials are compromised:
+
+> Help me rotate the ENCRYPTION_SECRET without losing existing site credentials
+
+Claude will guide you through:
+1. Decrypt all credentials with old key
+2. Generate new encryption key
+3. Re-encrypt credentials with new key
+4. Update environment variable
+5. Verify all sites still work
+
+### Adding Security Headers
+
+Implement additional security headers:
+
+> Add Content-Security-Policy header to WP Manager
+
+Claude generates middleware:
+```typescript
+export function securityHeaders(response: Response) {
+  response.headers.set(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
+  )
+  return response
+}
+```
+
+### Penetration Testing Support
+
+Claude can help you test security:
+
+> Test if the login endpoint is vulnerable to brute force
+
+Claude will:
+- Generate test scripts to attempt rapid login attempts
+- Verify rate limiting works correctly
+- Check for timing attacks in authentication
+- Suggest improvements based on test results
+
+### Secure Deployment Checklist
+
+Ask Claude to verify production readiness:
+
+> Is WP Manager ready for production deployment?
+
+Claude checks:
+- ✓ ADMIN_PASSWORD is set
+- ✓ ENCRYPTION_SECRET is strong (32+ chars)
+- ✓ JWT_SECRET is unique (not default)
+- ✓ HTTPS is enforced
+- ✓ Security headers are present
+- ✓ Rate limiting is active
+- ✓ Error messages don't leak info
+- ✓ Dependencies have no critical CVEs

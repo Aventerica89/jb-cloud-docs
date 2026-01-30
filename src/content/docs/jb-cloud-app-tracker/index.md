@@ -237,3 +237,167 @@ See [Progress](./progress) for latest session updates.
 - [Architecture](./architecture) - System architecture and design decisions
 - [Plan](./plan) - Implementation plan with tasks and dependencies
 - [Progress](./progress) - Development progress and status
+
+## Using with Claude Code
+
+Claude Code can help you develop, customize, and maintain the JB Cloud App Tracker efficiently.
+
+### Getting Started
+
+**Set up the development environment:**
+```bash
+# Clone the repository
+git clone <repo-url>
+cd jb-cloud-app-tracker
+
+# Install dependencies
+npm install
+
+# Set up environment variables with 1Password
+npm run env:inject
+
+# Run development server
+npm run dev
+```
+
+**Ask Claude Code for help:**
+```
+"What environment variables do I need to set up this project?"
+```
+
+Claude Code will scan `.env.local.tpl` and explain each variable.
+
+### Feature Development
+
+**Add new features quickly:**
+```
+"Add a 'favorite' feature to applications:
+- Add is_favorite boolean to database
+- Create Server Action to toggle favorite
+- Add star icon to application cards
+- Filter applications by favorite status"
+```
+
+**Integrate new providers:**
+```
+"Add Netlify integration:
+- Store Netlify API token in user settings
+- Create Netlify API client
+- Link applications to Netlify sites
+- Sync deployments
+- Map status to our deployment statuses"
+```
+
+### Database Operations
+
+**Modify schema:**
+```
+"Add an 'archived_at' timestamp to applications table and create archive/unarchive functionality"
+```
+
+Claude Code will:
+1. Generate Supabase migration
+2. Update TypeScript types
+3. Create Server Actions
+4. Add UI components
+5. Update RLS policies
+
+**Query optimization:**
+```
+"The applications dashboard is slow. Analyze the queries and suggest optimizations"
+```
+
+### Testing and Debugging
+
+**Write tests:**
+```
+"Create tests for the Vercel sync functionality covering:
+- Successful sync
+- API token missing
+- Invalid project ID
+- Rate limiting
+- Network errors"
+```
+
+**Debug issues:**
+```
+"Deployments aren't syncing from Cloudflare. Add detailed logging to debug the syncCloudflareDeployments action"
+```
+
+### API Integration
+
+**Test provider APIs:**
+```bash
+# Test Vercel API
+curl -H "Authorization: Bearer $VERCEL_API_TOKEN" \
+  https://api.vercel.com/v9/projects
+
+# Test Cloudflare API
+curl -H "Authorization: Bearer $CF_API_TOKEN" \
+  "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/pages/projects"
+```
+
+**Ask Claude Code for help:**
+```
+"The Vercel API is returning 403. What could be wrong with my authentication?"
+```
+
+### Customization
+
+**Theme customization:**
+```
+"Change the primary color from blue to purple throughout the app"
+```
+
+**Add custom fields:**
+```
+"Add a 'cost' field to applications to track monthly hosting costs, with sum total on dashboard"
+```
+
+### Deployment
+
+**Deploy to Vercel:**
+```bash
+# Deploy preview
+vercel
+
+# Deploy to production
+vercel --prod
+```
+
+**Environment variable management:**
+```
+"Copy all environment variables from .env.local to Vercel production environment"
+```
+
+### Real-World Examples
+
+**Example 1: Add analytics dashboard**
+```
+"Create an analytics page showing:
+- Deployments over time (line chart)
+- Deployments by status (pie chart)
+- Most active applications (bar chart)
+- Average deployment duration"
+```
+
+**Example 2: Email notifications**
+```
+"Send email when a deployment fails:
+- Integrate with Resend
+- Create email template
+- Trigger on deployment status change
+- Add email preferences to user settings"
+```
+
+**Example 3: Mobile app**
+```
+"What would I need to create a React Native mobile app for this project?"
+```
+
+Claude Code will outline:
+- Expo setup
+- API client
+- Authentication flow
+- Core screens
+- State management

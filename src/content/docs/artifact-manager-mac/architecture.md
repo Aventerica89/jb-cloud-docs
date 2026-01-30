@@ -351,3 +351,192 @@ Core components that must match web implementation:
 | Collection model | SwiftData @Model | D1 schema |
 
 See [Synchronization Rules](/artifact-manager-mac/sync-rules) for workflow.
+
+## Using with Claude Code
+
+Claude Code can help you extend the architecture, add new models, optimize SwiftData queries, and maintain sync with the web version.
+
+### Adding New SwiftData Models
+
+Tell Claude what you need:
+
+> Add a "Tag" model that can be shared across multiple artifacts
+
+Claude will:
+1. Create the SwiftData model
+2. Update ModelContainer schema
+3. Add migration logic
+4. Update UI to display tags
+5. Check if web version needs matching changes
+
+Example implementation:
+```swift
+@Model
+final class Tag {
+    @Attribute(.unique) var id: String
+    var name: String
+    var color: String
+    var createdAt: Date
+
+    init(name: String, color: String) {
+        self.id = UUID().uuidString
+        self.name = name
+        self.color = color
+        self.createdAt = Date()
+    }
+}
+
+// Update ModelContainer
+let schema = Schema([Item.self, Collection.self, Tag.self])
+```
+
+### Debugging SwiftData Relationships
+
+Ask Claude to help with relationship issues:
+
+> Items aren't showing their collections properly. Here's my FetchDescriptor: [paste code]
+
+Claude will:
+- Review relationship setup
+- Check if `collectionId` references are valid
+- Suggest using SwiftData relationships vs string references
+- Provide migration path if needed
+
+### Optimizing Queries
+
+Tell Claude about performance issues:
+
+> The cleanup utility is slow with 10,000 artifacts
+
+Claude optimizes:
+```swift
+// Before: Loads all items into memory
+let items = try context.fetch(FetchDescriptor<Item>())
+let placeholders = items.filter { NameValidator.isPlaceholder($0.name) }
+
+// After: Filter at database level
+var descriptor = FetchDescriptor<Item>(
+    predicate: #Predicate<Item> { item in
+        item.name.contains("...") || item.name == "Untitled"
+    }
+)
+let placeholders = try context.fetch(descriptor)
+```
+
+### Adding Custom Validators
+
+Ask Claude to create validation logic:
+
+> Add a validator for file paths to ensure they exist on disk
+
+Claude generates:
+```swift
+struct FilePathValidator {
+    static func exists(_ path: String?) -> Bool {
+        guard let path = path else { return false }
+        return FileManager.default.fileExists(atPath: path)
+    }
+
+    static func isReadable(_ path: String?) -> Bool {
+        guard let path = path else { return false }
+        return FileManager.default.isReadableFile(atPath: path)
+    }
+}
+
+// With tests
+func testFilePathValidation() {
+    XCTAssertTrue(FilePathValidator.exists("/Users/test/file.txt"))
+    XCTAssertFalse(FilePathValidator.exists("/nonexistent/path"))
+}
+```
+
+### Implementing New Features Across Platforms
+
+When adding features that affect both macOS and web:
+
+> Add support for artifact versioning - tracking changes over time
+
+Claude will:
+1. Design the data model for both platforms
+2. Update SwiftData schema (macOS)
+3. Generate D1 migration SQL (web)
+4. Update sync rules documentation
+5. Implement UI for both platforms
+
+Example sync check:
+```swift
+// macOS: Item.swift
+var versions: [ArtifactVersion]? // New relationship
+
+// Web: migrations.sql
+CREATE TABLE artifact_versions (
+    id TEXT PRIMARY KEY,
+    artifact_id TEXT NOT NULL,
+    version_number INTEGER NOT NULL,
+    content TEXT,
+    created_at TEXT NOT NULL,
+    FOREIGN KEY (artifact_id) REFERENCES artifacts(id)
+);
+```
+
+### Migration Testing
+
+Ask Claude to test schema migrations:
+
+> Test that adding the "starred" field doesn't break existing artifacts
+
+Claude creates test:
+```swift
+func testStarredFieldMigration() throws {
+    // Create item without starred field (old schema)
+    let item = Item(name: "Test", ...)
+
+    // Add to context and save
+    context.insert(item)
+    try context.save()
+
+    // After migration, verify field exists with default value
+    XCTAssertFalse(item.isStarred)
+}
+```
+
+### Analyzing Architecture Decisions
+
+Ask Claude to review design choices:
+
+> Should Collections use SwiftData relationships or string references?
+
+Claude analyzes trade-offs:
+**String References (current):**
+- ✓ Simple JSON serialization for web sync
+- ✓ No cascade delete issues
+- ✗ No automatic relationship maintenance
+
+**SwiftData Relationships:**
+- ✓ Type-safe, compiler-checked
+- ✓ Automatic cascade delete
+- ✗ Complex JSON serialization for sync
+
+Claude recommends keeping string references for better web sync compatibility.
+
+### Logging Best Practices
+
+Ask Claude to add structured logging:
+
+> Add logging to track when artifacts are created, updated, and deleted
+
+Claude implements:
+```swift
+import OSLog
+
+private let logger = Logger(
+    subsystem: "jbcloud.Artifact-Manager",
+    category: "DataOperations"
+)
+
+func createItem(_ item: Item) {
+    logger.info("Creating artifact: \(item.name, privacy: .public)")
+    logger.debug("Artifact details: type=\(item.artifactType.rawValue), source=\(item.sourceType.rawValue)")
+    // ... creation logic
+}
+```

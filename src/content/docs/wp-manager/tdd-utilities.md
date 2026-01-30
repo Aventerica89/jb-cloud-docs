@@ -242,3 +242,172 @@ async function handleSubmit(formData) {
 | business-logic.ts | 14 | 100% |
 | scheduler.ts | 13 | 100% |
 | **Total** | **63** | **100%** |
+
+## Using with Claude Code
+
+Claude Code can help you write tests first, implement utilities, and maintain 100% test coverage using TDD methodology.
+
+### Writing Tests First (TDD Workflow)
+
+Tell Claude what you need:
+
+> I need a utility function to check if a site's WordPress version is outdated
+
+Claude follows TDD:
+
+**Step 1: Write the failing test**
+```typescript
+// __tests__/site-utils.test.ts
+describe('isOutdatedWordPress', () => {
+  it('returns true if version is below 6.0', () => {
+    expect(isOutdatedWordPress('5.9.3')).toBe(true)
+  })
+
+  it('returns false if version is 6.0 or higher', () => {
+    expect(isOutdatedWordPress('6.4.2')).toBe(false)
+  })
+
+  it('handles null version', () => {
+    expect(isOutdatedWordPress(null)).toBe(true)
+  })
+})
+```
+
+**Step 2: Run test (should fail)**
+```bash
+npm test -- site-utils.test.ts
+```
+
+**Step 3: Implement minimal code to pass**
+```typescript
+// src/lib/site-utils.ts
+export function isOutdatedWordPress(version: string | null): boolean {
+  if (!version) return true
+  const major = parseInt(version.split('.')[0])
+  return major < 6
+}
+```
+
+**Step 4: Verify tests pass**
+```bash
+npm test -- site-utils.test.ts
+```
+
+### Adding New Business Logic
+
+Ask Claude to add scoring logic:
+
+> Add a deduction to health score if PHP version is below 8.0
+
+Claude will:
+1. Add test cases for PHP version checking
+2. Update `calculateHealthScore` function
+3. Verify tests pass
+4. Update documentation
+
+Example tests Claude generates:
+```typescript
+it('deducts 15 points for PHP < 8.0', () => {
+  const score = calculateHealthScore({
+    status: 'online',
+    phpVersion: '7.4',
+    // ... other fields
+  })
+  expect(score).toBe(85) // 100 - 15
+})
+```
+
+### Running Tests with Claude
+
+Claude can run and interpret test results:
+
+```bash
+# Run all tests
+npm test
+
+# Run specific file
+npm test validation.test.ts
+
+# Watch mode
+npm test -- --watch
+
+# Coverage report
+npm test -- --coverage
+```
+
+If tests fail, paste the output to Claude for diagnosis.
+
+### Debugging Validation Errors
+
+Share validation failures with Claude:
+
+> Users are reporting "Invalid URL" errors for valid URLs like "http://localhost:8080"
+
+Claude will:
+- Analyze the `validateSiteUrl` function
+- Add test case for localhost URLs
+- Fix validation regex
+- Verify all tests still pass
+
+### Improving Health Score Algorithm
+
+Ask Claude to analyze scoring:
+
+> The health score seems too harsh for sites with many plugins. Can we adjust it?
+
+Claude will:
+```typescript
+// Current: -2 points per update (max -30)
+// Proposed: -1 point per update (max -20)
+
+it('caps update penalty at 20 points', () => {
+  const score = calculateHealthScore({
+    status: 'online',
+    pendingPluginUpdates: 50,
+    pendingThemeUpdates: 10
+    // ... other fields
+  })
+  expect(score).toBe(80) // 100 - 20
+})
+```
+
+### Test Coverage Analysis
+
+Ask Claude to identify gaps:
+
+> Check if all edge cases are covered for formatRelativeTime
+
+Claude reviews the function and suggests missing tests:
+- Negative dates (future timestamps)
+- Invalid date objects
+- Dates more than 1 year ago
+- Boundary conditions (exactly 60 minutes, etc.)
+
+### Performance Testing
+
+Claude can help benchmark utilities:
+
+> Is calculateHealthScore fast enough for 1000 sites?
+
+Claude generates benchmark:
+```typescript
+const start = performance.now()
+const scores = sites.map(calculateHealthScore)
+const end = performance.now()
+console.log(`Calculated ${sites.length} scores in ${end - start}ms`)
+```
+
+### Refactoring with Test Safety
+
+Ask Claude to refactor:
+
+> Refactor validateSiteData to use Zod schema validation
+
+Claude will:
+1. Install Zod: `npm install zod`
+2. Create schema while keeping tests green
+3. Migrate function implementation
+4. Verify all 24 validation tests still pass
+5. Update documentation
+
+The tests ensure refactoring doesn't break existing behavior.

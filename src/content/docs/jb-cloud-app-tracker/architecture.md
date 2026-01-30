@@ -374,3 +374,222 @@ Environment variables required:
 Supabase Auth configuration:
 - Site URL: `https://apps.jbcloud.app`
 - Redirect URLs: `https://apps.jbcloud.app/callback`
+
+## Using with Claude Code
+
+Claude Code can help you understand the architecture, extend features, and debug issues in the JB Cloud App Tracker.
+
+### Understanding the Architecture
+
+**Explore the codebase structure:**
+```bash
+# Find all Server Actions
+fd -e ts . src/lib/actions
+
+# Locate React Server Components
+rg "export default" src/app --type tsx
+
+# Find database schema
+fd schema supabase/migrations
+```
+
+**Understand data flow:**
+```
+"Trace the flow when a user creates a new application from form submission to database insert and UI update"
+```
+
+Claude Code will explain:
+1. Form submission in client component
+2. Server Action validation with Zod
+3. Supabase insert with RLS check
+4. Path revalidation
+5. Redirect or optimistic UI update
+
+### Database Schema Management
+
+**Generate migrations:**
+```
+"Add a 'notes' field to applications table for free-form text notes"
+```
+
+Claude Code will:
+- Generate Supabase migration SQL
+- Update TypeScript types
+- Add RLS policies
+- Update Server Actions
+- Create UI components
+
+**Understand relationships:**
+```
+"Show me all tables that reference the applications table and their relationship type"
+```
+
+### Adding New Features
+
+**Create new Server Actions:**
+```
+"Add Server Actions for:
+- Bulk delete applications
+- Archive multiple applications at once
+- Export applications as CSV"
+```
+
+**Add new provider integration:**
+```
+"Integrate Railway API:
+- Add railway_project_id to applications table
+- Create Railway API client
+- Fetch projects and deployments
+- Add sync functionality
+- Update UI with Railway selector"
+```
+
+### Security Review
+
+**Check RLS policies:**
+```
+"Review all RLS policies and verify:
+- Users can only access their own data
+- No data leaks through joins
+- Insert policies are restrictive
+- Update policies check ownership"
+```
+
+**Audit Server Actions:**
+```
+"Check all Server Actions for:
+- Proper authentication checks
+- Input validation with Zod
+- SQL injection prevention
+- Open redirect vulnerabilities"
+```
+
+### Testing
+
+**Generate tests:**
+```
+"Create Vitest tests for the applications Server Actions covering:
+- Create application with valid data
+- Create with invalid data (Zod errors)
+- Update owned application (success)
+- Update unowned application (RLS blocks)
+- Delete with cascading relationships"
+```
+
+**Integration tests:**
+```
+"Create Playwright E2E tests for:
+- User signup and login
+- Create application
+- Link to Vercel project
+- Sync deployments
+- View analytics"
+```
+
+### Performance Optimization
+
+**Find N+1 queries:**
+```
+"Analyze the dashboard page data fetching and identify any N+1 query issues"
+```
+
+**Optimize Server Components:**
+```
+"Review the applications list page for:
+- Unnecessary data fetching
+- Missing database indexes
+- Opportunities for caching
+- Parallel data fetching"
+```
+
+### Real-World Examples
+
+**Example 1: Add GitHub integration**
+```
+"Implement GitHub deployments integration:
+1. Add github_repo field to applications
+2. Create GitHub API client
+3. Fetch GitHub Actions runs
+4. Map run status to deployment status
+5. Add UI for repo linking
+6. Auto-sync on page view"
+```
+
+**Example 2: Team collaboration**
+```
+"Add team features:
+1. Create teams table with RLS
+2. Add team_members junction table
+3. Update application ownership to support teams
+4. Add team invitation flow
+5. Modify RLS policies for team access"
+```
+
+**Example 3: Deployment notifications**
+```
+"Add webhook support for deployment updates:
+1. Create API route for webhooks
+2. Verify webhook signatures
+3. Update deployment status
+4. Send email notifications
+5. Add webhook URL to settings page"
+```
+
+### Debugging
+
+**Trace Server Action errors:**
+```
+"The syncVercelDeployments action is failing silently. Add logging and error handling to debug the issue"
+```
+
+**Check authentication:**
+```
+"User is getting redirected to login even though they're authenticated. Debug the middleware and auth checks"
+```
+
+**Database query debugging:**
+```bash
+# Enable Supabase query logging
+# In your Server Component
+const { data, error } = await supabase
+  .from('applications')
+  .select('*')
+  .explain()
+
+# Or check Supabase Dashboard > SQL Editor > Query Performance
+```
+
+### Deployment
+
+**Environment variable management:**
+```
+"List all required environment variables and their purpose, then check if they're properly set in Vercel"
+```
+
+**Pre-deployment checklist:**
+```
+"Generate a deployment checklist covering:
+- Environment variables configured
+- Database migrations applied
+- Supabase Auth URLs updated
+- Security headers configured
+- RLS policies tested
+- API tokens encrypted"
+```
+
+### Data Migration
+
+**Migrate from another system:**
+```
+"Create a script to import applications from a CSV file with columns:
+name, description, repository_url, vercel_project_id, status"
+```
+
+**Backup and restore:**
+```
+"Create Server Actions to:
+- Export all user data as JSON
+- Import from JSON backup
+- Validate imported data
+- Handle conflicts (skip/overwrite)"
+```

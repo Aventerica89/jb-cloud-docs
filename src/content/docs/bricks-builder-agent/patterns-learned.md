@@ -157,3 +157,120 @@ Define component-specific CSS custom variables in the global class `_cssCustom` 
 ```
 
 This keeps component variables scoped and makes them easy to adjust in one place.
+
+## Using with Claude Code
+
+Claude Code can help you apply, extend, and validate Bricks Builder patterns.
+
+### Applying Patterns
+
+**Use existing patterns:**
+```
+"Build a feature card using Pattern 2 (Images as Elements, Not CSS Backgrounds) with:
+- Background image (golf course)
+- Overlay content with title and description
+- Absolute positioning
+- Z-index layering"
+```
+
+Claude Code will generate proper JSON following the pattern.
+
+**Combine multiple patterns:**
+```
+"Create a section using:
+- Pattern 1: Global classes on every element
+- Pattern 2: Image elements instead of CSS backgrounds
+- Pattern 4: Split background technique
+- Pattern 5: CSS custom variables"
+```
+
+### Validating Compliance
+
+**Check pattern adherence:**
+```
+"Review this section JSON and verify it follows:
+- Pattern 1: Every element has a global class
+- Pattern 5: Uses CSS custom variables for repeated values"
+```
+
+**Automated validation:**
+```bash
+# Run pattern validation
+node ~/.claude/projects/bricks-builder/scripts/validate-patterns.js section.json
+
+# Check for common violations:
+# - Elements without global classes
+# - CSS background instead of image elements
+# - Hardcoded colors or spacing
+```
+
+### Learning New Patterns
+
+**Extract patterns from corrections:**
+```
+"I fixed this section. Analyze the changes and extract a reusable pattern"
+```
+
+**Document custom patterns:**
+```
+"Create a new pattern for sticky sidebars with:
+- Position: sticky
+- Top offset using ACSS variable
+- Z-index management
+- BEM class naming"
+```
+
+### Pattern Library
+
+**List available patterns:**
+```
+"Show me all learned patterns for:
+- Photo galleries
+- Card grids
+- Hero sections
+- Navigation menus"
+```
+
+**Pattern search:**
+```
+"Find patterns that use:
+- Absolute positioning
+- CSS Grid
+- Split backgrounds"
+```
+
+### Real-World Examples
+
+**Example 1: Apply card pattern**
+```
+"Create a pricing table using the nested grid pattern:
+- 3 columns
+- Asymmetric sizing (featured plan larger)
+- Global classes on all elements
+- ACSS color variables"
+```
+
+**Example 2: Validate existing section**
+```
+"Check if this hero section follows all 5 patterns and list any violations"
+```
+
+**Example 3: Refactor to patterns**
+```
+"Refactor this section to comply with our patterns:
+- Add global classes where missing
+- Replace CSS backgrounds with image elements
+- Extract repeated values to CSS variables"
+```
+
+### Pattern Evolution
+
+**Update patterns:**
+```
+"We've learned a better way to handle split backgrounds. Update Pattern 4 with the new approach"
+```
+
+**Deprecate patterns:**
+```
+"Mark Pattern X as deprecated because we found a better solution. Suggest migration path"
+```

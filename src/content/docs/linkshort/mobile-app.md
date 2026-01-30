@@ -340,3 +340,232 @@ This mockup serves as the design reference for the React Native implementation.
 - [React Navigation Docs](https://reactnavigation.org)
 - [EAS Build Guide](https://docs.expo.dev/build/introduction/)
 - [Mockup Design](../mobile-app-mockup.html)
+
+## Using with Claude Code
+
+Claude Code can help you develop, test, and deploy the LinkShort mobile app.
+
+### Development Setup
+
+**Initialize the project:**
+```bash
+cd mobile-app
+npm install
+npm start
+```
+
+**Ask Claude Code for help:**
+```
+"Set up the mobile app development environment on a fresh Mac"
+```
+
+Claude Code will guide you through:
+- Installing Expo CLI
+- Setting up iOS Simulator
+- Configuring Android Emulator
+- EAS CLI setup
+
+### Feature Implementation
+
+**Build new screens:**
+```
+"Create the Analytics screen with:
+- Click chart using victory-native
+- Date range selector
+- Top links list
+- Export button
+- Dark theme styling matching web UI"
+```
+
+**Add functionality:**
+```
+"Implement pull-to-refresh for the Links screen:
+- RefreshControl component
+- API call to fetch latest links
+- Update state after refresh
+- Show loading indicator"
+```
+
+### API Integration
+
+**Connect to backend:**
+```
+"Set up the API client to connect to the Cloudflare Worker:
+- Base URL configuration
+- JWT authentication headers
+- Error handling
+- Retry logic"
+```
+
+**Test API calls:**
+```bash
+# Test from the mobile app
+# Add console logging to API client
+npm start
+
+# Then in the running app:
+# Trigger API call and check Metro bundler logs
+```
+
+### Authentication Flow
+
+**Implement auth:**
+```
+"Build the authentication flow:
+1. Open Cloudflare Access login in browser
+2. Handle OAuth callback
+3. Store JWT in Expo Secure Store
+4. Attach JWT to all API requests
+5. Refresh token when expired"
+```
+
+**Debug auth issues:**
+```
+"The auth redirect isn't working. Debug:
+- Check deep link configuration in app.json
+- Verify redirect URL in Cloudflare Access
+- Test with expo-auth-session logs
+- Validate JWT storage/retrieval"
+```
+
+### UI/UX Development
+
+**Match web design:**
+```
+"Create a LinkCard component matching the web UI:
+- Dark background (#18181b)
+- Rounded corners (8px)
+- Blue accent color (#3b82f6)
+- Copy button with haptic feedback
+- Long-press for options menu"
+```
+
+**Responsive layout:**
+```
+"Make the app layout responsive for:
+- iPhone SE (small screen)
+- iPhone 14 Pro (standard)
+- iPhone 14 Pro Max (large)
+- iPad (tablet mode)"
+```
+
+### Testing
+
+**Manual testing workflow:**
+```bash
+# Test on iOS Simulator
+npm run ios
+
+# Test on Android Emulator
+npm run android
+
+# Test on physical device with Expo Go
+npm start
+# Scan QR code
+```
+
+**Write tests:**
+```
+"Create tests for the Links screen:
+- Renders link list correctly
+- Handles empty state
+- Copy button works
+- Pull-to-refresh triggers API call
+- Error handling displays error message"
+```
+
+### Building for Production
+
+**Configure EAS Build:**
+```
+"Set up EAS build profiles for:
+- Development builds (internal testing)
+- Preview builds (TestFlight/Play Console)
+- Production builds (App Store/Google Play)"
+```
+
+**Build commands:**
+```bash
+# iOS development build
+eas build --platform ios --profile development
+
+# Android production build
+eas build --platform android --profile production
+
+# Both platforms
+eas build --platform all --profile production
+```
+
+### Real-World Examples
+
+**Example 1: Offline mode**
+```
+"Implement offline support:
+- Cache links locally with AsyncStorage
+- Queue create/update actions when offline
+- Sync when connection restored
+- Show offline indicator in UI"
+```
+
+**Example 2: Share sheet**
+```
+"Add share functionality:
+- Share link to other apps
+- Generate QR code for sharing
+- Copy link to clipboard
+- Share analytics image"
+```
+
+**Example 3: Push notifications**
+```
+"Set up push notifications for:
+- New link created
+- Link clicked (threshold reached)
+- Weekly summary
+- Configure Expo push notifications"
+```
+
+### Debugging
+
+**Debug common issues:**
+```bash
+# Clear Metro bundler cache
+npm start -- --clear
+
+# Reset Expo cache
+expo start -c
+
+# Check logs
+# iOS: Use Xcode Console
+# Android: Use Logcat
+adb logcat
+```
+
+**Ask Claude Code for help:**
+```
+"The app crashes when opening the Analytics screen. Help me debug:
+- Check component imports
+- Verify API response format
+- Add error boundaries
+- Check state updates"
+```
+
+### Performance Optimization
+
+**Optimize rendering:**
+```
+"Optimize the LinksList component for 1000+ items:
+- Implement FlatList with virtualization
+- Add item separators
+- Optimize re-renders with React.memo
+- Lazy load images"
+```
+
+**Profile performance:**
+```
+"Use React DevTools Profiler to identify:
+- Slow components
+- Unnecessary re-renders
+- Heavy computations
+- Memory leaks"
+```
