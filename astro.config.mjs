@@ -130,6 +130,10 @@ export default defineConfig({
 					autogenerate: { directory: 'jb-cloud-app-tracker' },
 				},
 				{
+					label: 'Renvio Companion App',
+					autogenerate: { directory: 'renvio-companion-app' },
+				},
+				{
 					label: 'JB Cloud Docs',
 					autogenerate: { directory: 'jb-cloud-docs' },
 				},
