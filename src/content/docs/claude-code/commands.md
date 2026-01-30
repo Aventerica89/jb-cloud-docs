@@ -1,13 +1,13 @@
 ---
 title: Available Commands
-description: Reference for all 36 Claude Code slash commands
+description: Reference for all 38 Claude Code slash commands
 sidebar:
   order: 1
 ---
 
 Complete reference for all custom slash commands available in Claude Code.
 
-**Total Commands**: 31 main + 5 security sub-commands = 36
+**Total Commands**: 33 main + 5 security sub-commands = 38
 
 ## Project Creation
 
@@ -32,6 +32,8 @@ Complete reference for all custom slash commands available in Claude Code.
 
 | Command | Description |
 |---------|-------------|
+| `/create-release` | Create and publish a release with automatic tag creation and GitHub Release |
+| `/setup-github-actions` | Set up GitHub Actions CI/CD workflows tailored to your project |
 | `/standup` | Generate standup notes from recent git activity and session context |
 | `/checkpoint` | Create a checkpoint commit |
 
@@ -396,6 +398,65 @@ This makes interactions seamless - Claude proactively uses its capabilities rath
 
 ---
 
+### /create-release
+
+Create and publish releases with automated versioning:
+
+```bash
+/create-release                  # Interactive prompt
+/create-release 1.0.0            # Create v1.0.0
+/create-release --patch          # Auto-increment: 1.2.3 → 1.2.4
+/create-release --minor          # Auto-increment: 1.2.3 → 1.3.0
+/create-release --major          # Auto-increment: 1.2.3 → 2.0.0
+/create-release --dry-run        # Preview only
+```
+
+**Workflow**:
+1. Verifies repository is clean and on main branch
+2. Determines version (from args or auto-increment)
+3. Shows preview of changes since last release
+4. Creates annotated git tag
+5. Pushes tag to trigger GitHub Actions release workflow
+6. Reports GitHub Release URL
+
+**Requirements**: Clean working directory, release.yml workflow (created by `/setup-github-actions`)
+
+---
+
+### /setup-github-actions
+
+Configure CI/CD workflows for your project:
+
+```bash
+/setup-github-actions              # Interactive selection
+/setup-github-actions --all        # All recommended workflows
+/setup-github-actions --minimal    # CI + Dependabot only
+/setup-github-actions --preset node # Node.js preset
+/setup-github-actions ci release   # Specific workflows
+```
+
+**Available Workflows**:
+
+| Workflow | Purpose |
+|----------|---------|
+| CI/Test | Run tests and linting on every PR |
+| Dependabot | Auto-update dependencies |
+| Code Quality | Advanced linting and coverage |
+| Security Scan | CodeQL vulnerability scanning |
+| Release | Auto-create GitHub Releases from tags |
+| Markdown Lint | Lint markdown files |
+| Link Check | Validate links in documentation |
+
+**Presets**:
+- `node` - Full Node.js setup (CI, Dependabot, Code Quality, Security, Release)
+- `python` - Python setup with pip/poetry
+- `docs` - Documentation project (Markdown Lint, Link Check, Dependabot)
+- `rust` - Rust with cargo
+
+**Integration**: Works with `/new-project` (Phase 6.8) and `/create-release`
+
+---
+
 ## Adding Custom Commands
 
 Create a markdown file in `~/.claude/commands/`:
@@ -436,6 +497,11 @@ Create a directory for grouped commands:
 /plan                     # Plan implementation
 /tdd                      # Write code TDD style
 /end                      # End session
+
+# Git & Releases
+/create-release           # Create release with git tag
+/create-release --patch   # Auto-increment patch version
+/setup-github-actions     # Configure CI/CD workflows
 
 # Quality
 /code-review              # Review code

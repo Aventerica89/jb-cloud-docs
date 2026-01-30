@@ -78,6 +78,11 @@ All configuration lives in `~/.claude/`:
         E[/end]
     end
 
+    subgraph Git["Git & Releases"]
+        CRL[/create-release]
+        SGA[/setup-github-actions]
+    end
+
     subgraph Docs["Documentation"]
         JD[/jbdocs]
     end
@@ -103,6 +108,14 @@ All configuration lives in `~/.claude/`:
 /plan                     # Create implementation plan
 /tdd                      # Test-driven development
 /end                      # End session cleanly
+```
+
+### Git & Releases
+
+```bash
+/create-release           # Create release with git tag
+/create-release --patch   # Auto-increment patch version
+/setup-github-actions     # Configure CI/CD workflows
 ```
 
 ### Documentation

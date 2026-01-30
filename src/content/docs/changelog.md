@@ -25,6 +25,13 @@ Track when new documentation is added for jbcloud.app projects.
 ### January 30, 2026 (Earlier)
 
 **Updated Documentation**
+- [Claude Code](/claude-code/) - New release and GitHub Actions commands
+  - Added `/create-release` command for automated versioning and git tag creation
+  - Added `/setup-github-actions` command for CI/CD workflow configuration
+  - Integrated both commands into `/new-project` workflow (Phase 6.8)
+  - Updated commands reference (now 38 total commands)
+  - Added Git & Releases section to command categories
+
 - [WP Manager](/wp-manager/) - 1Password integration and environment variable automation
   - Implemented CLI-first workflow for secure credential management
   - Added `npm run env:inject` for one-command environment setup
