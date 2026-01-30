@@ -12,8 +12,8 @@ newUntil: "2026-02-01"
 
 ## Current Status
 
-**Phase**: Phase 5 (Complete) + Security Hardening
-**Last Updated**: 2026-01-29
+**Phase**: Phase 5 (Complete) + Security Hardening + DevOps Automation
+**Last Updated**: 2026-01-30
 
 ## Completed Phases
 
@@ -61,6 +61,28 @@ newUntil: "2026-02-01"
 - Input validation and error sanitization
 
 ## Recent Updates
+
+### 2026-01-30 (1Password Integration & Environment Management)
+- **1Password Integration**: Implemented CLI-first workflow for managing environment variables
+  - Created `.env.local.tpl` template with 1Password secret references
+  - Added `npm run env:inject` for one-command credential setup
+  - Stored all secrets in 1Password Business vault (TURSO_DATABASE_URL, TURSO_AUTH_TOKEN, ENCRYPTION_SECRET, AUTH_SECRET)
+  - Updated `.env.example` with all required and optional environment variables
+  - Updated `.gitignore` to allow `.env*.tpl` template files for version control
+- **Vercel Deployment**: Deployed all environment variables to Vercel
+  - Configured production, preview, and development environments
+  - Linked project to existing `jb-cloud-wp-manager` Vercel project
+  - Added `NEXT_PUBLIC_APP_URL` for all environments
+- **Documentation Updates**: Updated README with comprehensive setup instructions
+  - Added prerequisites section with 1Password CLI requirement
+  - Documented team workflow using `npm run env:inject`
+  - Included manual setup alternative for solo developers
+  - Added environment variables reference
+- **Benefits**: Team-friendly onboarding - new developers can get started with just `npm run env:inject`
+  - Secrets never in git history
+  - One command to sync all credentials
+  - Version-controlled template shows required variables
+  - CI/CD ready for automated deployments
 
 ### 2026-01-29 (Security Hardening & Database Migration)
 - **Security Fixes**: Resolved all CRITICAL and HIGH security issues

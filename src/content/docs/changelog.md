@@ -11,6 +11,18 @@ Track when new documentation is added for jbcloud.app projects.
 
 ## January 2026
 
+### January 30, 2026
+
+**Updated Documentation**
+- [WP Manager](/wp-manager/) - 1Password integration and environment variable automation
+  - Implemented CLI-first workflow for secure credential management
+  - Added `npm run env:inject` for one-command environment setup
+  - Created `.env.local.tpl` template with 1Password secret references
+  - Stored all secrets in 1Password Business vault
+  - Deployed environment variables to Vercel (production, preview, development)
+  - Updated development workflow with team-friendly automation
+  - Live at https://cloud-manager.jbcloud.app
+
 ### January 29, 2026
 
 **Updated Documentation**
