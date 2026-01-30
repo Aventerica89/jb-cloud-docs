@@ -13,6 +13,17 @@ Track when new documentation is added for jbcloud.app projects.
 
 ### January 30, 2026
 
+**New Projects**
+- [Renvio Companion App](/renvio-companion-app/) - Hemodialysis clinic companion app for charting and workflow optimization
+  - Modern re-implementation of HDFlowsheet-Cloud
+  - Next.js 15 + Turso (libSQL) + Drizzle ORM + Better Auth
+  - HIPAA-compliant design for healthcare workflows
+  - Real-time flowsheet charting and vitals entry
+  - Foundation phase: database schema, authentication, core UI components
+  - GitHub: https://github.com/Aventerica89/renvio-companion-app
+
+### January 30, 2026 (Earlier)
+
 **Updated Documentation**
 - [WP Manager](/wp-manager/) - 1Password integration and environment variable automation
   - Implemented CLI-first workflow for secure credential management
