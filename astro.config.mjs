@@ -122,7 +122,7 @@ export default defineConfig({
 					autogenerate: { directory: 'claude-new-project' },
 				},
 				{
-					label: 'LinkShort URL Shortener',
+					label: 'LinksToGo',
 					autogenerate: { directory: 'linkshort' },
 				},
 				{
