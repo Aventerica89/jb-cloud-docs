@@ -19,6 +19,9 @@
   --jb-cyan: #00D4FF;
   --jb-pink: #FF80B5;
   --jb-purple-rgb: 99, 91, 255;
+  --jb-violet-rgb: 139, 92, 246;
+  --jb-cyan-rgb: 0, 212, 255;
+  --jb-pink-rgb: 255, 128, 181;
 
   /* Accent colors */
   --sl-color-accent-low: #1a1633;
