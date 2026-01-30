@@ -62,7 +62,7 @@ React Native companion app with:
 
 ### Deploy Your Own Instance
 
-1. **Fork the repo**: [github.com/Aventerica89/URLsToGo](https://github.com/Aventerica89/URLsToGo)
+1. **Fork the repo**: [URLsToGo](https://github.com/Aventerica89/URLsToGo)
 
 2. **Set up Cloudflare**:
 ```bash

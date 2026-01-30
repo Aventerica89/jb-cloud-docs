@@ -140,7 +140,7 @@ None currently.
 
 ## Repository
 
-[GitHub: artifact-manager-mac](https://github.com/yourusername/artifact-manager-mac)
+[GitHub: artifact-manager-mac](https://github.com/Aventerica89/artifact-manager-mac)
 
 ## Using with Claude Code
 

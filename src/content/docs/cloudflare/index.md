@@ -14,8 +14,6 @@ Documentation for Cloudflare DNS, tunnels, and CDN configuration.
 - SSL/TLS configuration
 - Page Rules and caching
 
-*More guides coming soon.*
-
 ## Using with Claude Code
 
 Claude Code can help you configure and manage Cloudflare services efficiently.
