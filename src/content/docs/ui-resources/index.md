@@ -39,6 +39,35 @@ A large library of open-source UI elements built by the community. Export compon
 
 ---
 
+## Theme Customization
+
+Visual tools for customizing and configuring UI component themes.
+
+### TweakCN
+
+**Best for:** Visual customization of shadcn/ui themes
+
+A web-based theme editor for shadcn/ui components with real-time preview and code generation. Customize colors, typography, spacing, and other design system properties through an interactive interface.
+
+**Key Features:**
+- Interactive visual theme editor
+- Tailwind CSS v4 support
+- Live preview of component changes
+- Export production-ready theme code
+- Multiple Google Fonts integration
+- Control theme variables (colors, spacing, shadows)
+
+**How to Use:**
+1. Open the editor and select component types to customize
+2. Adjust colors, fonts, spacing in real-time
+3. Preview changes across all shadcn/ui components
+4. Export customized theme configuration code
+5. Integrate into your React/Next.js project
+
+[Visit TweakCN](https://tweakcn.com)
+
+---
+
 ## Design Inspiration
 
 Platforms for finding UI design inspiration from professional designers and real-world websites.
@@ -110,6 +139,7 @@ A curated collection of real landing pages across various niches and categories.
 |----------|------|---------------|
 | [21st.dev](https://21st.dev) | Components | Copy-paste into AI coding tools |
 | [UIVerse.io](https://uiverse.io) | Components | Open-source elements, multiple formats |
+| [TweakCN](https://tweakcn.com) | Theme Tools | Visual shadcn/ui theme customization |
 | [Dribbble.com](https://dribbble.com) | Inspiration | High-quality design concepts |
 | [Landingfolio.com](https://landingfolio.com) | Inspiration | Real company landing pages |
 | [Navbar.gallery](https://navbar.gallery) | Inspiration | Navigation design specifically |
@@ -118,6 +148,7 @@ A curated collection of real landing pages across various niches and categories.
 ## Summary
 
 - **Ready-to-use components:** 21st.dev and UIVerse.io
+- **Theme customization:** TweakCN for shadcn/ui themes
 - **Design inspiration:** Dribbble, Landingfolio, Navbar Gallery, and Land-book
 
 ## Using with Claude Code
