@@ -80,6 +80,8 @@ Replit supports 50+ programming languages including:
 
 ## Pricing Tiers
 
+For the most up-to-date information, visit the [official Replit pricing page](https://replit.com/pricing).
+
 ### Free (Starter)
 - Unlimited public projects
 - 0.5 vCPU, 0.5 GB RAM
@@ -136,65 +138,6 @@ Replit supports 50+ programming languages including:
 | Open command palette | `Cmd/Ctrl + K` |
 | Format code | `Shift + Alt + F` |
 | Find in files | `Cmd/Ctrl + Shift + F` |
-
-## Integration with AI Coding Tools
-
-### Claude Code Integration
-
-Ask Claude to help you work with Replit:
-
-**Create a new project:**
-```
-"Help me set up a Next.js project on Replit with these features:
-- User authentication
-- Database integration
-- API routes
-- Deployment configuration"
-```
-
-**Debug issues:**
-```
-"I'm getting this error in my Replit project: [paste error]
-Here's my code: [paste code]
-Help me debug and fix it."
-```
-
-**Optimize deployment:**
-```
-"My Replit app is slow to load. Review my code and suggest:
-- Performance optimizations
-- Caching strategies
-- Database query improvements"
-```
-
-### Ghostwriter AI Features
-
-Replit's built-in AI assistant can:
-- **Generate code** from natural language descriptions
-- **Explain code** line-by-line in plain English
-- **Debug errors** with suggested fixes
-- **Refactor code** for better performance
-- **Write tests** automatically
-
-### Best Practices
-
-**For Learning:**
-- Fork popular templates to learn by example
-- Use Ghostwriter to explain unfamiliar code
-- Join Replit community for help and inspiration
-- Build small projects to practice concepts
-
-**For Teams:**
-- Use private repls for sensitive code
-- Set up role-based permissions
-- Document setup in README files
-- Use version control (Git integration)
-
-**For Production:**
-- Upgrade to appropriate tier for traffic
-- Configure custom domains
-- Set up environment variables properly
-- Monitor resource usage and costs
 
 ## Limitations & Considerations
 
