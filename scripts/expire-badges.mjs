@@ -14,6 +14,7 @@ import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
 import { join, extname, relative } from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { hasExpiredBadge, removeBadgeFromContent } from '../src/lib/new-badge.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -40,78 +41,6 @@ function getAllDocFiles(dir, files = []) {
   }
 
   return files;
-}
-
-/**
- * Parse frontmatter from file content
- */
-function parseFrontmatter(content) {
-  const match = content.match(/^---\n([\s\S]*?)\n---/);
-  if (!match) return { frontmatter: null, body: content, raw: '' };
-
-  return {
-    frontmatter: match[1],
-    body: content.slice(match[0].length),
-    raw: match[0],
-  };
-}
-
-/**
- * Check if a file has an expired newUntil date
- */
-function hasExpiredBadge(content) {
-  const { frontmatter } = parseFrontmatter(content);
-  if (!frontmatter) return false;
-
-  // Check for newUntil field
-  const newUntilMatch = frontmatter.match(/newUntil:\s*["']?(\d{4}-\d{2}-\d{2})["']?/);
-  if (!newUntilMatch) return false;
-
-  const newUntilDate = new Date(newUntilMatch[1]);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  return newUntilDate < today;
-}
-
-/**
- * Remove sidebar.badge section and related fields from frontmatter
- */
-function removeBadgeFromContent(content) {
-  const { frontmatter, body } = parseFrontmatter(content);
-  if (!frontmatter) return content;
-
-  let updatedFrontmatter = frontmatter;
-
-  // Remove isNew field
-  updatedFrontmatter = updatedFrontmatter.replace(/isNew:\s*true\n?/g, '');
-
-  // Remove newUntil field
-  updatedFrontmatter = updatedFrontmatter.replace(/newUntil:\s*["']?\d{4}-\d{2}-\d{2}["']?\n?/g, '');
-
-  // Remove sidebar.badge section (handles multi-line YAML)
-  // Pattern for inline badge
-  updatedFrontmatter = updatedFrontmatter.replace(
-    /sidebar:\s*\n\s+badge:\s*\n\s+text:\s*["']?New["']?\n\s+variant:\s*\w+\n?/g,
-    ''
-  );
-
-  // Pattern for sidebar with just badge
-  updatedFrontmatter = updatedFrontmatter.replace(
-    /sidebar:\s*\n\s+badge:\s*["']?New["']?\n?/g,
-    ''
-  );
-
-  // Remove empty sidebar section if it only had badge
-  updatedFrontmatter = updatedFrontmatter.replace(/sidebar:\s*\n(?=\n|---)/g, '');
-
-  // Clean up multiple consecutive newlines
-  updatedFrontmatter = updatedFrontmatter.replace(/\n{3,}/g, '\n\n');
-
-  // Trim trailing whitespace from frontmatter
-  updatedFrontmatter = updatedFrontmatter.trim();
-
-  return `---\n${updatedFrontmatter}\n---${body}`;
 }
 
 function main() {
