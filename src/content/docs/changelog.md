@@ -13,6 +13,16 @@ Track when new documentation is added for jbcloud.app projects.
 
 ### January 30, 2026 (Latest)
 
+**Updated Documentation**
+- [Renvio Companion App](/renvio-companion-app/) - Comprehensive implementation guide added
+  - New 936-line implementation guide mapping HDFlowsheet features to modern stack
+  - Updated project status (Phase 1: 85% complete, Phase 2: 20% complete)
+  - Detailed component breakdown for all 4 implementation phases
+  - State management strategy with Zustand
+  - Data persistence patterns and API route examples
+  - Testing strategy for E2E, integration, and unit tests
+  - Live at https://flat-vale.vercel.app
+
 **New Documentation & Features**
 - [AeroSpace Multi-Config Setup](/aerospace/multi-config/) - Symlink-based system for managing multiple window manager configurations
   - Switch between minimal (5 workspaces) and full (35 workspaces) configs instantly

@@ -28,30 +28,48 @@ Hemodialysis clinics require precise documentation and efficient workflows. Curr
 | UI | Tailwind CSS + shadcn/ui | Accessible, customizable components |
 | Icons | Lucide | Clean, MIT licensed |
 
-## Key Features
+## Development Status
 
-### Phase 1: Foundation (In Progress)
-- User authentication with Better Auth
-- Patient list with search and filtering
-- Patient detail view with alerts
-- Treatment creation and management
-- Vital signs entry (quick capture)
-- Basic flowsheet view
-- Role-based access control (nurse, PCT, supervisor, admin)
+### Phase 1: Core Data Management (85% Complete)
 
-### Phase 2: Core Features (Planned)
-- Advanced flowsheet grid with inline editing
-- Medication documentation
-- Complication logging
-- Treatment timer and status management
-- Pre/post assessment forms
+**Completed:**
+- Database schema with Turso and Drizzle ORM
+- Basic UI layout (sidebar, header, dashboard)
+- Comprehensive shadcn/ui component library (all major components)
+- Development tooling (ESLint, Prettier, Husky, lint-staged)
+- Testing infrastructure (Playwright, Vitest with coverage)
+- Style guide and component showcase
 
-### Phase 3: Advanced (Future)
-- Renvio EMR integration (bi-directional sync)
-- Offline/PWA support
-- Mobile companion app
+**In Progress:**
+- Better Auth integration
+- API routes for CRUD operations
+
+### Phase 2: Operations Module (20% Complete)
+
+**Planned Features:**
+- Operations Checklists with folder organization and drag-drop
+- Labs Tracking for STAT lab entries
+- Snippets for reusable text templates
+- Daily completion tracking
+- Backup and restore functionality
+
+### Phase 3: Patient Flowsheets (Planned)
+
+**Future Features:**
+- Excel/CSV patient import
+- Pod-based patient organization
+- Quick charting modals
+- Per-patient QA checklists
+- Wheelchair weight calculator
+- Tech check system
+
+### Phase 4: Reporting (Planned)
+
+**Future Features:**
+- End of Shift Reports (EOSR)
+- Timestamp logger
+- Treatment summaries
 - Analytics dashboard
-- Multi-clinic support
 
 ## Target Users
 
@@ -86,9 +104,11 @@ This is a re-implementation of [HDFlowsheet-Cloud](https://github.com/JBMD-Creat
 - shadcn/ui components
 - TypeScript throughout
 
-## Repository
+## Links
 
-[GitHub: renvio-companion-app](https://github.com/Aventerica89/renvio-companion-app)
+- **Live Site:** [https://flat-vale.vercel.app](https://flat-vale.vercel.app)
+- **Repository:** [GitHub: renvio-companion-app](https://github.com/Aventerica89/renvio-companion-app)
+- **Implementation Guide:** [HDFlowsheet Migration Guide](/renvio-companion-app/implementation/)
 
 ## Quick Start
 
