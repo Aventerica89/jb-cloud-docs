@@ -1,0 +1,145 @@
+---
+/**
+ * HeadingCopyLinks Component
+ *
+ * Adds click-to-copy functionality to all heading anchor links.
+ * When a user clicks on a heading anchor, the full URL with hash is copied to clipboard.
+ */
+---
+
+<style is:global>
+  /* Heading anchor link styling */
+  .sl-markdown-content :is(h1, h2, h3, h4, h5, h6) {
+    position: relative;
+  }
+
+  .sl-markdown-content :is(h1, h2, h3, h4, h5, h6) a[href^="#"] {
+    position: relative;
+  }
+
+  /* Copy indicator that appears on hover */
+  .sl-markdown-content :is(h1, h2, h3, h4, h5, h6)::after {
+    content: '';
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23635bff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='9' width='13' height='13' rx='2' ry='2'%3E%3C/rect%3E%3Cpath d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'%3E%3C/path%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    pointer-events: none;
+  }
+
+  .sl-markdown-content :is(h1, h2, h3, h4, h5, h6):hover::after {
+    opacity: 0.6;
+  }
+
+  /* Toast notification for copy confirmation */
+  .copy-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--sl-color-accent);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(99, 91, 255, 0.3);
+  }
+
+  .copy-toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  /* Mobile-friendly: show indicator on focus */
+  @media (hover: none) {
+    .sl-markdown-content :is(h1, h2, h3, h4, h5, h6)::after {
+      opacity: 0.4;
+    }
+  }
+</style>
+
+<div id="copy-toast" class="copy-toast">Link copied to clipboard!</div>
+
+<script>
+  // Initialize heading copy links
+  function initHeadingCopyLinks() {
+    const toast = document.getElementById('copy-toast');
+    const headings = document.querySelectorAll('.sl-markdown-content h1, .sl-markdown-content h2, .sl-markdown-content h3, .sl-markdown-content h4, .sl-markdown-content h5, .sl-markdown-content h6');
+
+    headings.forEach((heading) => {
+      const anchor = heading.querySelector('a[href^="#"]');
+      if (!anchor) return;
+
+      // Add click handler to the heading itself
+      heading.style.cursor = 'pointer';
+
+      heading.addEventListener('click', async (e) => {
+        // Don't intercept if clicking on the actual anchor link
+        if (e.target === anchor) return;
+
+        e.preventDefault();
+
+        const hash = anchor.getAttribute('href');
+        const fullUrl = window.location.origin + window.location.pathname + hash;
+
+        try {
+          await navigator.clipboard.writeText(fullUrl);
+
+          // Show toast
+          if (toast) {
+            toast.classList.add('show');
+            setTimeout(() => {
+              toast.classList.remove('show');
+            }, 2000);
+          }
+
+          // Also update URL hash
+          window.history.replaceState(null, '', hash);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+
+      // Add click handler to anchor links too
+      anchor.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        const hash = anchor.getAttribute('href');
+        const fullUrl = window.location.origin + window.location.pathname + hash;
+
+        try {
+          await navigator.clipboard.writeText(fullUrl);
+
+          if (toast) {
+            toast.classList.add('show');
+            setTimeout(() => {
+              toast.classList.remove('show');
+            }, 2000);
+          }
+
+          window.history.replaceState(null, '', hash);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+    });
+  }
+
+  // Run on page load
+  document.addEventListener('DOMContentLoaded', initHeadingCopyLinks);
+
+  // Re-run on Astro page transitions (for view transitions)
+  document.addEventListener('astro:page-load', initHeadingCopyLinks);
+</script>
