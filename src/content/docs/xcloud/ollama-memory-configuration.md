@@ -3,11 +3,6 @@ title: Ollama Memory Configuration
 description: How to increase Docker memory limits for Ollama on xCloud to run larger models.
 sidebar:
   order: 2
-  badge:
-    text: New
-    variant: tip
-isNew: true
-newUntil: "2026-02-01"
 ---
 
 When running Ollama on xCloud, you may encounter memory errors like:

@@ -3,11 +3,6 @@ title: Progress - JB Cloud App Tracker
 description: Development progress and status
 sidebar:
   order: 10
-  badge:
-    text: New
-    variant: tip
-isNew: true
-newUntil: "2026-02-01"
 ---
 
 ## Current Status
