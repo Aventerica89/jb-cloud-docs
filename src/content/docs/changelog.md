@@ -9,9 +9,35 @@ Track when new documentation is added for jbcloud.app projects.
 
 ---
 
+## February 2026
+
+### February 1, 2026 (Latest)
+
+**New Documentation**
+- [Artifact Manager Browser Extension](/artifact-manager-extension/) - Chrome and Safari extensions for saving Claude.ai artifacts
+  - One-click save buttons on claude.ai artifact panels
+  - Smart content extraction with multiple fallback methods
+  - Placeholder name validation (prevents "Saving...", "Untitled", etc.)
+  - v1.1.0 released with improved button placement
+
+**New Features**
+- **HTML Artifact Rendering** - Share rendered HTML artifacts with public links
+  - `/render/{token}` endpoint serves sandboxed HTML in iframes
+  - Share buttons in artifact detail modal
+  - Copy-to-clipboard for share URLs
+  - Revoke sharing at any time
+
+- **Landing Page** - Public landing page at artifacts.jbcloud.app
+  - Extension download links
+  - Feature overview
+  - Getting started guide
+  - Version and changelog info
+
+---
+
 ## January 2026
 
-### January 30, 2026 (Latest)
+### January 30, 2026
 
 **Updated Documentation**
 - [Renvio Companion App](/renvio-companion-app/) - Comprehensive implementation guide added
