@@ -161,8 +161,82 @@ export function ThemeProvider({ children, ...props }) {
 
 ---
 
+## Installation Guides
+
+### General Installation
+
+```bash
+npx shadcn@latest init
+```
+
+This will prompt you to configure:
+- TypeScript or JavaScript
+- Style (default, new-york)
+- Base color
+- CSS variables for colors
+- Tailwind CSS config location
+- Component import alias
+
+See: [Installation Guide](https://ui.shadcn.com/docs/installation)
+
+### Next.js Installation
+
+```bash
+# Create new Next.js app
+npx create-next-app@latest my-app --typescript --tailwind --eslint
+
+# Navigate to project
+cd my-app
+
+# Initialize shadcn/ui
+npx shadcn@latest init
+```
+
+See: [Next.js Setup](https://ui.shadcn.com/docs/installation/next)
+
+### Project Structure
+
+shadcn/ui uses a specific directory structure:
+
+```
+├── app/
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── ui/           # shadcn components go here
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   └── ...
+│   └── ...           # your custom components
+├── lib/
+│   └── utils.ts      # cn() helper function
+└── styles/
+    └── globals.css   # Tailwind + CSS variables
+```
+
+See: [Directory Structure](https://ui.shadcn.com/docs/directory)
+
+### Component Registry
+
+shadcn/ui components are distributed via a registry system. You can:
+
+- Browse components at [ui.shadcn.com](https://ui.shadcn.com)
+- Create your own registry for custom components
+- Share components across projects
+
+See: [Registry Documentation](https://ui.shadcn.com/docs/registry)
+
+---
+
 ## Useful Links
 
+### Setup & Installation
+- [Installation Guide](https://ui.shadcn.com/docs/installation)
+- [Next.js Installation](https://ui.shadcn.com/docs/installation/next)
+- [Directory Structure](https://ui.shadcn.com/docs/directory)
+- [Registry Documentation](https://ui.shadcn.com/docs/registry)
+
+### Reference
 - [Documentation](https://ui.shadcn.com/docs)
 - [Components](https://ui.shadcn.com/docs/components)
 - [Themes](https://ui.shadcn.com/themes)
