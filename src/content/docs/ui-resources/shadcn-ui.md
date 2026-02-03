@@ -177,8 +177,6 @@ This will prompt you to configure:
 - Tailwind CSS config location
 - Component import alias
 
-See: [Installation Guide](https://ui.shadcn.com/docs/installation)
-
 ### Next.js Installation
 
 ```bash
@@ -192,13 +190,11 @@ cd my-app
 npx shadcn@latest init
 ```
 
-See: [Next.js Setup](https://ui.shadcn.com/docs/installation/next)
-
 ### Project Structure
 
-shadcn/ui uses a specific directory structure:
+shadcn/ui uses a configurable directory structure (paths defined in `components.json`):
 
-```
+```text
 ├── app/
 │   ├── layout.tsx
 │   └── page.tsx
@@ -214,8 +210,6 @@ shadcn/ui uses a specific directory structure:
     └── globals.css   # Tailwind + CSS variables
 ```
 
-See: [Directory Structure](https://ui.shadcn.com/docs/directory)
-
 ### Component Registry
 
 shadcn/ui components are distributed via a registry system. You can:
@@ -224,8 +218,6 @@ shadcn/ui components are distributed via a registry system. You can:
 - Create your own registry for custom components
 - Share components across projects
 
-See: [Registry Documentation](https://ui.shadcn.com/docs/registry)
-
 ---
 
 ## Useful Links
@@ -233,7 +225,7 @@ See: [Registry Documentation](https://ui.shadcn.com/docs/registry)
 ### Setup & Installation
 - [Installation Guide](https://ui.shadcn.com/docs/installation)
 - [Next.js Installation](https://ui.shadcn.com/docs/installation/next)
-- [Directory Structure](https://ui.shadcn.com/docs/directory)
+- [Components.json Config](https://ui.shadcn.com/docs/components-json)
 - [Registry Documentation](https://ui.shadcn.com/docs/registry)
 
 ### Reference
