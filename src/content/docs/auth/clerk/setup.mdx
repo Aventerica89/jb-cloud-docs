@@ -10,7 +10,29 @@ import Tabs from '../../../../components/Tabs.astro';
 
 Complete setup guide for Clerk authentication.
 
-## Quick Start (Recommended)
+## Vercel Marketplace (Fastest)
+
+If you're deploying to Vercel, use the [Clerk Marketplace integration](https://vercel.com/marketplace/clerk) for instant setup:
+
+1. Go to your Vercel project → **Integrations** → **Browse Marketplace**
+2. Search for **Clerk** and click **Add Integration**
+3. Select the project(s) to connect
+4. Clerk automatically:
+   - Creates a Clerk application
+   - Adds `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` to your project
+   - Syncs environment variables across all environments
+
+<ELI5 title="Why use the Marketplace?">
+The Vercel Marketplace is like a one-click install. Instead of copying API keys between dashboards, Vercel and Clerk talk to each other directly. Your keys are automatically added to your project and stay in sync.
+</ELI5>
+
+**Benefits:**
+- Zero manual key copying
+- Environment variables auto-managed
+- Billing through Vercel (single invoice)
+- Keys automatically rotate when needed
+
+## Quick Start (CLI)
 
 Use the interactive installer:
 

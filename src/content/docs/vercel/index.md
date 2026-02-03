@@ -52,6 +52,7 @@ That's it - your site is live with a preview URL.
 - [Migration](/vercel/ai-sdk/migration/) - Version upgrade guides
 
 ### Platform Guides
+- [AI Gateway](/vercel/ai-gateway/) - Route AI calls through Vercel for monitoring
 - [MCP Server](/vercel/mcp/) - AI tool integration
 - [Production Checklist](/vercel/production-checklist/) - Pre-launch verification
 - [Monorepos](/vercel/monorepos/) - Multi-project deployments
