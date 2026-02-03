@@ -43,8 +43,11 @@ Create or update your `.env` file:
 # Generate a secret: openssl rand -base64 32
 BETTER_AUTH_SECRET=your-secret-key-min-32-chars
 
-# Your app URL
-BETTER_AUTH_URL=http://localhost:3000
+# Your app URL (client-side, for Next.js)
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Your app URL (server-side) - references client URL
+BETTER_AUTH_URL=${NEXT_PUBLIC_APP_URL}
 
 # Database (example for PostgreSQL)
 DATABASE_URL=postgresql://user:pass@localhost:5432/mydb

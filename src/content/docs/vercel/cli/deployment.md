@@ -30,7 +30,6 @@ vercel --no-wait
 | Flag | Description |
 |------|-------------|
 | `--prod` | Deploy to production |
-| `--preview` | Deploy as preview (default) |
 | `--yes` | Skip confirmation prompts |
 | `--no-wait` | Don't wait for build to complete |
 | `--archive=tgz` | Compress source files |

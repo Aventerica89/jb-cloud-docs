@@ -68,14 +68,14 @@ export ANTHROPIC_AUTH_TOKEN=$(security find-generic-password \
 
 ### Claude Code Max Subscription
 
-If you have a Claude Code Max subscription, the gateway still works:
+If you have a Claude Code Max subscription, you may still need to provide an API key for gateway authentication:
 
 ```bash
 export ANTHROPIC_BASE_URL="https://gateway.ai.vercel.com/v1/anthropic"
-# No ANTHROPIC_AUTH_TOKEN needed - uses your subscription
+export ANTHROPIC_AUTH_TOKEN="your-anthropic-api-key"
 ```
 
-Claude Code Max handles authentication automatically. The gateway provides monitoring without requiring a separate API key.
+While Claude Code Max handles authentication for direct Anthropic requests, the gateway requires explicit credentials to forward requests. If you experience 401 errors, ensure `ANTHROPIC_AUTH_TOKEN` is set.
 
 ## Verification
 
