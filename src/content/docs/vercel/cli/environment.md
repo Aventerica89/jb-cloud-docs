@@ -147,8 +147,8 @@ vercel env pull
 # Add to production only
 vercel env add STRIPE_SECRET_KEY production
 
-# Or pipe it in (more secure, no shell history)
-echo "sk_live_xxx" | vercel env add STRIPE_SECRET_KEY production
+# Or pipe from a secure prompt (avoids shell history)
+read -s -p "Enter secret: " SECRET && echo "$SECRET" | vercel env add STRIPE_SECRET_KEY production
 ```
 
 ---
