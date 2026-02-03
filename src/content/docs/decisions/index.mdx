@@ -1,0 +1,66 @@
+---
+title: Decision Guides
+description: When to use what - choosing the right tools and services for your project.
+sidebar:
+  order: 0
+---
+
+import ELI5 from '../../../components/ELI5.astro';
+import RelatedDocs from '../../../components/RelatedDocs.astro';
+
+Guides to help you make the right technology choices.
+
+<ELI5>
+These guides help you avoid analysis paralysis. Instead of researching for hours, use these comparisons to pick the right tool quickly. Each guide explains when to choose what, with clear recommendations.
+</ELI5>
+
+## Available Guides
+
+| Guide | Question It Answers |
+|-------|-------------------|
+| [Hosting](/decisions/hosting/) | Vercel vs Cloudflare vs xCloud? |
+| [Authentication](/decisions/auth/) | BetterAuth vs Clerk vs Auth0? |
+
+## How to Use These Guides
+
+1. **Find your scenario** - Each guide has use cases
+2. **Check the comparison table** - Quick feature overview
+3. **Read the recommendation** - Our suggested pick
+4. **Dive deeper** - Links to setup guides
+
+## Quick Decisions
+
+### For a new SaaS project:
+- **Hosting:** Vercel (best DX)
+- **Auth:** Clerk (fastest setup)
+- **Database:** Turso or Supabase
+
+### For a privacy-focused project:
+- **Hosting:** Cloudflare (edge, privacy)
+- **Auth:** BetterAuth (self-hosted)
+- **Database:** Your own PostgreSQL
+
+### For a content site:
+- **Hosting:** Cloudflare Pages (free, fast)
+- **CMS:** Sanity (structured content)
+- **Framework:** Astro (static-first)
+
+### For a high-traffic app:
+- **Hosting:** Vercel + Cloudflare (hybrid)
+- **Auth:** Clerk (managed, scalable)
+- **Database:** PlanetScale or Neon
+
+## Using with Claude Code
+
+> "Help me choose a tech stack for my new SaaS"
+
+Claude will ask about your requirements and recommend tools.
+
+> "Should I use Vercel or Cloudflare for my project?"
+
+Claude will compare based on your specific needs.
+
+<RelatedDocs links={[
+  { href: '/decisions/hosting/', label: 'Hosting Comparison', description: 'Vercel vs Cloudflare vs xCloud' },
+  { href: '/decisions/auth/', label: 'Auth Comparison', description: 'BetterAuth vs Clerk vs Auth0' }
+]} />

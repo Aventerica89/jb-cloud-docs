@@ -1,0 +1,281 @@
+.commandBrowser {
+  font-family: var(--sl-font-system);
+}
+
+.searchContainer {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  background: var(--sl-color-bg);
+  color: var(--sl-color-text);
+  font-size: 1rem;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--sl-color-accent);
+  box-shadow: 0 0 0 2px rgba(99, 91, 255, 0.2);
+}
+
+.clearBtn {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--sl-color-text);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.clearBtn:hover {
+  background: var(--sl-color-gray-6);
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.filterLabel {
+  font-weight: 500;
+  color: var(--sl-color-gray-2);
+  min-width: 80px;
+  padding-top: 0.5rem;
+}
+
+.filterChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filterChip {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 2rem;
+  background: transparent;
+  color: var(--sl-color-text);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filterChip:hover {
+  border-color: var(--sl-color-accent);
+}
+
+.filterChipActive {
+  background: var(--chip-color, var(--sl-color-accent));
+  border-color: var(--chip-color, var(--sl-color-accent));
+  color: white;
+}
+
+.resultsCount {
+  font-size: 0.875rem;
+  color: var(--sl-color-gray-3);
+  margin-bottom: 1rem;
+}
+
+.commandsList {
+  display: grid;
+  gap: 1rem;
+}
+
+.commandCard {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  background: var(--sl-color-bg);
+}
+
+.commandHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.commandName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--sl-color-accent);
+  background: rgba(99, 91, 255, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.commandTags {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tag {
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.platformTag {
+  color: white;
+}
+
+.categoryTag {
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-gray-2);
+}
+
+.commandDescription {
+  color: var(--sl-color-gray-2);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.commandUsage {
+  background: var(--sl-color-gray-6);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.usageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--sl-color-gray-3);
+}
+
+.copyBtn {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  background: var(--sl-color-gray-5);
+  color: var(--sl-color-text);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.copyBtn:hover {
+  background: var(--sl-color-accent);
+  color: white;
+}
+
+.usageCode {
+  display: block;
+  font-size: 0.875rem;
+  word-break: break-all;
+}
+
+.commandFlags {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.flagsLabel {
+  font-size: 0.75rem;
+  color: var(--sl-color-gray-3);
+}
+
+.flagsList {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.flag {
+  padding: 0.15rem 0.4rem;
+  background: var(--sl-color-gray-6);
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--sl-color-gray-2);
+}
+
+.commandFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--sl-color-gray-6);
+}
+
+.docsLink {
+  font-size: 0.875rem;
+  color: var(--sl-color-accent);
+  text-decoration: none;
+}
+
+.docsLink:hover {
+  text-decoration: underline;
+}
+
+.installBtn {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.25rem;
+  background: transparent;
+  color: var(--sl-color-text);
+  font-size: 0.75rem;
+  font-family: var(--sl-font-mono);
+  cursor: pointer;
+}
+
+.installBtn:hover {
+  border-color: var(--sl-color-accent);
+  color: var(--sl-color-accent);
+}
+
+.noResults {
+  text-align: center;
+  padding: 2rem;
+  color: var(--sl-color-gray-3);
+}
+
+.noResults p {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .filterGroup {
+    flex-direction: column;
+  }
+
+  .filterLabel {
+    min-width: auto;
+    padding-top: 0;
+  }
+
+  .commandHeader {
+    flex-direction: column;
+  }
+
+  .commandFooter {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .installBtn {
+    width: 100%;
+  }
+}

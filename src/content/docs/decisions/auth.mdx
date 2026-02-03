@@ -1,0 +1,164 @@
+---
+title: Authentication Comparison
+description: BetterAuth vs Clerk vs Auth0 - choosing the right auth provider.
+sidebar:
+  order: 2
+---
+
+import ELI5 from '../../../components/ELI5.astro';
+
+Choose the right authentication provider for your project.
+
+<ELI5>
+Authentication providers are like different security systems for your home. BetterAuth is DIY - you install and manage it yourself. Clerk is like a monitored security service - they handle everything, you pay monthly. Auth0 is the enterprise version with all the bells and whistles.
+</ELI5>
+
+## Quick Comparison
+
+| Feature | BetterAuth | Clerk | Auth0 |
+|---------|------------|-------|-------|
+| **Type** | Self-hosted | Managed | Managed |
+| **Price** | Free | Free-$25/mo+ | Free-$23/mo+ |
+| **Setup time** | 1-2 hours | 15 minutes | 30 minutes |
+| **UI Components** | Build your own | Pre-built | Pre-built |
+| **Database** | Your own | Managed | Managed |
+| **Social OAuth** | Manual setup | Dashboard toggle | Dashboard toggle |
+| **Enterprise SSO** | Plugin | Built-in | Built-in |
+| **Best for** | Developers | Startups | Enterprise |
+
+## When to Choose BetterAuth
+
+**Best for:**
+- Full control over auth
+- Privacy requirements (data stays yours)
+- Budget-conscious projects
+- Learning how auth works
+
+**Pros:**
+- Free and open source
+- No vendor lock-in
+- Full customization
+- Data stays in your database
+
+**Cons:**
+- More setup work
+- Build your own UI
+- Self-manage security updates
+
+**Recommended when:**
+- You want ownership of user data
+- You're comfortable with TypeScript
+- Budget is a primary concern
+- You need custom auth flows
+
+## When to Choose Clerk
+
+**Best for:**
+- Fast time-to-market
+- Teams without auth expertise
+- B2C and B2B SaaS
+- Projects needing organizations/teams
+
+**Pros:**
+- Beautiful pre-built UI
+- 15-minute setup
+- Organizations/teams built-in
+- Excellent documentation
+
+**Cons:**
+- Monthly cost at scale
+- Data in Clerk's system
+- Some vendor lock-in
+
+**Recommended when:**
+- Building a SaaS product
+- Need quick launch
+- Want polished UI without design work
+- Need team/organization features
+
+## When to Choose Auth0
+
+**Best for:**
+- Enterprise requirements
+- Complex auth scenarios
+- Compliance needs (SOC2, etc.)
+- Multiple applications
+
+**Pros:**
+- Enterprise-grade security
+- Extensive compliance certifications
+- Handles complex scenarios
+- Great for multiple apps
+
+**Cons:**
+- Complex pricing
+- Can be expensive
+- Steeper learning curve
+
+**Recommended when:**
+- Enterprise customers require it
+- Need SAML/SCIM
+- Have compliance requirements
+- Managing multiple applications
+
+## Decision Matrix
+
+| Scenario | Recommendation |
+|----------|---------------|
+| Personal project | BetterAuth |
+| Startup MVP | Clerk |
+| B2B SaaS | Clerk |
+| Enterprise | Auth0 or Clerk Enterprise |
+| Privacy-first | BetterAuth |
+| Quick prototype | Clerk |
+| Learning auth | BetterAuth |
+
+## Feature Deep Dive
+
+### Social Login (OAuth)
+
+| Provider | BetterAuth | Clerk | Auth0 |
+|----------|------------|-------|-------|
+| Google | Manual | Toggle | Toggle |
+| GitHub | Manual | Toggle | Toggle |
+| Apple | Manual | Toggle | Toggle |
+| Microsoft | Manual | Toggle | Toggle |
+
+### Enterprise Features
+
+| Feature | BetterAuth | Clerk | Auth0 |
+|---------|------------|-------|-------|
+| SAML SSO | Plugin | Enterprise | Pro |
+| SCIM | No | Enterprise | Pro |
+| Audit Logs | DIY | Built-in | Built-in |
+| Custom Domains | Yes | Yes | Yes |
+
+### Security Features
+
+All three provide:
+- Password hashing
+- CSRF protection
+- Rate limiting (managed services)
+- Session management
+
+BetterAuth requires you to configure some security features manually.
+
+## Migration Considerations
+
+**From Auth0 to Clerk:** Relatively easy, similar mental model
+**From Clerk to BetterAuth:** Requires building UI, exporting users
+**From BetterAuth to Clerk:** Export users, remove custom code
+
+## Using with Claude Code
+
+> "Which auth provider should I use for my startup?"
+
+Claude will ask about your requirements and recommend the best fit.
+
+> "Help me migrate from Auth0 to Clerk"
+
+Claude will guide you through the migration process.
+
+> "Set up the recommended auth for my project"
+
+Claude will implement based on your project type.

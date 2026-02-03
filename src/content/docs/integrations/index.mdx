@@ -1,0 +1,56 @@
+---
+title: Integrations Overview
+description: Third-party services, MCP servers, and helper tools for your projects.
+sidebar:
+  order: 0
+---
+
+import ELI5 from '../../../components/ELI5.astro';
+import RelatedDocs from '../../../components/RelatedDocs.astro';
+
+Connect your projects to external services and AI tools.
+
+<ELI5>
+Integrations are like adding apps to your phone. Each one gives your project a new superpower - a CMS for content, an MCP server for AI agents, or analytics for insights. This section helps you set them up correctly.
+</ELI5>
+
+## Available Integrations
+
+### Content Management
+
+| Service | Description | Setup Guide |
+|---------|-------------|-------------|
+| Sanity | Structured content platform | [Sanity Overview](/integrations/sanity/) |
+
+### AI & MCP Servers
+
+| Service | Description | Setup Guide |
+|---------|-------------|-------------|
+| Vercel MCP | Manage Vercel via AI | [Vercel MCP](/vercel/mcp/) |
+| Sanity MCP | Query content via AI | [Sanity MCP](/integrations/sanity/mcp/) |
+
+## What's MCP?
+
+MCP (Model Context Protocol) lets AI assistants interact with external services. Instead of you running commands, you tell the AI what you want and it uses the MCP server to do it.
+
+**Example:**
+> "Show me my latest Sanity documents"
+
+The AI uses the Sanity MCP server to fetch your content and display it.
+
+## Using with Claude Code
+
+Claude Code can connect to MCP servers to help manage your integrations:
+
+> "Set up Sanity in my Astro project"
+
+Claude will install dependencies, create configuration, and set up the studio.
+
+> "Connect the Sanity MCP server so you can query my content"
+
+Claude will configure the MCP connection and test it.
+
+<RelatedDocs links={[
+  { href: '/integrations/sanity/', label: 'Sanity CMS', description: 'Content management setup' },
+  { href: '/vercel/mcp/', label: 'Vercel MCP', description: 'Manage deployments via AI' }
+]} />

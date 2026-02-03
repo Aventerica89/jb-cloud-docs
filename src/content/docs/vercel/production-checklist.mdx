@@ -1,0 +1,221 @@
+---
+title: Production Checklist
+description: Pre-launch verification guide for Vercel deployments.
+sidebar:
+  order: 4
+---
+
+import ELI5 from '../../../components/ELI5.astro';
+
+Verify your project is ready for production before launching.
+
+<ELI5>
+This is like a pilot's pre-flight checklist. Before your website goes live, run through these items to catch problems that could affect real users. It's easier to fix issues now than after launch.
+</ELI5>
+
+## Quick Checklist
+
+### Build & Deploy
+- [ ] Production build succeeds locally (`npm run build`)
+- [ ] No TypeScript or ESLint errors
+- [ ] All environment variables set for production
+- [ ] Custom domain configured and verified
+- [ ] SSL certificate active (automatic with Vercel)
+
+### Performance
+- [ ] Images optimized (use `next/image` or similar)
+- [ ] Code splitting enabled
+- [ ] No console.log statements in production
+- [ ] Lighthouse score > 80 for all metrics
+
+### Security
+- [ ] No secrets in client-side code
+- [ ] HTTPS enforced (automatic with Vercel)
+- [ ] Authentication tested
+- [ ] Rate limiting on API routes
+
+### SEO & Meta
+- [ ] Page titles set for all routes
+- [ ] Meta descriptions added
+- [ ] Open Graph images configured
+- [ ] Sitemap generated
+- [ ] robots.txt configured
+
+---
+
+## Detailed Verification
+
+### 1. Environment Variables
+
+**Check production env vars are set:**
+
+```bash
+vercel env ls production
+```
+
+**Common variables to verify:**
+- Database connection strings
+- API keys (Stripe, OpenAI, etc.)
+- Auth secrets
+- Analytics IDs
+
+**Warning signs:**
+- Using `localhost` URLs in production
+- Test/sandbox API keys in production
+- Missing required variables
+
+### 2. Domain Configuration
+
+**Verify domain setup:**
+
+```bash
+vercel domains ls
+```
+
+**Check:**
+- Primary domain resolves correctly
+- www redirect configured (www -> apex or vice versa)
+- Old domains redirected if migrating
+
+### 3. Performance Audit
+
+**Run Lighthouse locally:**
+
+```bash
+npx lighthouse https://your-domain.com --view
+```
+
+**Target scores:**
+| Metric | Target |
+|--------|--------|
+| Performance | > 80 |
+| Accessibility | > 90 |
+| Best Practices | > 90 |
+| SEO | > 90 |
+
+### 4. Security Review
+
+**Check for exposed secrets:**
+
+```bash
+# Search for hardcoded keys
+grep -r "sk_live\|sk_test\|api_key\|secret" src/
+```
+
+**Verify headers:**
+- Content Security Policy
+- X-Frame-Options
+- X-Content-Type-Options
+
+### 5. Error Handling
+
+**Test error scenarios:**
+- 404 page renders correctly
+- 500 errors show friendly message
+- API errors return proper status codes
+- Form validation errors display
+
+### 6. Analytics & Monitoring
+
+**Set up before launch:**
+- [ ] Vercel Analytics enabled
+- [ ] Error tracking (Sentry, etc.)
+- [ ] Uptime monitoring
+- [ ] Log retention configured
+
+---
+
+## Pre-Launch Testing
+
+### Functional Testing
+
+1. **Test all user flows:**
+   - Sign up / Login
+   - Core features
+   - Payment flows (if applicable)
+   - Contact forms
+
+2. **Test on multiple devices:**
+   - Desktop (Chrome, Firefox, Safari)
+   - Mobile (iOS Safari, Android Chrome)
+   - Tablet
+
+3. **Test edge cases:**
+   - Empty states
+   - Long text inputs
+   - Slow network (use Chrome DevTools)
+
+### Load Testing
+
+For high-traffic launches:
+
+```bash
+# Simple load test with curl
+for i in {1..100}; do
+  curl -s -o /dev/null -w "%{http_code}" https://your-domain.com &
+done
+```
+
+Or use a proper load testing tool like k6 or Artillery.
+
+---
+
+## Launch Day
+
+### Before Going Live
+
+1. **Final preview deployment:**
+   ```bash
+   vercel
+   # Test the preview URL thoroughly
+   ```
+
+2. **Deploy to production:**
+   ```bash
+   vercel --prod
+   ```
+
+3. **Verify production:**
+   - Visit your domain
+   - Test critical flows
+   - Check logs for errors
+
+### After Launch
+
+1. **Monitor for 30 minutes:**
+   - Watch error rates
+   - Check response times
+   - Monitor server logs
+
+2. **Have rollback ready:**
+   ```bash
+   vercel rollback  # If issues arise
+   ```
+
+3. **Celebrate responsibly** - keep your laptop nearby.
+
+---
+
+## Using with Claude Code
+
+Ask Claude to help verify:
+
+> "Review my project for production readiness"
+
+Claude will check environment variables, security issues, and common problems.
+
+> "Run a pre-launch checklist for my Vercel project"
+
+Claude will go through this checklist and report any issues.
+
+> "Check if my site has any security vulnerabilities"
+
+Claude will scan for common security issues like exposed secrets.
+
+---
+
+## Related
+
+- [Build Errors](/vercel/build-errors/) - Fix deployment issues
+- [Vercel CLI](/vercel/cli/) - Deployment commands
+- [Domain Commands](/vercel/cli/domains/) - Domain configuration

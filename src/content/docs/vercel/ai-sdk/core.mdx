@@ -1,0 +1,230 @@
+---
+title: AI SDK Core
+description: Server-side functions for text generation, structured data, embeddings, and tool calling.
+sidebar:
+  order: 1
+---
+
+import ELI5 from '../../../../components/ELI5.astro';
+import RelatedDocs from '../../../../components/RelatedDocs.astro';
+
+Core functions run on the server and interact with AI models directly.
+
+## Text Generation
+
+### generateText
+
+Generate a complete text response. The function waits until the entire response is ready.
+
+```typescript
+import { generateText } from 'ai';
+
+const { text, usage } = await generateText({
+  model: 'anthropic/claude-sonnet-4-20250514',
+  prompt: 'Write a haiku about coding.',
+});
+
+console.log(text);
+// Bugs in the darkness
+// Console.log reveals the truth
+// Ship it anyway
+```
+
+<ELI5>
+`generateText` is like sending a text message and waiting for the full reply. You ask a question, wait, and get the complete answer all at once.
+</ELI5>
+
+**When to use:** Short responses, background tasks, or when you need the full text before continuing.
+
+### streamText
+
+Stream the response token-by-token for real-time display.
+
+```typescript
+import { streamText } from 'ai';
+
+const result = await streamText({
+  model: 'anthropic/claude-sonnet-4-20250514',
+  prompt: 'Explain recursion.',
+});
+
+for await (const chunk of result.textStream) {
+  process.stdout.write(chunk);
+}
+```
+
+<ELI5>
+`streamText` is like watching someone type a message in real-time. You see each word appear as it's written, rather than waiting for the whole message. This makes long responses feel faster to users.
+</ELI5>
+
+**When to use:** Chat interfaces, long responses, or anywhere users benefit from seeing progress.
+
+---
+
+## Structured Data
+
+### generateObject
+
+Generate JSON that matches a Zod schema.
+
+```typescript
+import { generateObject } from 'ai';
+import { z } from 'zod';
+
+const { object } = await generateObject({
+  model: 'anthropic/claude-sonnet-4-20250514',
+  schema: z.object({
+    recipe: z.object({
+      name: z.string(),
+      ingredients: z.array(z.string()),
+      steps: z.array(z.string()),
+    }),
+  }),
+  prompt: 'Generate a recipe for chocolate chip cookies.',
+});
+
+console.log(object.recipe.name);
+// "Classic Chocolate Chip Cookies"
+```
+
+<ELI5>
+`generateObject` tells the AI "I don't just want text, I want organized data." You describe the shape of data you want (like a recipe with a name, ingredients, and steps), and the AI fills it in. The result is a JavaScript object you can use directly in your code.
+</ELI5>
+
+**When to use:** Extracting structured data, generating forms, creating typed responses.
+
+### streamObject
+
+Stream a JSON object as it's generated.
+
+```typescript
+import { streamObject } from 'ai';
+import { z } from 'zod';
+
+const result = await streamObject({
+  model: 'anthropic/claude-sonnet-4-20250514',
+  schema: z.object({
+    characters: z.array(z.object({
+      name: z.string(),
+      backstory: z.string(),
+    })),
+  }),
+  prompt: 'Create 3 fantasy characters.',
+});
+
+for await (const partialObject of result.partialObjectStream) {
+  console.log(partialObject);
+  // See characters appear one by one
+}
+```
+
+---
+
+## Tool Calling
+
+Let the AI call your functions to perform actions.
+
+```typescript
+import { generateText, tool } from 'ai';
+import { z } from 'zod';
+
+const { text, toolResults } = await generateText({
+  model: 'anthropic/claude-sonnet-4-20250514',
+  prompt: 'What is the weather in San Francisco?',
+  tools: {
+    getWeather: tool({
+      description: 'Get current weather for a location',
+      parameters: z.object({
+        location: z.string().describe('City name'),
+      }),
+      execute: async ({ location }) => {
+        // Call your weather API here
+        return { temperature: 72, condition: 'sunny' };
+      },
+    }),
+  },
+});
+```
+
+<ELI5>
+Tool calling lets the AI "do things" instead of just "say things." You define actions the AI can take (like checking weather or searching a database), and the AI decides when to use them. It's like giving the AI a toolbox.
+</ELI5>
+
+---
+
+## Embeddings
+
+Create vector representations of text for similarity search.
+
+```typescript
+import { embed, embedMany } from 'ai';
+
+// Single embedding
+const { embedding } = await embed({
+  model: 'openai/text-embedding-3-small',
+  value: 'The quick brown fox',
+});
+
+// Multiple embeddings
+const { embeddings } = await embedMany({
+  model: 'openai/text-embedding-3-small',
+  values: ['First text', 'Second text', 'Third text'],
+});
+```
+
+<ELI5>
+Embeddings turn text into numbers that capture meaning. Similar sentences get similar numbers. This lets you build search systems that find related content, even if the words are different.
+</ELI5>
+
+---
+
+## Common Patterns
+
+### Chat with System Prompt
+
+```typescript
+const { text } = await generateText({
+  model: 'anthropic/claude-sonnet-4-20250514',
+  system: 'You are a helpful coding assistant. Be concise.',
+  messages: [
+    { role: 'user', content: 'How do I reverse a string in JavaScript?' },
+  ],
+});
+```
+
+### With Max Tokens
+
+```typescript
+const { text } = await generateText({
+  model: 'anthropic/claude-sonnet-4-20250514',
+  prompt: 'Write a story.',
+  maxTokens: 500,
+});
+```
+
+### With Temperature
+
+```typescript
+const { text } = await generateText({
+  model: 'anthropic/claude-sonnet-4-20250514',
+  prompt: 'Generate a creative tagline.',
+  temperature: 0.8, // Higher = more creative
+});
+```
+
+---
+
+## Using with Claude Code
+
+> "Create an API endpoint that generates product descriptions"
+
+Claude will set up a route handler using `generateText` with appropriate system prompts.
+
+> "Add a function that extracts contact info from emails"
+
+Claude will use `generateObject` with a Zod schema for structured extraction.
+
+<RelatedDocs links={[
+  { href: '/vercel/ai-sdk/ui/', label: 'UI Hooks', description: 'Build chat interfaces with React' },
+  { href: '/vercel/ai-sdk/', label: 'AI SDK Overview', description: 'Getting started guide' }
+]} />

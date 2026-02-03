@@ -1,0 +1,268 @@
+---
+title: AI SDK UI Hooks
+description: React hooks for building chat interfaces, completions, and streaming object displays.
+sidebar:
+  order: 2
+---
+
+import ELI5 from '../../../../components/ELI5.astro';
+import RelatedDocs from '../../../../components/RelatedDocs.astro';
+
+UI hooks provide React state management for AI interactions.
+
+## useChat
+
+Build chat interfaces with streaming messages.
+
+```tsx
+'use client';
+
+import { useChat } from 'ai/react';
+
+export default function Chat() {
+  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat();
+
+  return (
+    <div>
+      {messages.map((m) => (
+        <div key={m.id}>
+          <strong>{m.role}:</strong> {m.content}
+        </div>
+      ))}
+
+      <form onSubmit={handleSubmit}>
+        <input
+          value={input}
+          onChange={handleInputChange}
+          placeholder="Say something..."
+          disabled={isLoading}
+        />
+        <button type="submit" disabled={isLoading}>
+          Send
+        </button>
+      </form>
+    </div>
+  );
+}
+```
+
+<ELI5>
+`useChat` handles all the complexity of a chat interface: it keeps track of messages, sends them to your API, streams the responses, and updates the UI. You just render the messages and connect the form.
+</ELI5>
+
+### useChat Options
+
+```tsx
+const {
+  messages,      // Array of chat messages
+  input,         // Current input value
+  handleInputChange, // Input onChange handler
+  handleSubmit,  // Form onSubmit handler
+  isLoading,     // True while AI is responding
+  error,         // Error if request failed
+  reload,        // Regenerate last response
+  stop,          // Stop current stream
+  setMessages,   // Manually set messages
+} = useChat({
+  api: '/api/chat',        // API endpoint (default)
+  initialMessages: [],     // Starting messages
+  onFinish: (message) => {}, // Called when response completes
+  onError: (error) => {},    // Called on error
+});
+```
+
+### API Route for useChat
+
+```typescript
+// app/api/chat/route.ts
+import { streamText } from 'ai';
+
+export async function POST(req: Request) {
+  const { messages } = await req.json();
+
+  const result = await streamText({
+    model: 'anthropic/claude-sonnet-4-20250514',
+    messages,
+  });
+
+  return result.toDataStreamResponse();
+}
+```
+
+---
+
+## useCompletion
+
+For single-turn text completion interfaces.
+
+```tsx
+'use client';
+
+import { useCompletion } from 'ai/react';
+
+export default function Completion() {
+  const { completion, complete, isLoading } = useCompletion();
+
+  return (
+    <div>
+      <button onClick={() => complete('Write a poem about')}>
+        Generate
+      </button>
+      {isLoading && <span>Generating...</span>}
+      <p>{completion}</p>
+    </div>
+  );
+}
+```
+
+<ELI5>
+`useCompletion` is simpler than `useChat`. It's for one-shot generations: you send a prompt, get a response. No conversation history, just a single request. Good for generators, summarizers, or any single-turn AI feature.
+</ELI5>
+
+### useCompletion Options
+
+```tsx
+const {
+  completion,    // The generated text
+  complete,      // Function to trigger completion
+  input,         // Input value (if using form)
+  setInput,      // Set input value
+  handleInputChange,
+  handleSubmit,
+  isLoading,
+  error,
+  stop,
+} = useCompletion({
+  api: '/api/completion',
+  onFinish: (prompt, completion) => {},
+});
+```
+
+---
+
+## useObject
+
+Stream a typed object and display partial results.
+
+```tsx
+'use client';
+
+import { useObject } from 'ai/react';
+import { z } from 'zod';
+
+const recipeSchema = z.object({
+  name: z.string(),
+  ingredients: z.array(z.string()),
+  steps: z.array(z.string()),
+});
+
+export default function RecipeGenerator() {
+  const { object, submit, isLoading } = useObject({
+    api: '/api/recipe',
+    schema: recipeSchema,
+  });
+
+  return (
+    <div>
+      <button onClick={() => submit({ prompt: 'chocolate cake' })}>
+        Generate Recipe
+      </button>
+
+      {object && (
+        <div>
+          <h2>{object.name ?? 'Loading...'}</h2>
+          <ul>
+            {object.ingredients?.map((ing, i) => (
+              <li key={i}>{ing}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+<ELI5>
+`useObject` is like `useChat` but for structured data. As the AI generates a recipe, you see the name appear first, then ingredients pop in one by one, then steps. The UI updates in real-time as data arrives, instead of waiting for everything.
+</ELI5>
+
+---
+
+## Common Patterns
+
+### Chat with Custom UI
+
+```tsx
+const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat();
+
+return (
+  <div className="chat-container">
+    <div className="messages">
+      {messages.map((m) => (
+        <div key={m.id} className={`message ${m.role}`}>
+          {m.role === 'assistant' && isLoading && m === messages[messages.length - 1] ? (
+            <span className="typing-indicator">...</span>
+          ) : (
+            m.content
+          )}
+        </div>
+      ))}
+    </div>
+
+    <form onSubmit={handleSubmit}>
+      <input value={input} onChange={handleInputChange} />
+      <button disabled={isLoading}>
+        {isLoading ? 'Thinking...' : 'Send'}
+      </button>
+    </form>
+  </div>
+);
+```
+
+### With Error Handling
+
+```tsx
+const { messages, error, reload } = useChat();
+
+if (error) {
+  return (
+    <div>
+      <p>Something went wrong: {error.message}</p>
+      <button onClick={() => reload()}>Try again</button>
+    </div>
+  );
+}
+```
+
+### With Initial Messages
+
+```tsx
+const { messages } = useChat({
+  initialMessages: [
+    { id: '1', role: 'system', content: 'You are a helpful assistant.' },
+    { id: '2', role: 'assistant', content: 'Hello! How can I help you today?' },
+  ],
+});
+```
+
+---
+
+## Using with Claude Code
+
+> "Create a chat component with streaming responses"
+
+Claude will generate a component using `useChat` with the API route.
+
+> "Add a loading indicator while the AI is responding"
+
+Claude will update your component to use `isLoading` state.
+
+> "Let users regenerate the last response"
+
+Claude will add a button that calls `reload()`.
+
+<RelatedDocs links={[
+  { href: '/vercel/ai-sdk/core/', label: 'Core Functions', description: 'Server-side text generation' },
+  { href: '/vercel/ai-sdk/', label: 'AI SDK Overview', description: 'Getting started guide' }
+]} />

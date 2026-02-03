@@ -1,0 +1,118 @@
+---
+title: Authentication Overview
+description: Choose the right authentication provider for your project.
+sidebar:
+  order: 0
+---
+
+import ELI5 from '../../../components/ELI5.astro';
+import RelatedDocs from '../../../components/RelatedDocs.astro';
+
+Guide to choosing and implementing authentication.
+
+<ELI5>
+Authentication is how your app knows who's using it. When someone logs in, the app creates a "session" that remembers them. This guide helps you pick the right auth system and set it up correctly the first time.
+</ELI5>
+
+## Quick Comparison
+
+| Feature | BetterAuth | Clerk |
+|---------|------------|-------|
+| **Type** | Self-hosted | Managed service |
+| **Pricing** | Free (open source) | Free tier + paid |
+| **Setup** | More code, full control | Less code, managed |
+| **Database** | You provide | Clerk manages |
+| **UI Components** | Build your own | Pre-built components |
+| **Best for** | Full control, privacy | Quick setup, enterprise |
+
+## Decision Guide
+
+### Choose BetterAuth if:
+
+- You want **full control** over your auth system
+- You need to **keep data in your own database**
+- You're comfortable writing **custom UI**
+- You want to **avoid vendor lock-in**
+- **Budget is tight** (it's free and open source)
+
+### Choose Clerk if:
+
+- You want **minimal setup time**
+- You need **pre-built UI components**
+- You want **managed infrastructure**
+- You need **enterprise features** (SAML, SCIM)
+- You're building a **B2B SaaS product**
+
+## Common Auth Flows
+
+### Email + Password
+
+The classic login method. User provides email and password.
+
+**BetterAuth:** Built-in, requires email verification setup
+**Clerk:** Built-in with pre-built forms
+
+### Social OAuth (Google, GitHub, etc.)
+
+Let users login with existing accounts.
+
+**BetterAuth:** Configure each provider manually
+**Clerk:** Enable with a toggle in dashboard
+
+### Magic Link
+
+Passwordless login via email link.
+
+**BetterAuth:** Available as plugin
+**Clerk:** Built-in option
+
+### Two-Factor Authentication (2FA)
+
+Extra security with TOTP codes.
+
+**BetterAuth:** Available as plugin
+**Clerk:** Built-in option
+
+## ELI5: How Auth Works
+
+1. **User submits credentials** (email/password, OAuth, etc.)
+2. **Server verifies** the credentials are correct
+3. **Session created** - a token stored in a cookie
+4. **Future requests** include the cookie to prove identity
+5. **Session expires** after a timeout or logout
+
+The difference between providers is mainly:
+- Where the verification happens (your server vs their server)
+- How sessions are stored (your database vs their service)
+- What UI you use (your components vs their components)
+
+## Security Basics
+
+Regardless of provider, always:
+
+- [ ] Use HTTPS (automatic on Vercel)
+- [ ] Set secure cookie flags
+- [ ] Implement rate limiting on login
+- [ ] Hash passwords (providers handle this)
+- [ ] Validate email addresses
+- [ ] Log authentication events
+
+## Using with Claude Code
+
+> "Set up authentication for my Next.js app"
+
+Claude will ask which provider you prefer, then set it up.
+
+> "Add Google OAuth to my BetterAuth setup"
+
+Claude will configure the provider and update your UI.
+
+> "Protect my API routes with authentication"
+
+Claude will add middleware to verify sessions.
+
+<RelatedDocs links={[
+  { href: '/auth/better-auth/', label: 'BetterAuth', description: 'Self-hosted, open source auth' },
+  { href: '/auth/clerk/', label: 'Clerk', description: 'Managed auth with pre-built UI' },
+  { href: '/decisions/auth/', label: 'Auth Decision Guide', description: 'Detailed comparison' }
+]} />

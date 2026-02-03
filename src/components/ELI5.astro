@@ -1,0 +1,58 @@
+---
+interface Props {
+  title?: string;
+}
+const { title = "ELI5: Plain English" } = Astro.props;
+---
+
+<aside class="eli5-section">
+  <div class="eli5-header">
+    <span class="eli5-icon">&#128161;</span>
+    <h4>{title}</h4>
+  </div>
+  <div class="eli5-content">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .eli5-section {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border-left: 4px solid var(--jb-cyan, #00D4FF);
+    background: rgba(0, 212, 255, 0.05);
+    border-radius: 0 8px 8px 0;
+  }
+
+  :global(.dark) .eli5-section,
+  :global([data-theme="dark"]) .eli5-section {
+    background: rgba(0, 212, 255, 0.08);
+  }
+
+  .eli5-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .eli5-header h4 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--jb-cyan, #00D4FF);
+  }
+
+  .eli5-icon {
+    font-size: 1.25rem;
+  }
+
+  .eli5-content {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .eli5-content :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

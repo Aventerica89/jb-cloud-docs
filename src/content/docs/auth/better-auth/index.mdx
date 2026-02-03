@@ -1,0 +1,126 @@
+---
+title: BetterAuth Overview
+description: Open-source TypeScript authentication framework with full control.
+sidebar:
+  order: 0
+---
+
+import ELI5 from '../../../../components/ELI5.astro';
+import Tabs from '../../../../components/Tabs.astro';
+import RelatedDocs from '../../../../components/RelatedDocs.astro';
+
+BetterAuth is a framework-agnostic TypeScript authentication library.
+
+<ELI5>
+BetterAuth is like building your own house instead of renting an apartment. You have full control over everything - your database, your UI, your rules. It takes more work to set up, but you own everything and there are no monthly bills.
+</ELI5>
+
+## Key Features
+
+- **Open Source** - Free forever, MIT licensed
+- **TypeScript First** - Full type safety
+- **Database Agnostic** - Works with any database
+- **Plugin System** - Add features as needed
+- **No Vendor Lock-in** - Your data, your control
+
+## Quick Install
+
+<Tabs labels={['npm', 'pnpm', 'yarn', 'bun']}>
+  <Fragment slot="tab-1">
+```bash
+npm install better-auth
+```
+  </Fragment>
+  <Fragment slot="tab-2">
+```bash
+pnpm add better-auth
+```
+  </Fragment>
+  <Fragment slot="tab-3">
+```bash
+yarn add better-auth
+```
+  </Fragment>
+  <Fragment slot="tab-4">
+```bash
+bun add better-auth
+```
+  </Fragment>
+</Tabs>
+
+## Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Server    │────▶│  Database   │
+│  (React)    │     │  (auth.ts)  │     │  (Postgres) │
+└─────────────┘     └─────────────┘     └─────────────┘
+       │                   │
+       │   createAuthClient()    betterAuth()
+       │                   │
+       ▼                   ▼
+   auth-client.ts      lib/auth.ts
+```
+
+## Supported Databases
+
+| Database | Adapter |
+|----------|---------|
+| PostgreSQL | Drizzle, Prisma, Kysely |
+| MySQL | Drizzle, Prisma, Kysely |
+| SQLite | Drizzle, Prisma, Kysely |
+| MongoDB | Native adapter |
+| Turso | LibSQL adapter |
+
+## Available Plugins
+
+| Plugin | Description |
+|--------|-------------|
+| Two Factor | TOTP-based 2FA |
+| Magic Link | Passwordless email login |
+| Passkey | WebAuthn/Passkey support |
+| Organization | Multi-tenant teams |
+| Username | Login with username |
+| Anonymous | Guest sessions |
+
+## Why BetterAuth?
+
+### vs NextAuth/Auth.js
+
+- More TypeScript-focused
+- Cleaner API design
+- Better plugin system
+- Simpler database setup
+
+### vs Clerk/Auth0
+
+- Self-hosted (privacy)
+- No monthly costs
+- Full customization
+- No vendor lock-in
+
+### vs DIY Auth
+
+- Battle-tested security
+- Handles edge cases
+- Active maintenance
+- Community support
+
+## Using with Claude Code
+
+> "Set up BetterAuth with Drizzle and PostgreSQL"
+
+Claude will create the config files, schema, and environment setup.
+
+> "Add GitHub OAuth to my BetterAuth"
+
+Claude will configure the provider and show you how to get credentials.
+
+> "Create a login form with BetterAuth"
+
+Claude will build the UI component and connect it to your auth.
+
+<RelatedDocs links={[
+  { href: '/auth/better-auth/setup/', label: 'Setup Guide', description: 'Step-by-step installation' },
+  { href: '/auth/', label: 'Auth Overview', description: 'Compare authentication options' }
+]} />

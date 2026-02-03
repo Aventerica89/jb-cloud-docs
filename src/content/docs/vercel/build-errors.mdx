@@ -1,0 +1,301 @@
+---
+title: Common Build Errors
+description: Troubleshooting guide for Vercel deployment and build failures.
+sidebar:
+  order: 6
+---
+
+import ELI5 from '../../../components/ELI5.astro';
+import Accordion from '../../../components/Accordion.astro';
+import AccordionGroup from '../../../components/AccordionGroup.astro';
+
+Fix the most common Vercel build errors quickly.
+
+<ELI5>
+Build errors happen when Vercel tries to create your website but something goes wrong. This page helps you identify what broke and how to fix it. Most errors have simple solutions once you know what to look for.
+</ELI5>
+
+## Quick Reference
+
+| Error | Likely Cause | Quick Fix |
+|-------|-------------|-----------|
+| `Module not found` | Missing dependency | `npm install` |
+| `ENOENT: no such file` | Wrong import path | Check file paths, case sensitivity |
+| `Build exceeded duration` | Slow build | Optimize or increase timeout |
+| `Out of memory` | Large build | Increase memory or optimize |
+| `Environment variable not found` | Missing env var | Add to Vercel dashboard |
+| `Type error` | TypeScript issue | Fix types or check `tsconfig.json` |
+
+## Detailed Error Solutions
+
+<AccordionGroup>
+  <Accordion title="Module not found: Can't resolve 'package-name'">
+**What it means:** A package your code imports isn't installed.
+
+**Solutions:**
+
+1. **Install the missing package:**
+```bash
+npm install package-name
+```
+
+2. **Check your package.json:** Make sure the package is listed in `dependencies` (not just `devDependencies` if needed at runtime).
+
+3. **For monorepos:** Ensure the package is in the right workspace:
+```bash
+npm install package-name -w packages/your-app
+```
+
+4. **Clear cache and reinstall:**
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+  </Accordion>
+
+  <Accordion title="ENOENT: no such file or directory">
+**What it means:** Code is trying to read a file that doesn't exist.
+
+**Solutions:**
+
+1. **Check import paths:** Look for typos in file paths.
+
+2. **Case sensitivity:** Vercel runs on Linux where `File.ts` and `file.ts` are different:
+```typescript
+// Wrong on Linux
+import { foo } from './Components/Button'
+
+// Correct (match actual filename)
+import { foo } from './components/button'
+```
+
+3. **Check .gitignore:** Make sure required files aren't ignored.
+
+4. **Dynamic imports:** If reading files at build time, ensure they're in the repo.
+  </Accordion>
+
+  <Accordion title="Build exceeded maximum duration">
+**What it means:** Build took longer than 45 minutes (Hobby) or 60 minutes (Pro).
+
+**Solutions:**
+
+1. **Use Turborepo caching:**
+```json
+// turbo.json
+{
+  "pipeline": {
+    "build": {
+      "cache": true
+    }
+  }
+}
+```
+
+2. **Skip unnecessary work:**
+```json
+// package.json
+{
+  "scripts": {
+    "build": "next build",
+    "postinstall": "echo 'Skipping postinstall in CI'"
+  }
+}
+```
+
+3. **Reduce bundle size:** Remove unused dependencies.
+
+4. **Enable incremental builds** in your framework.
+  </Accordion>
+
+  <Accordion title="JavaScript heap out of memory">
+**What it means:** Node.js ran out of memory during build.
+
+**Solutions:**
+
+1. **Increase memory in build command:**
+```json
+// package.json
+{
+  "scripts": {
+    "build": "NODE_OPTIONS=--max_old_space_size=8192 next build"
+  }
+}
+```
+
+2. **Or set via Vercel environment variable:**
+```
+NODE_OPTIONS=--max_old_space_size=8192
+```
+
+3. **Optimize your build:**
+   - Remove unused dependencies
+   - Split large bundles
+   - Use dynamic imports
+  </Accordion>
+
+  <Accordion title="Environment variable not found">
+**What it means:** Code uses `process.env.VAR_NAME` but the variable isn't set.
+
+**Solutions:**
+
+1. **Add to Vercel Dashboard:**
+   - Go to Project Settings > Environment Variables
+   - Add the variable for the correct environment (Production/Preview/Development)
+
+2. **Pull env vars locally:**
+```bash
+vercel env pull .env.local
+```
+
+3. **Check variable name:** Environment variables are case-sensitive.
+
+4. **Prefix for client-side (Next.js):**
+```
+# Server-only
+DATABASE_URL=...
+
+# Available in browser (must have prefix)
+NEXT_PUBLIC_API_URL=...
+```
+  </Accordion>
+
+  <Accordion title="Type error: Property 'x' does not exist">
+**What it means:** TypeScript found a type mismatch.
+
+**Solutions:**
+
+1. **Fix the type:** Usually the error message tells you what's wrong.
+
+2. **Check tsconfig.json:** Make sure `strict` mode matches your expectations.
+
+3. **Quick fix (not recommended):**
+```typescript
+// @ts-ignore
+problematicLine();
+
+// Or for a block
+// @ts-nocheck at top of file
+```
+
+4. **Run type check locally first:**
+```bash
+npx tsc --noEmit
+```
+  </Accordion>
+
+  <Accordion title="Error: Cannot find module 'xyz'">
+**What it means:** A module that exists locally isn't available during build.
+
+**Solutions:**
+
+1. **Check if it's a devDependency that should be a dependency:**
+```bash
+npm install xyz --save  # moves to dependencies
+```
+
+2. **For native modules:** Some packages don't work in serverless:
+```javascript
+// Use dynamic import with fallback
+let nativeModule;
+try {
+  nativeModule = require('native-package');
+} catch {
+  nativeModule = null;
+}
+```
+
+3. **Check Node.js version:** Set in `package.json`:
+```json
+{
+  "engines": {
+    "node": "20.x"
+  }
+}
+```
+  </Accordion>
+
+  <Accordion title="Function size exceeded limit">
+**What it means:** A serverless function is too large (>50MB compressed).
+
+**Solutions:**
+
+1. **Exclude unnecessary files:**
+```javascript
+// next.config.js
+module.exports = {
+  outputFileTracingExcludes: {
+    '/api/route': ['./large-folder/**/*'],
+  },
+};
+```
+
+2. **Move large dependencies to edge:**
+```typescript
+export const config = {
+  runtime: 'edge',
+};
+```
+
+3. **Split into smaller functions.**
+
+4. **Use external services** for heavy processing.
+  </Accordion>
+</AccordionGroup>
+
+## Prevention Tips
+
+### 1. Test Builds Locally
+
+```bash
+# Build exactly like Vercel does
+vercel build
+
+# Or use your framework's build
+npm run build
+```
+
+### 2. Use Debug Mode
+
+```bash
+vercel --debug
+```
+
+Shows detailed output to identify issues.
+
+### 3. Check the Build Logs
+
+In Vercel Dashboard:
+1. Go to Deployments
+2. Click the failed deployment
+3. View "Building" logs for the full error
+
+### 4. Common Pre-flight Checks
+
+Before deploying:
+- [ ] `npm run build` works locally
+- [ ] No TypeScript errors: `npx tsc --noEmit`
+- [ ] All env vars are set in Vercel
+- [ ] No hardcoded localhost URLs
+- [ ] Git has all necessary files (check `.gitignore`)
+
+## Using with Claude Code
+
+Ask Claude to debug build errors:
+
+> "My Vercel build is failing with this error: [paste error]"
+
+Claude will analyze the error and suggest fixes.
+
+> "Check if my project will build successfully"
+
+Claude will run `npm run build` locally to catch issues before deploying.
+
+> "Why is my build taking so long?"
+
+Claude will analyze your build configuration and suggest optimizations.
+
+## Related
+
+- [Vercel CLI](/vercel/cli/) - Debug locally with `vercel build`
+- [Production Checklist](/vercel/production-checklist/) - Pre-launch verification
+- [Environment Commands](/vercel/cli/environment/) - Manage env vars

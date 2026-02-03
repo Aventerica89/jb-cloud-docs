@@ -1,0 +1,139 @@
+---
+title: Vercel CLI Overview
+description: Command-line interface for managing Vercel deployments, environments, and domains.
+sidebar:
+  order: 0
+---
+
+import ELI5 from '../../../../components/ELI5.astro';
+import Tabs from '../../../../components/Tabs.astro';
+import RelatedDocs from '../../../../components/RelatedDocs.astro';
+
+The Vercel CLI lets you deploy, configure, and manage your projects from the terminal.
+
+<ELI5>
+The Vercel CLI is like having a remote control for your website. Instead of clicking around in a dashboard, you type commands to deploy your code, manage settings, and check on your site. It's faster for developers who live in the terminal.
+</ELI5>
+
+## Installation
+
+<Tabs labels={['npm', 'pnpm', 'yarn', 'bun']}>
+  <Fragment slot="tab-1">
+```bash
+npm i -g vercel
+```
+  </Fragment>
+  <Fragment slot="tab-2">
+```bash
+pnpm add -g vercel
+```
+  </Fragment>
+  <Fragment slot="tab-3">
+```bash
+yarn global add vercel
+```
+  </Fragment>
+  <Fragment slot="tab-4">
+```bash
+bun add -g vercel
+```
+  </Fragment>
+</Tabs>
+
+## Quick Start
+
+```bash
+# Login to your Vercel account
+vercel login
+
+# Deploy your project (preview)
+vercel
+
+# Deploy to production
+vercel --prod
+
+# Check who you're logged in as
+vercel whoami
+```
+
+## Global Options
+
+These flags work with any Vercel CLI command:
+
+| Flag | Shorthand | Description |
+|------|-----------|-------------|
+| `--token` | `-t` | Use an auth token instead of login |
+| `--scope` | `-S` | Execute in a different team scope |
+| `--team` | `-T` | Specify team slug or ID |
+| `--cwd` | - | Set working directory |
+| `--debug` | `-d` | Show verbose output |
+| `--no-color` | - | Disable colored output |
+| `--help` | `-h` | Show command help |
+| `--version` | `-v` | Show CLI version |
+
+### Using Tokens for CI/CD
+
+In automated environments, use a token instead of interactive login:
+
+```bash
+# Create token at vercel.com/account/tokens
+vercel deploy --token $VERCEL_TOKEN
+```
+
+<ELI5 title="ELI5: Why use tokens?">
+When a computer runs your deployment (like GitHub Actions), it can't click "Login with GitHub" like you can. A token is like a password that lets the computer prove it's allowed to deploy on your behalf.
+</ELI5>
+
+### Scoping to a Team
+
+If you belong to multiple teams:
+
+```bash
+# List your teams
+vercel switch
+
+# Run command for specific team
+vercel deploy --scope my-team
+
+# Or use team ID
+vercel deploy -T team_abc123
+```
+
+## Most Used Commands
+
+| Command | What It Does |
+|---------|--------------|
+| [`vercel deploy`](/vercel/cli/deployment/) | Deploy your project |
+| [`vercel dev`](/vercel/cli/utilities/) | Run local dev server |
+| [`vercel env pull`](/vercel/cli/environment/) | Download env vars |
+| [`vercel logs`](/vercel/cli/utilities/) | View runtime logs |
+| [`vercel domains`](/vercel/cli/domains/) | Manage custom domains |
+
+## Using with Claude Code
+
+Ask Claude to run Vercel commands:
+
+> "Deploy my project to production"
+
+Claude will run `vercel --prod` and give you the deployment URL.
+
+> "Show me the logs for my latest deployment"
+
+Claude will run `vercel logs` with the appropriate flags.
+
+> "Which Vercel team am I using?"
+
+Claude will run `vercel whoami` and `vercel switch` to show your context.
+
+## Command Categories
+
+- **[Deployment](/vercel/cli/deployment/)** - deploy, redeploy, rollback, build
+- **[Environment](/vercel/cli/environment/)** - env, pull, link
+- **[Domains](/vercel/cli/domains/)** - domains, dns, alias, certs
+- **[Utilities](/vercel/cli/utilities/)** - logs, inspect, dev, cache
+
+<RelatedDocs links={[
+  { href: '/vercel/build-errors/', label: 'Build Errors', description: 'Fix common deployment issues' },
+  { href: '/vercel/production-checklist/', label: 'Production Checklist', description: 'Launch readiness guide' },
+  { href: '/commands/', label: 'Command Reference', description: 'Search all CLI commands' }
+]} />

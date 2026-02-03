@@ -1,0 +1,272 @@
+{
+  "commands": [
+    {
+      "name": "vercel deploy",
+      "description": "Deploy your project to Vercel. Default command when no subcommand is specified.",
+      "platform": "vercel",
+      "category": "deployment",
+      "install": "npm i -g vercel",
+      "usage": "vercel deploy --prod",
+      "flags": ["--prod", "--preview", "--yes", "--no-wait"],
+      "docs": "/vercel/cli/deployment/"
+    },
+    {
+      "name": "vercel dev",
+      "description": "Start a local development server that replicates the Vercel deployment environment.",
+      "platform": "vercel",
+      "category": "development",
+      "install": "npm i -g vercel",
+      "usage": "vercel dev --port 3000",
+      "flags": ["--port", "--listen"],
+      "docs": "/vercel/cli/utilities/"
+    },
+    {
+      "name": "vercel env pull",
+      "description": "Download environment variables from Vercel to a local .env file.",
+      "platform": "vercel",
+      "category": "environment",
+      "install": "npm i -g vercel",
+      "usage": "vercel env pull .env.local",
+      "flags": ["--environment"],
+      "docs": "/vercel/cli/environment/"
+    },
+    {
+      "name": "vercel env add",
+      "description": "Add a new environment variable to your Vercel project.",
+      "platform": "vercel",
+      "category": "environment",
+      "install": "npm i -g vercel",
+      "usage": "vercel env add API_KEY production",
+      "flags": ["--sensitive"],
+      "docs": "/vercel/cli/environment/"
+    },
+    {
+      "name": "vercel link",
+      "description": "Link a local directory to an existing Vercel project.",
+      "platform": "vercel",
+      "category": "project",
+      "install": "npm i -g vercel",
+      "usage": "vercel link",
+      "flags": ["--repo", "--project"],
+      "docs": "/vercel/cli/environment/"
+    },
+    {
+      "name": "vercel build",
+      "description": "Build your project locally using the same process Vercel uses.",
+      "platform": "vercel",
+      "category": "deployment",
+      "install": "npm i -g vercel",
+      "usage": "vercel build --prod",
+      "flags": ["--prod", "--output"],
+      "docs": "/vercel/cli/deployment/"
+    },
+    {
+      "name": "vercel logs",
+      "description": "View runtime logs for a specific deployment in real-time.",
+      "platform": "vercel",
+      "category": "debugging",
+      "install": "npm i -g vercel",
+      "usage": "vercel logs https://my-app.vercel.app --follow",
+      "flags": ["--follow", "--since"],
+      "docs": "/vercel/cli/utilities/"
+    },
+    {
+      "name": "vercel domains",
+      "description": "Manage custom domains for your Vercel projects.",
+      "platform": "vercel",
+      "category": "domains",
+      "install": "npm i -g vercel",
+      "usage": "vercel domains add example.com",
+      "flags": ["ls", "add", "rm", "buy"],
+      "docs": "/vercel/cli/domains/"
+    },
+    {
+      "name": "vercel rollback",
+      "description": "Roll back your production deployment to a previous version.",
+      "platform": "vercel",
+      "category": "deployment",
+      "install": "npm i -g vercel",
+      "usage": "vercel rollback [deployment-url]",
+      "flags": ["--timeout"],
+      "docs": "/vercel/cli/deployment/"
+    },
+    {
+      "name": "vercel redeploy",
+      "description": "Rebuild and redeploy an existing deployment without code changes.",
+      "platform": "vercel",
+      "category": "deployment",
+      "install": "npm i -g vercel",
+      "usage": "vercel redeploy https://my-app-abc123.vercel.app",
+      "flags": ["--no-wait", "--yes"],
+      "docs": "/vercel/cli/deployment/"
+    },
+    {
+      "name": "vercel inspect",
+      "description": "Get detailed information about a deployment including build logs.",
+      "platform": "vercel",
+      "category": "debugging",
+      "install": "npm i -g vercel",
+      "usage": "vercel inspect [deployment-url] --logs",
+      "flags": ["--logs", "--wait"],
+      "docs": "/vercel/cli/utilities/"
+    },
+    {
+      "name": "vercel alias",
+      "description": "Assign a custom domain alias to a deployment.",
+      "platform": "vercel",
+      "category": "domains",
+      "install": "npm i -g vercel",
+      "usage": "vercel alias set [deployment] [domain]",
+      "flags": ["set", "rm", "ls"],
+      "docs": "/vercel/cli/domains/"
+    },
+    {
+      "name": "vercel whoami",
+      "description": "Display the currently logged in Vercel user.",
+      "platform": "vercel",
+      "category": "auth",
+      "install": "npm i -g vercel",
+      "usage": "vercel whoami",
+      "flags": [],
+      "docs": "/vercel/cli/"
+    },
+    {
+      "name": "vercel login",
+      "description": "Authenticate with your Vercel account.",
+      "platform": "vercel",
+      "category": "auth",
+      "install": "npm i -g vercel",
+      "usage": "vercel login --github",
+      "flags": ["--github", "--gitlab", "--bitbucket"],
+      "docs": "/vercel/cli/"
+    },
+    {
+      "name": "vercel switch",
+      "description": "Switch between different Vercel teams/scopes.",
+      "platform": "vercel",
+      "category": "auth",
+      "install": "npm i -g vercel",
+      "usage": "vercel switch [team-name]",
+      "flags": [],
+      "docs": "/vercel/cli/"
+    },
+    {
+      "name": "generateText",
+      "description": "Generate a complete text response from an AI model. Returns the full response at once.",
+      "platform": "ai-sdk",
+      "category": "ai",
+      "install": "npm i ai",
+      "usage": "const { text } = await generateText({ model, prompt })",
+      "flags": [],
+      "docs": "/vercel/ai-sdk/core/"
+    },
+    {
+      "name": "streamText",
+      "description": "Stream text responses token-by-token for real-time display.",
+      "platform": "ai-sdk",
+      "category": "ai",
+      "install": "npm i ai",
+      "usage": "const result = await streamText({ model, prompt })",
+      "flags": [],
+      "docs": "/vercel/ai-sdk/core/"
+    },
+    {
+      "name": "generateObject",
+      "description": "Generate structured JSON data that conforms to a Zod schema.",
+      "platform": "ai-sdk",
+      "category": "ai",
+      "install": "npm i ai zod",
+      "usage": "const { object } = await generateObject({ model, schema, prompt })",
+      "flags": [],
+      "docs": "/vercel/ai-sdk/core/"
+    },
+    {
+      "name": "useChat",
+      "description": "React hook for building chat interfaces with streaming responses.",
+      "platform": "ai-sdk",
+      "category": "ai",
+      "install": "npm i ai",
+      "usage": "const { messages, input, handleSubmit } = useChat()",
+      "flags": [],
+      "docs": "/vercel/ai-sdk/ui/"
+    },
+    {
+      "name": "useCompletion",
+      "description": "React hook for text completion interfaces.",
+      "platform": "ai-sdk",
+      "category": "ai",
+      "install": "npm i ai",
+      "usage": "const { completion, complete } = useCompletion()",
+      "flags": [],
+      "docs": "/vercel/ai-sdk/ui/"
+    },
+    {
+      "name": "npx @better-auth/cli init",
+      "description": "Initialize BetterAuth in your project with interactive setup wizard.",
+      "platform": "better-auth",
+      "category": "auth",
+      "install": "npm i better-auth",
+      "usage": "npx @better-auth/cli init",
+      "flags": ["--cwd", "--skip-db", "--skip-plugins"],
+      "docs": "/auth/better-auth/setup/"
+    },
+    {
+      "name": "npx @better-auth/cli generate",
+      "description": "Generate database schema for your BetterAuth configuration.",
+      "platform": "better-auth",
+      "category": "auth",
+      "install": "npm i better-auth",
+      "usage": "npx @better-auth/cli generate",
+      "flags": [],
+      "docs": "/auth/better-auth/setup/"
+    },
+    {
+      "name": "npx @better-auth/cli migrate",
+      "description": "Apply database migrations (Kysely adapter only).",
+      "platform": "better-auth",
+      "category": "auth",
+      "install": "npm i better-auth",
+      "usage": "npx @better-auth/cli migrate",
+      "flags": [],
+      "docs": "/auth/better-auth/setup/"
+    },
+    {
+      "name": "npx clerk@latest",
+      "description": "Install Clerk authentication with automatic configuration.",
+      "platform": "clerk",
+      "category": "auth",
+      "install": "npx clerk@latest",
+      "usage": "npx clerk@latest",
+      "flags": [],
+      "docs": "/auth/clerk/setup/"
+    },
+    {
+      "name": "npm create sanity@latest",
+      "description": "Create a new Sanity Studio project with interactive setup.",
+      "platform": "sanity",
+      "category": "cms",
+      "install": "npm create sanity@latest",
+      "usage": "npm create sanity@latest -- --template clean --typescript",
+      "flags": ["--template", "--typescript", "--dataset"],
+      "docs": "/integrations/sanity/astro/"
+    }
+  ],
+  "platforms": [
+    { "id": "vercel", "name": "Vercel CLI", "color": "#000000" },
+    { "id": "ai-sdk", "name": "AI SDK", "color": "#635BFF" },
+    { "id": "better-auth", "name": "BetterAuth", "color": "#10B981" },
+    { "id": "clerk", "name": "Clerk", "color": "#6C47FF" },
+    { "id": "sanity", "name": "Sanity", "color": "#F03E2F" }
+  ],
+  "categories": [
+    { "id": "deployment", "name": "Deployment" },
+    { "id": "development", "name": "Development" },
+    { "id": "environment", "name": "Environment" },
+    { "id": "project", "name": "Project" },
+    { "id": "debugging", "name": "Debugging" },
+    { "id": "domains", "name": "Domains" },
+    { "id": "auth", "name": "Authentication" },
+    { "id": "ai", "name": "AI / LLM" },
+    { "id": "cms", "name": "CMS" }
+  ]
+}

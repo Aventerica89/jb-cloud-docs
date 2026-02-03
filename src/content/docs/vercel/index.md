@@ -1,60 +1,89 @@
 ---
 title: Vercel Overview
-description: Getting started with Vercel deployments.
+description: Deploy and manage web applications with Vercel.
 sidebar:
   order: 0
 ---
 
-Documentation for Vercel deployment workflows and configuration.
+Vercel is the platform for frontend developers, providing the speed and reliability your app needs.
 
-## Topics
+## ELI5: What's Vercel?
 
-- Project deployment
-- Environment variables
-- Custom domains
-- Build configuration
+Vercel is like a valet parking service for your website. You hand over your code, and they handle putting it online, making it fast, and keeping it running. You focus on building; they handle the infrastructure.
 
-*More guides coming soon.*
+## Quick Start
+
+```bash
+# Install the CLI
+npm i -g vercel
+
+# Login
+vercel login
+
+# Deploy (from your project directory)
+vercel
+```
+
+That's it - your site is live with a preview URL.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Zero Config** | Detects your framework and deploys automatically |
+| **Preview Deployments** | Every branch gets its own URL |
+| **Edge Network** | Global CDN for fast loading worldwide |
+| **Serverless Functions** | API routes without managing servers |
+| **AI SDK** | Build AI-powered applications |
+
+## Documentation Sections
+
+### CLI Reference
+- [Overview](/vercel/cli/) - Installation and global options
+- [Deployment](/vercel/cli/deployment/) - deploy, redeploy, rollback
+- [Environment](/vercel/cli/environment/) - env, pull, link
+- [Domains](/vercel/cli/domains/) - domains, dns, alias
+- [Utilities](/vercel/cli/utilities/) - logs, dev, inspect
+
+### AI Development
+- [AI SDK Overview](/vercel/ai-sdk/) - Build AI applications
+- [Core Functions](/vercel/ai-sdk/core/) - generateText, streamText, generateObject
+- [UI Hooks](/vercel/ai-sdk/ui/) - useChat, useCompletion
+- [Migration](/vercel/ai-sdk/migration/) - Version upgrade guides
+
+### Platform Guides
+- [AI Gateway](/vercel/ai-gateway/) - Route AI calls through Vercel for monitoring
+- [MCP Server](/vercel/mcp/) - AI tool integration
+- [Production Checklist](/vercel/production-checklist/) - Pre-launch verification
+- [Monorepos](/vercel/monorepos/) - Multi-project deployments
+- [Build Errors](/vercel/build-errors/) - Troubleshooting guide
 
 ## Using with Claude Code
 
-Claude Code can help you manage Vercel deployments and configuration.
+Claude Code integrates deeply with Vercel:
 
-### Vercel CLI Commands
+### Deploy Your Project
+> "Deploy my project to Vercel production"
 
-Ask Claude to run Vercel commands:
+Claude runs `vercel --prod` and gives you the URL.
 
-```bash
-# Check deployment status
-vercel ls
+### Manage Environment Variables
+> "Pull my Vercel env vars and add the new API key"
 
-# Deploy preview
-vercel
+Claude syncs your local environment with Vercel.
 
-# Deploy to production
-vercel --prod
-```
+### Debug Issues
+> "Why is my Vercel build failing?"
 
-### Environment Variable Management
+Claude analyzes the build logs and suggests fixes.
 
-Tell Claude what you need:
+### Check Logs
+> "Show me recent errors from my Vercel deployment"
 
-> Deploy my API keys to Vercel production environment
+Claude fetches and summarizes runtime logs.
 
-Using the [Env Var Assistant](/env-var-assistant/), Claude can deploy environment variables from 1Password to Vercel.
+## Related Resources
 
-### Build Configuration
-
-Share your build errors with Claude:
-
-> My Vercel build is failing with this error: [paste error]
-
-Claude diagnoses build issues and suggests `vercel.json` fixes.
-
-### Domain Configuration
-
-Ask Claude for help with domains:
-
-> Configure docs.myapp.com to point to my Vercel deployment
-
-Claude provides the DNS and Vercel configuration steps.
+- [Command Reference](/commands/) - Searchable CLI commands
+- [Build Errors](/vercel/build-errors/) - Fix deployment issues
+- [Env Var Assistant](/env-var-assistant/) - Auto-deploy secrets

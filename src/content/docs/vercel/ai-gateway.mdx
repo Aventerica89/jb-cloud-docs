@@ -1,0 +1,204 @@
+---
+title: AI Gateway
+description: Route Claude Code and other AI tools through Vercel AI Gateway for monitoring and analytics.
+sidebar:
+  order: 4
+---
+
+import ELI5 from '../../../components/ELI5.astro';
+import Tabs from '../../../components/Tabs.astro';
+
+Route your AI API calls through Vercel AI Gateway for unified monitoring, cost tracking, and analytics.
+
+<ELI5>
+AI Gateway is like a toll booth for your AI calls. Every request passes through it, so Vercel can show you how much you're spending, which models you're using most, and catch any problems. Your code doesn't change much - just point to a different URL.
+</ELI5>
+
+## Why Use AI Gateway?
+
+- **Unified dashboard** - All AI usage in one place
+- **Cost tracking** - See spending across models and projects
+- **Request analytics** - Latency, tokens, error rates
+- **Provider flexibility** - Switch models without code changes
+
+## Claude Code Setup
+
+Route Claude Code through Vercel AI Gateway for monitoring all your coding assistant usage.
+
+### Prerequisites
+
+1. Vercel account with AI Gateway enabled
+2. Claude Code installed
+3. Anthropic API key (or Claude Code Max subscription)
+
+### Configuration
+
+Set these environment variables in your shell profile (`~/.zshrc` or `~/.bashrc`):
+
+```bash
+export ANTHROPIC_BASE_URL="https://gateway.ai.vercel.com/v1/anthropic"
+export ANTHROPIC_AUTH_TOKEN="your-anthropic-api-key"
+```
+
+<ELI5 title="What do these variables do?">
+`ANTHROPIC_BASE_URL` tells Claude Code to send requests through Vercel instead of directly to Anthropic. `ANTHROPIC_AUTH_TOKEN` is your API key that Vercel forwards to Anthropic. Your key never changes - just where requests go first.
+</ELI5>
+
+### Secure Storage with macOS Keychain
+
+For better security, store your API key in macOS Keychain instead of a shell file:
+
+```bash
+# Store the key
+security add-generic-password \
+  -s "anthropic-api-key" \
+  -a "$USER" \
+  -w "your-anthropic-api-key"
+```
+
+Then in your shell profile:
+
+```bash
+export ANTHROPIC_BASE_URL="https://gateway.ai.vercel.com/v1/anthropic"
+export ANTHROPIC_AUTH_TOKEN=$(security find-generic-password \
+  -s "anthropic-api-key" \
+  -a "$USER" \
+  -w 2>/dev/null)
+```
+
+### Claude Code Max Subscription
+
+If you have a Claude Code Max subscription, the gateway still works:
+
+```bash
+export ANTHROPIC_BASE_URL="https://gateway.ai.vercel.com/v1/anthropic"
+# No ANTHROPIC_AUTH_TOKEN needed - uses your subscription
+```
+
+Claude Code Max handles authentication automatically. The gateway provides monitoring without requiring a separate API key.
+
+## Verification
+
+Test that requests route through the gateway:
+
+1. Open Claude Code and run any command
+2. Go to [Vercel Dashboard](https://vercel.com/dashboard) → **AI Gateway**
+3. You should see the request logged with:
+   - Model used (e.g., `claude-sonnet-4-20250514`)
+   - Tokens (input/output)
+   - Latency
+   - Cost estimate
+
+## Other AI Tools
+
+The gateway works with any tool that uses Anthropic's API:
+
+<Tabs labels={['Cursor', 'VS Code Extensions', 'Custom Apps']}>
+  <Fragment slot="tab-1">
+Configure in Cursor settings:
+
+1. Open Settings → **Models**
+2. Set API Base URL: `https://gateway.ai.vercel.com/v1/anthropic`
+3. Add your Anthropic API key
+  </Fragment>
+  <Fragment slot="tab-2">
+For extensions like Continue or Cline:
+
+```json
+{
+  "anthropic": {
+    "baseUrl": "https://gateway.ai.vercel.com/v1/anthropic",
+    "apiKey": "your-api-key"
+  }
+}
+```
+  </Fragment>
+  <Fragment slot="tab-3">
+Using the Vercel AI SDK:
+
+```typescript
+import { anthropic } from '@ai-sdk/anthropic';
+import { generateText } from 'ai';
+
+const result = await generateText({
+  model: anthropic('claude-sonnet-4-20250514'),
+  prompt: 'Hello!',
+});
+```
+
+The SDK automatically uses `ANTHROPIC_BASE_URL` when set.
+  </Fragment>
+</Tabs>
+
+## Gateway Features
+
+### Request Logging
+
+Every request is logged with:
+- Timestamp and duration
+- Model and provider
+- Token counts (input/output)
+- Cost estimate
+- Status (success/error)
+
+### Cost Analytics
+
+View spending breakdowns by:
+- Time period (day/week/month)
+- Model (Claude Opus vs Sonnet vs Haiku)
+- Project or environment
+- User (if configured)
+
+### Error Monitoring
+
+Automatic alerts for:
+- High error rates
+- Unusual latency spikes
+- Budget threshold warnings
+
+## Using with Claude Code
+
+> "How much have I spent on Claude Code this week?"
+
+Check the AI Gateway dashboard in Vercel.
+
+> "Why is my Claude Code slow?"
+
+The gateway shows per-request latency - look for outliers.
+
+> "Set up AI Gateway for my team"
+
+Each team member sets the environment variables. All usage appears in your team's dashboard.
+
+## Troubleshooting
+
+### Requests not appearing in dashboard
+
+1. Verify `ANTHROPIC_BASE_URL` is set correctly:
+   ```bash
+   echo $ANTHROPIC_BASE_URL
+   # Should output: https://gateway.ai.vercel.com/v1/anthropic
+   ```
+
+2. Restart your terminal after adding to shell profile
+
+3. Check that Claude Code is using the environment:
+   ```bash
+   claude --version  # Should work with gateway
+   ```
+
+### Authentication errors
+
+- Verify your API key is valid at [console.anthropic.com](https://console.anthropic.com)
+- Check the key is exported correctly (no extra spaces or quotes)
+- For Keychain storage, ensure the password was added correctly
+
+### Gateway not available
+
+The AI Gateway requires a Vercel Pro or Enterprise account. Check your plan at [vercel.com/dashboard](https://vercel.com/dashboard).
+
+## Related
+
+- [Vercel AI SDK](/vercel/ai-sdk/) - Build AI features in your app
+- [MCP Server](/vercel/mcp/) - AI tool integration with Vercel
+- [Claude Code Overview](/claude-code/) - Claude Code documentation

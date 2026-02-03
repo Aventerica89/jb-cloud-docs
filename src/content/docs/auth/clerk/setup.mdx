@@ -1,0 +1,352 @@
+---
+title: Clerk Setup
+description: Step-by-step guide to setting up Clerk authentication.
+sidebar:
+  order: 1
+---
+
+import ELI5 from '../../../../components/ELI5.astro';
+import Tabs from '../../../../components/Tabs.astro';
+
+Complete setup guide for Clerk authentication.
+
+## Vercel Marketplace (Fastest)
+
+If you're deploying to Vercel, use the [Clerk Marketplace integration](https://vercel.com/marketplace/clerk) for instant setup:
+
+1. Go to your Vercel project → **Integrations** → **Browse Marketplace**
+2. Search for **Clerk** and click **Add Integration**
+3. Select the project(s) to connect
+4. Clerk automatically:
+   - Creates a Clerk application
+   - Adds `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` to your project
+   - Syncs environment variables across all environments
+
+<ELI5 title="Why use the Marketplace?">
+The Vercel Marketplace is like a one-click install. Instead of copying API keys between dashboards, Vercel and Clerk talk to each other directly. Your keys are automatically added to your project and stay in sync.
+</ELI5>
+
+**Benefits:**
+- Zero manual key copying
+- Environment variables auto-managed
+- Billing through Vercel (single invoice)
+- Keys automatically rotate when needed
+
+## Quick Start (CLI)
+
+Use the interactive installer:
+
+```bash
+npx clerk@latest
+```
+
+This automatically:
+- Detects your framework
+- Installs `@clerk/nextjs` (or appropriate package)
+- Creates environment files
+- Sets up the provider
+
+## Manual Installation
+
+<Tabs labels={['npm', 'pnpm', 'yarn', 'bun']}>
+  <Fragment slot="tab-1">
+```bash
+npm install @clerk/nextjs
+```
+  </Fragment>
+  <Fragment slot="tab-2">
+```bash
+pnpm add @clerk/nextjs
+```
+  </Fragment>
+  <Fragment slot="tab-3">
+```bash
+yarn add @clerk/nextjs
+```
+  </Fragment>
+  <Fragment slot="tab-4">
+```bash
+bun add @clerk/nextjs
+```
+  </Fragment>
+</Tabs>
+
+## 1. Environment Variables
+
+Get your keys from the Clerk Dashboard:
+
+```bash
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+```
+
+<ELI5 title="ELI5: Keyless Mode">
+You can start developing without API keys using `npx clerk@latest`. Clerk creates a temporary dev instance that works locally. Get real keys later when you're ready to deploy.
+</ELI5>
+
+## 2. Add ClerkProvider
+
+Wrap your app with the Clerk provider:
+
+<Tabs labels={['App Router', 'Pages Router']}>
+  <Fragment slot="tab-1">
+```tsx
+// app/layout.tsx
+import { ClerkProvider } from '@clerk/nextjs';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ClerkProvider>
+      <html lang="en">
+        <body>{children}</body>
+      </html>
+    </ClerkProvider>
+  );
+}
+```
+  </Fragment>
+  <Fragment slot="tab-2">
+```tsx
+// pages/_app.tsx
+import { ClerkProvider } from '@clerk/nextjs';
+import type { AppProps } from 'next/app';
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <ClerkProvider {...pageProps}>
+      <Component {...pageProps} />
+    </ClerkProvider>
+  );
+}
+```
+  </Fragment>
+</Tabs>
+
+## 3. Add Middleware
+
+Protect routes with Clerk middleware:
+
+```typescript
+// middleware.ts
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+
+const isPublicRoute = createRouteMatcher([
+  '/',
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+]);
+
+export default clerkMiddleware((auth, request) => {
+  if (!isPublicRoute(request)) {
+    auth().protect();
+  }
+});
+
+export const config = {
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+};
+```
+
+## 4. Add Sign In / Sign Up Pages
+
+<Tabs labels={['App Router', 'Pages Router']}>
+  <Fragment slot="tab-1">
+```tsx
+// app/sign-in/[[...sign-in]]/page.tsx
+import { SignIn } from '@clerk/nextjs';
+
+export default function Page() {
+  return <SignIn />;
+}
+```
+
+```tsx
+// app/sign-up/[[...sign-up]]/page.tsx
+import { SignUp } from '@clerk/nextjs';
+
+export default function Page() {
+  return <SignUp />;
+}
+```
+  </Fragment>
+  <Fragment slot="tab-2">
+```tsx
+// pages/sign-in/[[...index]].tsx
+import { SignIn } from '@clerk/nextjs';
+
+export default function Page() {
+  return <SignIn />;
+}
+```
+  </Fragment>
+</Tabs>
+
+## 5. Add Auth Components
+
+### Sign In Button
+
+```tsx
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+
+export function Header() {
+  return (
+    <header>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+    </header>
+  );
+}
+```
+
+### User Button
+
+```tsx
+import { UserButton } from '@clerk/nextjs';
+
+// Shows user avatar with dropdown menu
+<UserButton afterSignOutUrl="/" />
+```
+
+### Conditional Content
+
+```tsx
+import { SignedIn, SignedOut } from '@clerk/nextjs';
+
+<SignedIn>
+  <p>Welcome back!</p>
+</SignedIn>
+<SignedOut>
+  <p>Please sign in</p>
+</SignedOut>
+```
+
+## Getting User Data
+
+### Client-Side
+
+```tsx
+'use client';
+
+import { useUser } from '@clerk/nextjs';
+
+export function Profile() {
+  const { user, isLoaded, isSignedIn } = useUser();
+
+  if (!isLoaded) return <div>Loading...</div>;
+  if (!isSignedIn) return <div>Not signed in</div>;
+
+  return <div>Hello, {user.firstName}!</div>;
+}
+```
+
+### Server-Side
+
+```tsx
+// app/dashboard/page.tsx
+import { currentUser } from '@clerk/nextjs/server';
+
+export default async function Dashboard() {
+  const user = await currentUser();
+
+  if (!user) {
+    return <div>Not authenticated</div>;
+  }
+
+  return <div>Welcome, {user.firstName}!</div>;
+}
+```
+
+### API Routes
+
+```typescript
+// app/api/user/route.ts
+import { auth, currentUser } from '@clerk/nextjs/server';
+
+export async function GET() {
+  const { userId } = auth();
+
+  if (!userId) {
+    return new Response('Unauthorized', { status: 401 });
+  }
+
+  const user = await currentUser();
+  return Response.json({ user });
+}
+```
+
+## Social Login
+
+Enable in Clerk Dashboard under "User & Authentication" > "Social Connections":
+
+1. Toggle on providers (Google, GitHub, etc.)
+2. Add OAuth credentials if required
+3. Users will see social login buttons automatically
+
+## Organizations (Teams)
+
+Enable multi-tenant team management:
+
+```tsx
+import {
+  OrganizationSwitcher,
+  OrganizationProfile,
+  CreateOrganization,
+} from '@clerk/nextjs';
+
+// Organization switcher in header
+<OrganizationSwitcher />
+
+// Create organization form
+<CreateOrganization />
+
+// Organization settings
+<OrganizationProfile />
+```
+
+## Custom Sign-In Page
+
+```tsx
+import { SignIn } from '@clerk/nextjs';
+
+export default function CustomSignIn() {
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <SignIn
+        appearance={{
+          elements: {
+            rootBox: 'mx-auto',
+            card: 'shadow-xl',
+          },
+        }}
+      />
+    </div>
+  );
+}
+```
+
+## Using with Claude Code
+
+> "Add Clerk to my Next.js project"
+
+Claude will install Clerk and set up the provider.
+
+> "Create a protected admin dashboard"
+
+Claude will configure middleware and add auth checks.
+
+> "Add team/organization features"
+
+Claude will enable Organizations and add the switcher.
+
+## Related
+
+- [Clerk Overview](/auth/clerk/) - Features and pricing
+- [Auth Decision Guide](/decisions/auth/) - Compare providers
