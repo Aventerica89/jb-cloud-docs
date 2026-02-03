@@ -227,6 +227,7 @@ shadcn/ui components are distributed via a registry system. You can:
 - [Next.js Installation](https://ui.shadcn.com/docs/installation/next)
 - [Components.json Config](https://ui.shadcn.com/docs/components-json)
 - [Registry Documentation](https://ui.shadcn.com/docs/registry)
+- [Clerk + shadcn CLI Guide](https://clerk.com/docs/guides/development/shadcn-cli)
 
 ### Reference
 - [Documentation](https://ui.shadcn.com/docs)
