@@ -110,6 +110,10 @@ export default defineConfig({
 					autogenerate: { directory: 'bricks-builder-agent' },
 				},
 				{
+					label: 'Bricks CC',
+					autogenerate: { directory: 'bricks-cc' },
+				},
+				{
 					label: 'Claude Code',
 					autogenerate: { directory: 'claude-code' },
 				},

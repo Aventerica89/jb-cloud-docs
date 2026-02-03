@@ -11,7 +11,17 @@ Track when new documentation is added for jbcloud.app projects.
 
 ## February 2026
 
-### February 1, 2026 (Latest)
+### February 2, 2026 (Latest)
+
+**New Projects**
+- [Bricks CC](/bricks-cc/) - Teaching System MVP for AI-assisted Bricks Builder code generation
+  - Lesson and scenario management for training AI
+  - 7-table database schema (lessons, scenarios, agents, build sessions, etc.)
+  - Teaching UI with category icons and status badges
+  - Turso/libSQL + Drizzle ORM + Next.js 16
+  - Live at https://bricks-cc.vercel.app
+
+### February 1, 2026
 
 **New Documentation**
 - [Artifact Manager Browser Extension](/artifact-manager-extension/) - Chrome and Safari extensions for saving Claude.ai artifacts
