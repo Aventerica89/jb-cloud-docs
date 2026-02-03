@@ -1,0 +1,329 @@
+---
+title: BetterAuth Setup
+description: Step-by-step guide to setting up BetterAuth in your project.
+sidebar:
+  order: 1
+---
+
+import ELI5 from '../../../../components/ELI5.astro';
+import Tabs from '../../../../components/Tabs.astro';
+
+Complete setup guide for BetterAuth.
+
+## Installation
+
+<Tabs labels={['npm', 'pnpm', 'yarn', 'bun']}>
+  <Fragment slot="tab-1">
+```bash
+npm install better-auth
+```
+  </Fragment>
+  <Fragment slot="tab-2">
+```bash
+pnpm add better-auth
+```
+  </Fragment>
+  <Fragment slot="tab-3">
+```bash
+yarn add better-auth
+```
+  </Fragment>
+  <Fragment slot="tab-4">
+```bash
+bun add better-auth
+```
+  </Fragment>
+</Tabs>
+
+## 1. Environment Variables
+
+Create or update your `.env` file:
+
+```bash
+# Generate a secret: openssl rand -base64 32
+BETTER_AUTH_SECRET=your-secret-key-min-32-chars
+
+# Your app URL
+BETTER_AUTH_URL=http://localhost:3000
+
+# Database (example for PostgreSQL)
+DATABASE_URL=postgresql://user:pass@localhost:5432/mydb
+```
+
+<ELI5 title="ELI5: What's the secret for?">
+The secret is like a master key that encrypts your users' sessions. Without it, anyone could forge a login. Keep it secret, keep it safe.
+</ELI5>
+
+## 2. Create Auth Configuration
+
+Create `lib/auth.ts` (or `src/lib/auth.ts`):
+
+```typescript
+import { betterAuth } from 'better-auth';
+import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import { db } from './db'; // Your database instance
+
+export const auth = betterAuth({
+  database: drizzleAdapter(db, {
+    provider: 'pg', // 'pg', 'mysql', or 'sqlite'
+  }),
+  emailAndPassword: {
+    enabled: true,
+  },
+});
+```
+
+## 3. Create Auth Client
+
+Create `lib/auth-client.ts`:
+
+```typescript
+import { createAuthClient } from 'better-auth/client';
+
+export const authClient = createAuthClient({
+  baseURL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+});
+```
+
+## 4. Set Up API Route
+
+<Tabs labels={['Next.js App Router', 'Next.js Pages', 'Express']}>
+  <Fragment slot="tab-1">
+```typescript
+// app/api/auth/[...all]/route.ts
+import { auth } from '@/lib/auth';
+import { toNextJsHandler } from 'better-auth/next-js';
+
+export const { GET, POST } = toNextJsHandler(auth.handler);
+```
+  </Fragment>
+  <Fragment slot="tab-2">
+```typescript
+// pages/api/auth/[...all].ts
+import { auth } from '@/lib/auth';
+import { toNextJsHandler } from 'better-auth/next-js';
+
+export default toNextJsHandler(auth.handler);
+```
+  </Fragment>
+  <Fragment slot="tab-3">
+```typescript
+// server.ts
+import express from 'express';
+import { auth } from './lib/auth';
+import { toNodeHandler } from 'better-auth/node';
+
+const app = express();
+app.all('/api/auth/*', toNodeHandler(auth.handler));
+```
+  </Fragment>
+</Tabs>
+
+## 5. Generate Database Schema
+
+Run the CLI to create your database tables:
+
+```bash
+# Generate schema migration
+npx @better-auth/cli generate
+
+# Apply migration (Kysely adapter only)
+npx @better-auth/cli migrate
+```
+
+For Drizzle or Prisma, run your usual migration commands after generating.
+
+## 6. Use in Components
+
+### Sign Up
+
+```tsx
+'use client';
+
+import { authClient } from '@/lib/auth-client';
+import { useState } from 'react';
+
+export function SignUp() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+
+  const handleSignUp = async () => {
+    const { data, error } = await authClient.signUp.email({
+      email,
+      password,
+      name,
+    });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    // Redirect or update UI
+  };
+
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); handleSignUp(); }}>
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button type="submit">Sign Up</button>
+    </form>
+  );
+}
+```
+
+### Sign In
+
+```tsx
+const handleSignIn = async () => {
+  const { data, error } = await authClient.signIn.email({
+    email,
+    password,
+  });
+};
+```
+
+### Sign Out
+
+```tsx
+const handleSignOut = async () => {
+  await authClient.signOut();
+};
+```
+
+### Get Current User
+
+```tsx
+const { data: session } = await authClient.getSession();
+
+if (session?.user) {
+  console.log('Logged in as:', session.user.email);
+}
+```
+
+## Adding OAuth Providers
+
+### GitHub
+
+```typescript
+// lib/auth.ts
+import { betterAuth } from 'better-auth';
+
+export const auth = betterAuth({
+  // ... database config
+  socialProviders: {
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    },
+  },
+});
+```
+
+```typescript
+// Client-side
+await authClient.signIn.social({
+  provider: 'github',
+});
+```
+
+### Google
+
+```typescript
+socialProviders: {
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID!,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+  },
+},
+```
+
+## Protecting Routes
+
+### Server-Side (Next.js)
+
+```typescript
+// app/dashboard/page.tsx
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+
+export default async function Dashboard() {
+  const session = await auth.api.getSession({
+    headers: headers(),
+  });
+
+  if (!session) {
+    redirect('/login');
+  }
+
+  return <div>Welcome, {session.user.name}!</div>;
+}
+```
+
+### Middleware
+
+```typescript
+// middleware.ts
+import { auth } from '@/lib/auth';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export async function middleware(request: NextRequest) {
+  const session = await auth.api.getSession({
+    headers: request.headers,
+  });
+
+  if (!session && request.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  return NextResponse.next();
+}
+```
+
+## CLI Commands
+
+| Command | Description |
+|---------|-------------|
+| `npx @better-auth/cli init` | Interactive setup wizard |
+| `npx @better-auth/cli generate` | Generate database schema |
+| `npx @better-auth/cli migrate` | Apply migrations (Kysely) |
+| `npx @better-auth/cli secret` | Generate a secure secret |
+| `npx @better-auth/cli info` | Show config information |
+
+## Using with Claude Code
+
+> "Initialize BetterAuth in my project"
+
+Claude will run the CLI wizard and set up all configuration.
+
+> "Add email verification to my BetterAuth"
+
+Claude will configure email sending and verification flows.
+
+> "Create a protected dashboard route"
+
+Claude will add middleware and session checking.
+
+## Related
+
+- [BetterAuth Overview](/auth/better-auth/) - Features and architecture
+- [Auth Decision Guide](/decisions/auth/) - Compare providers

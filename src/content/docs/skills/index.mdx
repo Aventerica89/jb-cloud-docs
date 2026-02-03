@@ -1,0 +1,155 @@
+---
+title: Skills Overview
+description: Ready-to-use Claude Code skills for common development tasks.
+sidebar:
+  order: 0
+---
+
+import ELI5 from '../../../components/ELI5.astro';
+import RelatedDocs from '../../../components/RelatedDocs.astro';
+
+Skills are reusable Claude Code workflows for common tasks.
+
+<ELI5>
+Skills are like recipes for Claude Code. Instead of explaining what you want step-by-step, you invoke a skill and Claude knows exactly what to do. They encode best practices so you don't have to remember them.
+</ELI5>
+
+## What Are Skills?
+
+Skills are defined in `~/.claude/commands/` and can be invoked with `/skill-name`:
+
+```
+/deploy-env vercel production
+```
+
+Claude executes the skill's workflow - checking prerequisites, running commands, and verifying results.
+
+## Available Skills
+
+### Deployment
+
+| Skill | Description |
+|-------|-------------|
+| `/deploy-env` | Deploy environment variables from 1Password to platforms |
+| `/deploy` | Run deployment with pre-flight checks |
+
+### Security
+
+| Skill | Description |
+|-------|-------------|
+| `/secrets-audit` | Scan codebase for hardcoded secrets |
+| `/security-review` | Review code for security vulnerabilities |
+
+### Development
+
+| Skill | Description |
+|-------|-------------|
+| `/build-fix` | Diagnose and fix build errors |
+| `/tdd-workflow` | Test-driven development workflow |
+
+### Documentation
+
+| Skill | Description |
+|-------|-------------|
+| `/update-docs` | Update documentation and codemaps |
+| `/update-codemaps` | Refresh codebase documentation |
+
+## Using Skills
+
+### Direct Invocation
+
+```
+/skill-name [arguments]
+```
+
+Example:
+```
+/deploy-env vercel production
+```
+
+### Natural Language
+
+You can also describe what you want:
+
+> "Deploy my API keys to Vercel"
+
+Claude will recognize this matches the `/deploy-env` skill and use it.
+
+## Creating Custom Skills
+
+Skills are markdown files in `~/.claude/commands/`:
+
+```markdown
+# deploy-env
+
+Deploy environment variables from 1Password to a platform.
+
+## Usage
+
+/deploy-env <platform> <environment>
+
+## Workflow
+
+1. Scan .env.example for required variables
+2. Check 1Password for matching keys
+3. Deploy to specified platform
+4. Verify deployment
+
+## Platforms
+
+- vercel
+- cloudflare
+- netlify
+```
+
+## Skill Best Practices
+
+1. **Clear name** - Verb-noun format (`deploy-env`, `build-fix`)
+2. **Defined workflow** - Step-by-step process
+3. **Error handling** - What to do when things fail
+4. **Verification** - Confirm the task completed
+
+## Integration with This Documentation
+
+Every documentation page includes "Using with Claude Code" sections showing:
+- Example prompts that trigger the relevant skill
+- What commands Claude will run
+- What to expect
+
+## Example Workflow
+
+### Deploy Environment Variables
+
+1. You say: `/deploy-env vercel production`
+
+2. Claude:
+   - Reads `.env.example` for required variables
+   - Checks 1Password for matching keys
+   - Runs `vercel env add` for each variable
+   - Verifies deployment in Vercel dashboard
+
+3. Result: All env vars deployed, ready to use
+
+### Fix Build Errors
+
+1. You say: `/build-fix`
+
+2. Claude:
+   - Runs `npm run build`
+   - Analyzes error output
+   - Identifies root cause
+   - Applies fix
+   - Verifies build succeeds
+
+3. Result: Build passing, ready to deploy
+
+## Related
+
+- [Command Reference](/commands/) - All available commands
+- [Claude Code](/claude-code/) - Full Claude Code documentation
+- [Claude Codex](/claude-codex/) - Advanced Claude Code patterns
+
+<RelatedDocs links={[
+  { href: '/commands/', label: 'Command Reference', description: 'Search all CLI commands' },
+  { href: '/claude-code/', label: 'Claude Code', description: 'Full documentation' }
+]} />

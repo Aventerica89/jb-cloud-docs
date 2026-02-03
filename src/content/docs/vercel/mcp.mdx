@@ -1,0 +1,199 @@
+---
+title: Vercel MCP Server
+description: Connect AI tools to Vercel for deployments, logs, and project management.
+sidebar:
+  order: 3
+---
+
+import ELI5 from '../../../components/ELI5.astro';
+import Tabs from '../../../components/Tabs.astro';
+
+The Vercel MCP server lets AI assistants manage your Vercel projects.
+
+<ELI5>
+MCP (Model Context Protocol) lets AI tools like Claude Code talk directly to Vercel. Instead of you running commands, you can ask Claude to deploy your project, check logs, or manage domains - and it does it for you.
+</ELI5>
+
+## Official Endpoint
+
+The Vercel MCP server is hosted at:
+
+```
+https://mcp.vercel.com
+```
+
+For project-specific access:
+
+```
+https://mcp.vercel.com/<team-slug>/<project-name>
+```
+
+## Setup for Different Tools
+
+<Tabs labels={['Claude Code', 'Cursor', 'VS Code']}>
+  <Fragment slot="tab-1">
+Add to your MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "vercel": {
+      "url": "https://mcp.vercel.com"
+    }
+  }
+}
+```
+
+Claude Code will prompt for OAuth authentication on first use.
+  </Fragment>
+  <Fragment slot="tab-2">
+Add to `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "vercel": {
+      "url": "https://mcp.vercel.com"
+    }
+  }
+}
+```
+
+Restart Cursor to activate.
+  </Fragment>
+  <Fragment slot="tab-3">
+For VS Code with Cline or similar:
+
+```json
+{
+  "mcpServers": {
+    "vercel": {
+      "url": "https://mcp.vercel.com"
+    }
+  }
+}
+```
+
+Configure according to your extension's documentation.
+  </Fragment>
+</Tabs>
+
+## Available Tools
+
+The Vercel MCP server provides these capabilities:
+
+| Tool | Description |
+|------|-------------|
+| Search Docs | Find information in Vercel documentation |
+| List Projects | View your Vercel projects |
+| Get Deployments | Check deployment status and history |
+| View Logs | Access runtime and build logs |
+| Manage Domains | List and configure domains |
+| Environment Variables | View and manage env vars |
+
+## Example Prompts
+
+Once connected, you can ask your AI assistant:
+
+### Deployments
+> "What's the status of my latest deployment?"
+>
+> "Show me the deployments for my-project from the last week"
+>
+> "Why did my last deployment fail?"
+
+### Logs
+> "Show me recent error logs for my production deployment"
+>
+> "Are there any 500 errors in my logs?"
+
+### Projects
+> "List all my Vercel projects"
+>
+> "What domains are configured for my-project?"
+
+### Documentation
+> "How do I set up preview deployments?"
+>
+> "What's the syntax for vercel.json redirects?"
+
+## Self-Hosted MCP Server
+
+You can also deploy your own MCP server on Vercel for custom tools.
+
+### Basic MCP Server
+
+```typescript
+// app/api/mcp/route.ts
+import { z } from 'zod';
+import { createMcpHandler } from 'mcp-handler';
+
+const handler = createMcpHandler(
+  (server) => {
+    server.tool(
+      'my_custom_tool',
+      'Description of what this tool does',
+      { param: z.string() },
+      async ({ param }) => {
+        // Your tool logic here
+        return {
+          content: [{ type: 'text', text: `Result: ${param}` }],
+        };
+      },
+    );
+  },
+  {},
+  { basePath: '/api' },
+);
+
+export { handler as GET, handler as POST, handler as DELETE };
+```
+
+### With OAuth Authentication
+
+```typescript
+import { withMcpAuth } from 'mcp-handler';
+
+const verifyToken = async (req: Request, bearerToken?: string) => {
+  if (!bearerToken) return undefined;
+
+  // Verify token with your auth provider
+  const isValid = await validateToken(bearerToken);
+  if (!isValid) return undefined;
+
+  return {
+    token: bearerToken,
+    scopes: ['read', 'write'],
+    clientId: 'user-id',
+  };
+};
+
+const authHandler = withMcpAuth(handler, verifyToken, {
+  required: true,
+  requiredScopes: ['read'],
+});
+
+export { authHandler as GET, authHandler as POST };
+```
+
+## Using with Claude Code
+
+Claude Code can use the Vercel MCP server when configured:
+
+> "Deploy my current project to Vercel"
+
+Claude will use the MCP tools to trigger a deployment.
+
+> "Check if my deployment is healthy"
+
+Claude will fetch deployment status and recent logs.
+
+> "What environment variables are set for production?"
+
+Claude will list your configured env vars (without showing secret values).
+
+## Related
+
+- [Vercel CLI](/vercel/cli/) - Command-line alternative
+- [AI SDK](/vercel/ai-sdk/) - Build AI features in your app
+- [Deployment Commands](/vercel/cli/deployment/) - Manual deployment control

@@ -1,0 +1,153 @@
+---
+title: Sanity MCP Server
+description: Access Sanity content through AI assistants using MCP.
+sidebar:
+  order: 2
+---
+
+import ELI5 from '../../../../components/ELI5.astro';
+import Tabs from '../../../../components/Tabs.astro';
+
+The Sanity MCP server lets AI assistants query and manage your content.
+
+<ELI5>
+With the Sanity MCP server, you can ask Claude to fetch your blog posts, update content, or check what's published - all through natural language. No need to remember GROQ syntax or navigate the Sanity dashboard.
+</ELI5>
+
+## Available Tools
+
+The Sanity MCP server provides 40+ tools:
+
+| Category | Tools |
+|----------|-------|
+| **Query** | Execute GROQ queries, search documents |
+| **Documents** | Create, update, delete, patch documents |
+| **Releases** | Schedule content releases |
+| **Assets** | Upload and manage images/files |
+| **Schema** | Inspect content types and fields |
+
+## Setup
+
+<Tabs labels={['Claude Code', 'Cursor']}>
+  <Fragment slot="tab-1">
+Add to your MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "sanity": {
+      "command": "npx",
+      "args": ["-y", "@sanity/mcp-server"],
+      "env": {
+        "SANITY_PROJECT_ID": "your-project-id",
+        "SANITY_DATASET": "production",
+        "SANITY_TOKEN": "your-read-write-token"
+      }
+    }
+  }
+}
+```
+  </Fragment>
+  <Fragment slot="tab-2">
+Add to `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "sanity": {
+      "command": "npx",
+      "args": ["-y", "@sanity/mcp-server"],
+      "env": {
+        "SANITY_PROJECT_ID": "your-project-id",
+        "SANITY_DATASET": "production",
+        "SANITY_TOKEN": "your-read-write-token"
+      }
+    }
+  }
+}
+```
+  </Fragment>
+</Tabs>
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `SANITY_PROJECT_ID` | Yes | Your Sanity project ID |
+| `SANITY_DATASET` | Yes | Dataset name (e.g., `production`) |
+| `SANITY_TOKEN` | Yes | API token with read/write access |
+
+**Get a token:** Sanity Dashboard > API > Tokens > Add Token
+
+## Example Prompts
+
+Once connected, you can ask:
+
+### Querying Content
+
+> "Show me all blog posts from the last month"
+>
+> "Find posts tagged with 'technology'"
+>
+> "What's the most recent published article?"
+
+### Managing Content
+
+> "Create a draft blog post about AI trends"
+>
+> "Update the homepage hero text"
+>
+> "Schedule this post to publish tomorrow"
+
+### Schema Inspection
+
+> "What content types are defined in my Sanity schema?"
+>
+> "What fields does the 'product' type have?"
+
+## Agent Toolkit
+
+For programmatic use, Sanity also provides an agent toolkit:
+
+```bash
+npm install @sanity/agent-toolkit
+```
+
+```typescript
+import { SanityAgentToolkit } from '@sanity/agent-toolkit';
+
+const toolkit = new SanityAgentToolkit({
+  projectId: 'your-project-id',
+  dataset: 'production',
+  token: 'your-token',
+});
+
+// Use with AI SDK or other frameworks
+const tools = toolkit.getTools();
+```
+
+## Security Considerations
+
+- Use a token with minimal required permissions
+- For read-only access, create a read-only token
+- Never expose tokens in client-side code
+- Consider using environment variables in CI/CD
+
+## Using with Claude Code
+
+> "Connect to my Sanity project"
+
+Claude will set up the MCP configuration and test the connection.
+
+> "Query my Sanity content for recent posts"
+
+Claude will use GROQ to fetch and display your content.
+
+> "Update the hero section text in Sanity"
+
+Claude will patch the document with your changes.
+
+## Related
+
+- [Sanity Overview](/integrations/sanity/) - Features and pricing
+- [Sanity + Astro](/integrations/sanity/astro/) - Frontend integration

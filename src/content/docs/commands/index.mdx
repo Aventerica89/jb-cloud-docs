@@ -1,0 +1,82 @@
+---
+title: Command Reference
+description: Searchable command browser for Vercel CLI, AI SDK, BetterAuth, Clerk, and Sanity tools.
+sidebar:
+  order: 0
+---
+
+import ELI5 from '../../../components/ELI5.astro';
+import CommandBrowser from '../../../components/CommandBrowser.tsx';
+
+Your one-stop reference for all CLI commands and SDK functions across platforms.
+
+<ELI5>
+Think of this page as a toolbox index. Instead of hunting through different documentation sites, you can search and filter all commands in one place. Find what you need, copy the command, and get back to coding.
+</ELI5>
+
+## Interactive Command Browser
+
+Use the filters below to find commands by platform or category. Click "Copy" to copy any command to your clipboard.
+
+<CommandBrowser client:load />
+
+---
+
+## Quick Install Commands
+
+Copy these to get started with each platform:
+
+### Vercel CLI
+```bash
+npm i -g vercel
+```
+
+### AI SDK
+```bash
+npm i ai
+```
+
+### BetterAuth
+```bash
+npm i better-auth
+npx @better-auth/cli init
+```
+
+### Clerk
+```bash
+npx clerk@latest
+```
+
+### Sanity
+```bash
+npm create sanity@latest
+```
+
+---
+
+## Using with Claude Code
+
+Ask Claude to run any of these commands for you:
+
+> "Deploy my project to Vercel production"
+
+Claude will run `vercel deploy --prod` and show you the deployment URL.
+
+> "Pull my environment variables from Vercel"
+
+Claude will run `vercel env pull .env.local` to sync your local env file.
+
+> "Set up BetterAuth in this project"
+
+Claude will run the interactive setup wizard and guide you through configuration.
+
+---
+
+## Related Documentation
+
+- [Vercel CLI Reference](/vercel/cli/) - Full CLI documentation
+- [AI SDK Core](/vercel/ai-sdk/core/) - Text and object generation
+- [AI SDK UI](/vercel/ai-sdk/ui/) - React hooks for chat interfaces
+- [BetterAuth Setup](/auth/better-auth/setup/) - Authentication configuration
+- [Clerk Setup](/auth/clerk/setup/) - Keyless authentication
+- [Sanity + Astro](/integrations/sanity/astro/) - CMS integration

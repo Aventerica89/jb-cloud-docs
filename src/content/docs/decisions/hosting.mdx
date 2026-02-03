@@ -1,0 +1,139 @@
+---
+title: Hosting Comparison
+description: Vercel vs Cloudflare Pages vs xCloud - which platform to use.
+sidebar:
+  order: 1
+---
+
+import ELI5 from '../../../components/ELI5.astro';
+
+Choose the right hosting platform for your project.
+
+<ELI5>
+Think of hosting platforms like different types of housing. Vercel is a luxury apartment with everything included. Cloudflare is a well-built house where you do more yourself. xCloud is your private cabin - total control, more responsibility.
+</ELI5>
+
+## Quick Comparison
+
+| Feature | Vercel | Cloudflare Pages | xCloud |
+|---------|--------|------------------|--------|
+| **Best for** | Next.js, React | Static, Workers | Custom setups |
+| **Pricing** | $20/mo Pro | Free (generous) | Variable |
+| **Functions** | Serverless | Workers (Edge) | Your choice |
+| **Build time** | Fast | Fast | Variable |
+| **Analytics** | Built-in | Basic | DIY |
+| **DX** | Excellent | Good | Manual |
+
+## When to Choose Vercel
+
+**Best for:**
+- Next.js applications (official platform)
+- Teams wanting great DX
+- Projects needing preview deployments
+- Quick iteration and deployment
+
+**Pros:**
+- Best Next.js support
+- Excellent preview deployments
+- Great analytics and monitoring
+- Simple team collaboration
+
+**Cons:**
+- Can get expensive at scale
+- Some vendor lock-in
+- Bandwidth costs
+
+**Recommended when:**
+- Building a SaaS product
+- Working with a team
+- Using Next.js App Router features
+- Need quick time-to-market
+
+## When to Choose Cloudflare Pages
+
+**Best for:**
+- Static sites
+- Edge-first applications
+- Cost-conscious projects
+- Privacy-focused projects
+
+**Pros:**
+- Generous free tier
+- Excellent edge network
+- Workers for serverless
+- R2 storage (cheap)
+
+**Cons:**
+- Less framework integration
+- Manual configuration
+- Limited build customization
+
+**Recommended when:**
+- Building a content site
+- Need global edge distribution
+- Want to minimize costs
+- Using Astro or static generators
+
+## When to Choose xCloud
+
+**Best for:**
+- Full control requirements
+- Custom infrastructure needs
+- Specific compliance requirements
+
+**Pros:**
+- Total control
+- No vendor lock-in
+- Custom configurations
+
+**Cons:**
+- More setup required
+- Manual monitoring
+- Self-managed security
+
+## Decision Matrix
+
+| Scenario | Recommendation |
+|----------|---------------|
+| Next.js SaaS | Vercel |
+| Astro blog | Cloudflare Pages |
+| Content-heavy site | Cloudflare Pages |
+| Enterprise with compliance | Vercel or xCloud |
+| Hobby project | Cloudflare Pages (free) |
+| API-heavy app | Vercel |
+| Global edge app | Cloudflare |
+
+## Pricing Reality Check
+
+### Vercel
+- **Free:** Good for personal projects
+- **Pro ($20/mo):** Needed for team features
+- **Enterprise:** Custom pricing
+
+### Cloudflare Pages
+- **Free:** 500 builds/month, unlimited bandwidth
+- **Pro ($20/mo):** More builds, analytics
+- Most projects stay on free tier
+
+### xCloud
+- Varies by infrastructure
+- Pay for what you use
+- Can be cheaper at scale
+
+## Hybrid Approach
+
+Many projects use both:
+- **Vercel** for the main app
+- **Cloudflare** for CDN, DNS, protection
+
+This gives you Vercel's DX with Cloudflare's edge network.
+
+## Using with Claude Code
+
+> "Should I use Vercel or Cloudflare for my Next.js app?"
+
+Claude will recommend based on your specific features and scale.
+
+> "Help me set up a hybrid Vercel + Cloudflare deployment"
+
+Claude will configure both platforms for optimal performance.

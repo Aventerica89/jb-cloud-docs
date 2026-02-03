@@ -1,0 +1,142 @@
+---
+title: AI SDK Overview
+description: TypeScript toolkit for building AI-powered applications with streaming, structured data, and tool calling.
+sidebar:
+  order: 0
+---
+
+import ELI5 from '../../../../components/ELI5.astro';
+import Tabs from '../../../../components/Tabs.astro';
+import RelatedDocs from '../../../../components/RelatedDocs.astro';
+
+The Vercel AI SDK is a TypeScript library for building AI applications with React, Next.js, Vue, Svelte, and Node.js.
+
+<ELI5>
+The AI SDK is like a universal remote for AI models. Instead of learning different APIs for OpenAI, Anthropic, Google, etc., you use one consistent interface. Switch providers by changing two lines of code.
+</ELI5>
+
+## Installation
+
+<Tabs labels={['npm', 'pnpm', 'yarn', 'bun']}>
+  <Fragment slot="tab-1">
+```bash
+npm i ai
+```
+  </Fragment>
+  <Fragment slot="tab-2">
+```bash
+pnpm add ai
+```
+  </Fragment>
+  <Fragment slot="tab-3">
+```bash
+yarn add ai
+```
+  </Fragment>
+  <Fragment slot="tab-4">
+```bash
+bun add ai
+```
+  </Fragment>
+</Tabs>
+
+## Quick Start
+
+```typescript
+import { generateText } from 'ai';
+
+const { text } = await generateText({
+  model: 'anthropic/claude-sonnet-4-20250514',
+  prompt: 'Explain quantum computing in one sentence.',
+});
+
+console.log(text);
+```
+
+## Key Features
+
+| Feature | Description | Function |
+|---------|-------------|----------|
+| Text Generation | Generate complete responses | `generateText`, `streamText` |
+| Structured Data | Generate typed JSON objects | `generateObject`, `streamObject` |
+| Tool Calling | Let AI use your functions | `tool()` |
+| Embeddings | Create vector representations | `embed`, `embedMany` |
+| React Hooks | Build chat UIs easily | `useChat`, `useCompletion` |
+
+## SDK Structure
+
+The AI SDK has three main parts:
+
+### AI SDK Core
+
+Server-side functions for text and object generation:
+
+```typescript
+import { generateText, streamText, generateObject } from 'ai';
+```
+
+[Learn more about Core functions](/vercel/ai-sdk/core/)
+
+### AI SDK UI
+
+React hooks for building chat interfaces:
+
+```typescript
+import { useChat, useCompletion, useObject } from 'ai/react';
+```
+
+[Learn more about UI hooks](/vercel/ai-sdk/ui/)
+
+### Provider Packages
+
+Model-specific adapters (install separately):
+
+```bash
+npm i @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google
+```
+
+## Switching Providers
+
+Change the model string to switch providers:
+
+```typescript
+// OpenAI
+const { text } = await generateText({
+  model: 'openai/gpt-4o',
+  prompt: 'Hello',
+});
+
+// Anthropic
+const { text } = await generateText({
+  model: 'anthropic/claude-sonnet-4-20250514',
+  prompt: 'Hello',
+});
+
+// Google
+const { text } = await generateText({
+  model: 'google/gemini-2.0-flash',
+  prompt: 'Hello',
+});
+```
+
+## Using with Claude Code
+
+Ask Claude to help with AI SDK:
+
+> "Create a chat API endpoint using the AI SDK"
+
+Claude will generate the route handler with streaming response.
+
+> "Add tool calling to my AI chat so it can check the weather"
+
+Claude will create the tool definition and integrate it.
+
+> "Switch my app from OpenAI to Anthropic"
+
+Claude will update the model configuration.
+
+<RelatedDocs links={[
+  { href: '/vercel/ai-sdk/core/', label: 'Core Functions', description: 'Text and object generation' },
+  { href: '/vercel/ai-sdk/ui/', label: 'UI Hooks', description: 'React hooks for chat interfaces' },
+  { href: '/vercel/ai-sdk/migration/', label: 'Migration Guide', description: 'Upgrade from older versions' }
+]} />

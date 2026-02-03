@@ -1,0 +1,104 @@
+---
+title: Clerk Overview
+description: Managed authentication with pre-built UI components.
+sidebar:
+  order: 0
+---
+
+import ELI5 from '../../../../components/ELI5.astro';
+import RelatedDocs from '../../../../components/RelatedDocs.astro';
+
+Clerk provides drop-in authentication with managed infrastructure.
+
+<ELI5>
+Clerk is like renting a fully-furnished apartment instead of building a house. You get a login system that works immediately - login forms, user profiles, team management - all ready to go. You pay monthly but save weeks of development time.
+</ELI5>
+
+## Key Features
+
+- **Pre-built Components** - Login forms, user buttons, profile pages
+- **Managed Infrastructure** - Clerk handles servers, databases, security
+- **Keyless Mode** - Start developing without API keys
+- **Enterprise Ready** - SAML, SCIM, audit logs
+- **Multi-tenant** - Organizations and team management
+
+## Quick Install
+
+```bash
+npx clerk@latest
+```
+
+This interactive installer:
+1. Detects your framework
+2. Installs dependencies
+3. Creates configuration files
+4. Sets up environment variables
+
+## Why Clerk?
+
+### Speed to Market
+
+```tsx
+// This is all you need for a complete auth flow:
+import { SignInButton, UserButton } from '@clerk/nextjs';
+
+<SignInButton />  // Shows login modal
+<UserButton />    // Shows user menu with sign out
+```
+
+### Pre-built UI
+
+Clerk provides polished, accessible components:
+- Sign in / Sign up forms
+- User profile management
+- Organization switcher
+- Email verification
+- Password reset
+- Social login buttons
+
+### Enterprise Features
+
+For B2B SaaS applications:
+- **SAML SSO** - Connect to Okta, Azure AD, etc.
+- **SCIM** - Automatic user provisioning
+- **Audit Logs** - Track all auth events
+- **Organizations** - Multi-tenant team management
+
+## Pricing
+
+| Plan | Price | Features |
+|------|-------|----------|
+| Free | $0 | 10,000 MAU, basic features |
+| Pro | $25/mo | 10,000 MAU, custom domains |
+| Enterprise | Custom | SSO, SCIM, SLA |
+
+MAU = Monthly Active Users
+
+## Supported Frameworks
+
+- Next.js (App Router & Pages)
+- React
+- Remix
+- Astro
+- Express
+- Fastify
+- And more...
+
+## Using with Claude Code
+
+> "Set up Clerk authentication in my Next.js app"
+
+Claude will run the installer and configure your project.
+
+> "Add organization switching to my Clerk setup"
+
+Claude will enable the Organizations feature and add the switcher component.
+
+> "Protect my API routes with Clerk"
+
+Claude will add the authentication middleware.
+
+<RelatedDocs links={[
+  { href: '/auth/clerk/setup/', label: 'Setup Guide', description: 'Step-by-step installation' },
+  { href: '/auth/', label: 'Auth Overview', description: 'Compare authentication options' }
+]} />

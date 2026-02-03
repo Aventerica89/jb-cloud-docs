@@ -1,0 +1,217 @@
+---
+title: Sanity + Astro
+description: Integrate Sanity CMS with your Astro site.
+sidebar:
+  order: 1
+---
+
+import ELI5 from '../../../../components/ELI5.astro';
+import Tabs from '../../../../components/Tabs.astro';
+
+Connect Sanity CMS to your Astro project for managed content.
+
+<ELI5>
+This integration lets your Astro site pull content from Sanity. You edit blog posts, products, or pages in Sanity's nice editor, and they automatically appear on your website. No code changes needed for content updates.
+</ELI5>
+
+## Installation
+
+<Tabs labels={['npm', 'pnpm', 'yarn']}>
+  <Fragment slot="tab-1">
+```bash
+npm install @sanity/client @sanity/astro
+```
+  </Fragment>
+  <Fragment slot="tab-2">
+```bash
+pnpm add @sanity/client @sanity/astro
+```
+  </Fragment>
+  <Fragment slot="tab-3">
+```bash
+yarn add @sanity/client @sanity/astro
+```
+  </Fragment>
+</Tabs>
+
+## 1. Create Sanity Project
+
+If you don't have one yet:
+
+```bash
+npm create sanity@latest -- --template clean --typescript
+```
+
+This creates a Sanity Studio in a separate folder.
+
+## 2. Configure Astro
+
+Add to `astro.config.mjs`:
+
+```javascript
+import { defineConfig } from 'astro/config';
+import sanity from '@sanity/astro';
+
+export default defineConfig({
+  integrations: [
+    sanity({
+      projectId: 'your-project-id',
+      dataset: 'production',
+      useCdn: true,
+    }),
+  ],
+});
+```
+
+## 3. Environment Variables
+
+```bash
+# .env
+SANITY_PROJECT_ID=your-project-id
+SANITY_DATASET=production
+SANITY_TOKEN=your-read-token  # Optional, for draft preview
+```
+
+Get your project ID from `sanity.config.ts` or the Sanity dashboard.
+
+## 4. Query Content
+
+Use GROQ to fetch content in your Astro pages:
+
+```astro
+---
+// src/pages/blog/[slug].astro
+import { sanityClient } from 'sanity:client';
+
+const { slug } = Astro.params;
+
+const post = await sanityClient.fetch(
+  `*[_type == "post" && slug.current == $slug][0]{
+    title,
+    body,
+    publishedAt,
+    "author": author->name,
+    "image": mainImage.asset->url
+  }`,
+  { slug }
+);
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+---
+
+<article>
+  <h1>{post.title}</h1>
+  <p>By {post.author}</p>
+  <img src={post.image} alt="" />
+  <!-- Render body content -->
+</article>
+```
+
+## 5. Generate Static Paths
+
+For static site generation:
+
+```astro
+---
+// src/pages/blog/[slug].astro
+import { sanityClient } from 'sanity:client';
+
+export async function getStaticPaths() {
+  const posts = await sanityClient.fetch(`*[_type == "post"]{ "slug": slug.current }`);
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+  }));
+}
+
+// ... rest of page
+---
+```
+
+## GROQ Query Examples
+
+### Get all posts
+
+```groq
+*[_type == "post"] | order(publishedAt desc) {
+  title,
+  slug,
+  publishedAt,
+  excerpt
+}
+```
+
+### Get post with references
+
+```groq
+*[_type == "post" && slug.current == $slug][0] {
+  title,
+  body,
+  "author": author->{name, image},
+  "categories": categories[]->title
+}
+```
+
+### Get posts by category
+
+```groq
+*[_type == "post" && $category in categories[]->slug.current] {
+  title,
+  slug
+}
+```
+
+## Rendering Portable Text
+
+Sanity uses Portable Text for rich content. Install the renderer:
+
+```bash
+npm install @portabletext/astro
+```
+
+```astro
+---
+import { PortableText } from '@portabletext/astro';
+import { sanityClient } from 'sanity:client';
+
+const post = await sanityClient.fetch(`*[_type == "post"][0]{ body }`);
+---
+
+<PortableText value={post.body} />
+```
+
+## Preview Mode (Draft Content)
+
+To preview unpublished content:
+
+```javascript
+// astro.config.mjs
+sanity({
+  projectId: 'your-project-id',
+  dataset: 'production',
+  useCdn: false,  // Disable CDN for drafts
+  token: import.meta.env.SANITY_TOKEN,  // Read token
+  perspective: 'previewDrafts',
+}),
+```
+
+## Using with Claude Code
+
+> "Set up Sanity with my Astro project"
+
+Claude will install dependencies, create config, and set up a basic query.
+
+> "Create a blog page that fetches posts from Sanity"
+
+Claude will write the GROQ query and Astro component.
+
+> "Add image optimization for Sanity images"
+
+Claude will configure the image URL builder with transformations.
+
+## Related
+
+- [Sanity Overview](/integrations/sanity/) - Features and pricing
+- [Sanity MCP](/integrations/sanity/mcp/) - AI-powered content access

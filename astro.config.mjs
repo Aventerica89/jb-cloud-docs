@@ -4,11 +4,17 @@ import starlight from '@astrojs/starlight';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import cloudflare from '@astrojs/cloudflare';
+import rehypeExternalLinks from 'rehype-external-links';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://docs.jbcloud.app',
 	adapter: cloudflare(),
+	markdown: {
+		rehypePlugins: [
+			[rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
+		],
+	},
 	integrations: [
 		starlight({
 			title: 'JB Cloud Docs',
@@ -83,7 +89,63 @@ export default defineConfig({
 				},
 				{
 					label: 'Vercel',
-					autogenerate: { directory: 'vercel' },
+					items: [
+						{ label: 'Overview', slug: 'vercel' },
+						{
+							label: 'CLI Reference',
+							autogenerate: { directory: 'vercel/cli' },
+							collapsed: true,
+						},
+						{
+							label: 'AI SDK',
+							autogenerate: { directory: 'vercel/ai-sdk' },
+							collapsed: true,
+						},
+						{ label: 'MCP Server', slug: 'vercel/mcp' },
+						{ label: 'Production Checklist', slug: 'vercel/production-checklist' },
+						{ label: 'Monorepos', slug: 'vercel/monorepos' },
+						{ label: 'Build Errors', slug: 'vercel/build-errors' },
+					],
+				},
+				{
+					label: 'Authentication',
+					items: [
+						{ label: 'Overview', slug: 'auth' },
+						{
+							label: 'BetterAuth',
+							autogenerate: { directory: 'auth/better-auth' },
+							collapsed: true,
+						},
+						{
+							label: 'Clerk',
+							autogenerate: { directory: 'auth/clerk' },
+							collapsed: true,
+						},
+					],
+				},
+				{
+					label: 'Integrations',
+					items: [
+						{ label: 'Overview', slug: 'integrations' },
+						{
+							label: 'Sanity',
+							autogenerate: { directory: 'integrations/sanity' },
+							collapsed: true,
+						},
+					],
+				},
+				{
+					label: 'Command Reference',
+					slug: 'commands',
+					badge: { text: 'New', variant: 'tip' },
+				},
+				{
+					label: 'Decision Guides',
+					autogenerate: { directory: 'decisions' },
+				},
+				{
+					label: 'Skills',
+					autogenerate: { directory: 'skills' },
 				},
 				{
 					label: '1Code',
@@ -96,6 +158,10 @@ export default defineConfig({
 				{
 					label: 'Artifact Manager (macOS)',
 					autogenerate: { directory: 'artifact-manager-mac' },
+				},
+				{
+					label: 'Artifact Manager (Extension)',
+					autogenerate: { directory: 'artifact-manager-extension' },
 				},
 				{
 					label: 'BCMS',
