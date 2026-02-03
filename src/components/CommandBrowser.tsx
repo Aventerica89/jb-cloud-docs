@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import commandsData from '../data/commands.json';
+import styles from './CommandBrowser.module.css';
 
 interface Command {
   name: string;
@@ -84,40 +85,50 @@ export default function CommandBrowser() {
     setSelectedCategories([]);
   };
 
+  // Memoized lookup maps for O(1) access instead of O(n) find() calls
+  const platformMap = useMemo(
+    () => new Map(platforms.map((p) => [p.id, p])),
+    []
+  );
+  const categoryMap = useMemo(
+    () => new Map(categories.map((c) => [c.id, c])),
+    []
+  );
+
   const getPlatformInfo = (platformId: string): Platform | undefined =>
-    platforms.find((p) => p.id === platformId);
+    platformMap.get(platformId);
 
   const getCategoryInfo = (categoryId: string): Category | undefined =>
-    categories.find((c) => c.id === categoryId);
+    categoryMap.get(categoryId);
 
   return (
-    <div className="command-browser">
+    <div className={styles.commandBrowser}>
       {/* Search */}
-      <div className="search-container">
+      <div className={styles.searchContainer}>
         <input
           type="text"
           placeholder="Search commands..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="search-input"
+          className={styles.searchInput}
         />
         {(search || selectedPlatforms.length > 0 || selectedCategories.length > 0) && (
-          <button onClick={clearFilters} className="clear-btn">
+          <button onClick={clearFilters} className={styles.clearBtn}>
             Clear filters
           </button>
         )}
       </div>
 
       {/* Filters */}
-      <div className="filters">
-        <div className="filter-group">
-          <span className="filter-label">Platform:</span>
-          <div className="filter-chips">
+      <div className={styles.filters}>
+        <div className={styles.filterGroup}>
+          <span className={styles.filterLabel}>Platform:</span>
+          <div className={styles.filterChips}>
             {platforms.map((platform) => (
               <button
                 key={platform.id}
                 onClick={() => togglePlatform(platform.id)}
-                className={`filter-chip ${selectedPlatforms.includes(platform.id) ? 'active' : ''}`}
+                className={`${styles.filterChip} ${selectedPlatforms.includes(platform.id) ? styles.filterChipActive : ''}`}
                 style={{
                   '--chip-color': platform.color,
                 } as React.CSSProperties}
@@ -128,14 +139,14 @@ export default function CommandBrowser() {
           </div>
         </div>
 
-        <div className="filter-group">
-          <span className="filter-label">Category:</span>
-          <div className="filter-chips">
+        <div className={styles.filterGroup}>
+          <span className={styles.filterLabel}>Category:</span>
+          <div className={styles.filterChips}>
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => toggleCategory(category.id)}
-                className={`filter-chip ${selectedCategories.includes(category.id) ? 'active' : ''}`}
+                className={`${styles.filterChip} ${selectedCategories.includes(category.id) ? styles.filterChipActive : ''}`}
               >
                 {category.name}
               </button>
@@ -145,55 +156,59 @@ export default function CommandBrowser() {
       </div>
 
       {/* Results count */}
-      <div className="results-count">
+      <div className={styles.resultsCount}>
         Showing {filteredCommands.length} of {commands.length} commands
       </div>
 
       {/* Commands list */}
-      <div className="commands-list">
+      <div className={styles.commandsList}>
         {filteredCommands.map((cmd) => {
           const platform = getPlatformInfo(cmd.platform);
           const category = getCategoryInfo(cmd.category);
 
           return (
-            <div key={cmd.name} className="command-card">
-              <div className="command-header">
-                <code className="command-name">{cmd.name}</code>
-                <div className="command-tags">
+            <div key={cmd.name} className={styles.commandCard}>
+              <div className={styles.commandHeader}>
+                <code className={styles.commandName}>{cmd.name}</code>
+                <div className={styles.commandTags}>
                   {platform && (
                     <span
-                      className="tag platform-tag"
+                      className={`${styles.tag} ${styles.platformTag}`}
                       style={{ backgroundColor: platform.color }}
                     >
                       {platform.name}
                     </span>
                   )}
-                  {category && <span className="tag category-tag">{category.name}</span>}
+                  {category && (
+                    <span className={`${styles.tag} ${styles.categoryTag}`}>
+                      {category.name}
+                    </span>
+                  )}
                 </div>
               </div>
 
-              <p className="command-description">{cmd.description}</p>
+              <p className={styles.commandDescription}>{cmd.description}</p>
 
-              <div className="command-usage">
-                <div className="usage-header">
+              <div className={styles.commandUsage}>
+                <div className={styles.usageHeader}>
                   <span>Usage:</span>
                   <button
                     onClick={() => copyToClipboard(cmd.usage, cmd.name)}
-                    className="copy-btn"
+                    className={styles.copyBtn}
                     title="Copy to clipboard"
                   >
                     {copiedCommand === cmd.name ? 'Copied!' : 'Copy'}
                   </button>
                 </div>
-                <code className="usage-code">{cmd.usage}</code>
+                <code className={styles.usageCode}>{cmd.usage}</code>
               </div>
 
               {cmd.flags.length > 0 && (
-                <div className="command-flags">
-                  <span className="flags-label">Flags:</span>
-                  <div className="flags-list">
+                <div className={styles.commandFlags}>
+                  <span className={styles.flagsLabel}>Flags:</span>
+                  <div className={styles.flagsList}>
                     {cmd.flags.map((flag) => (
-                      <code key={flag} className="flag">
+                      <code key={flag} className={styles.flag}>
                         {flag}
                       </code>
                     ))}
@@ -201,13 +216,13 @@ export default function CommandBrowser() {
                 </div>
               )}
 
-              <div className="command-footer">
-                <a href={cmd.docs} className="docs-link">
+              <div className={styles.commandFooter}>
+                <a href={cmd.docs} className={styles.docsLink}>
                   View docs
                 </a>
                 <button
                   onClick={() => copyToClipboard(cmd.install, `install-${cmd.name}`)}
-                  className="install-btn"
+                  className={styles.installBtn}
                 >
                   {copiedCommand === `install-${cmd.name}` ? 'Copied!' : cmd.install}
                 </button>
@@ -218,297 +233,13 @@ export default function CommandBrowser() {
       </div>
 
       {filteredCommands.length === 0 && (
-        <div className="no-results">
+        <div className={styles.noResults}>
           <p>No commands match your filters.</p>
-          <button onClick={clearFilters} className="clear-btn">
+          <button onClick={clearFilters} className={styles.clearBtn}>
             Clear all filters
           </button>
         </div>
       )}
-
-      <style>{`
-        .command-browser {
-          font-family: var(--sl-font-system);
-        }
-
-        .search-container {
-          display: flex;
-          gap: 0.75rem;
-          margin-bottom: 1rem;
-        }
-
-        .search-input {
-          flex: 1;
-          padding: 0.75rem 1rem;
-          border: 1px solid var(--sl-color-gray-5);
-          border-radius: 0.5rem;
-          background: var(--sl-color-bg);
-          color: var(--sl-color-text);
-          font-size: 1rem;
-        }
-
-        .search-input:focus {
-          outline: none;
-          border-color: var(--sl-color-accent);
-          box-shadow: 0 0 0 2px rgba(99, 91, 255, 0.2);
-        }
-
-        .clear-btn {
-          padding: 0.75rem 1rem;
-          border: 1px solid var(--sl-color-gray-5);
-          border-radius: 0.5rem;
-          background: transparent;
-          color: var(--sl-color-text);
-          cursor: pointer;
-          white-space: nowrap;
-        }
-
-        .clear-btn:hover {
-          background: var(--sl-color-gray-6);
-        }
-
-        .filters {
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-          margin-bottom: 1.5rem;
-        }
-
-        .filter-group {
-          display: flex;
-          align-items: flex-start;
-          gap: 0.75rem;
-        }
-
-        .filter-label {
-          font-weight: 500;
-          color: var(--sl-color-gray-2);
-          min-width: 80px;
-          padding-top: 0.5rem;
-        }
-
-        .filter-chips {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-        }
-
-        .filter-chip {
-          padding: 0.4rem 0.75rem;
-          border: 1px solid var(--sl-color-gray-5);
-          border-radius: 2rem;
-          background: transparent;
-          color: var(--sl-color-text);
-          font-size: 0.875rem;
-          cursor: pointer;
-          transition: all 0.15s ease;
-        }
-
-        .filter-chip:hover {
-          border-color: var(--sl-color-accent);
-        }
-
-        .filter-chip.active {
-          background: var(--chip-color, var(--sl-color-accent));
-          border-color: var(--chip-color, var(--sl-color-accent));
-          color: white;
-        }
-
-        .results-count {
-          font-size: 0.875rem;
-          color: var(--sl-color-gray-3);
-          margin-bottom: 1rem;
-        }
-
-        .commands-list {
-          display: grid;
-          gap: 1rem;
-        }
-
-        .command-card {
-          border: 1px solid var(--sl-color-gray-5);
-          border-radius: 0.75rem;
-          padding: 1.25rem;
-          background: var(--sl-color-bg);
-        }
-
-        .command-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: 1rem;
-          margin-bottom: 0.75rem;
-          flex-wrap: wrap;
-        }
-
-        .command-name {
-          font-size: 1rem;
-          font-weight: 600;
-          color: var(--sl-color-accent);
-          background: rgba(99, 91, 255, 0.1);
-          padding: 0.25rem 0.5rem;
-          border-radius: 0.25rem;
-        }
-
-        .command-tags {
-          display: flex;
-          gap: 0.5rem;
-        }
-
-        .tag {
-          padding: 0.2rem 0.5rem;
-          border-radius: 0.25rem;
-          font-size: 0.75rem;
-          font-weight: 500;
-        }
-
-        .platform-tag {
-          color: white;
-        }
-
-        .category-tag {
-          background: var(--sl-color-gray-6);
-          color: var(--sl-color-gray-2);
-        }
-
-        .command-description {
-          color: var(--sl-color-gray-2);
-          margin-bottom: 1rem;
-          line-height: 1.5;
-        }
-
-        .command-usage {
-          background: var(--sl-color-gray-6);
-          border-radius: 0.5rem;
-          padding: 0.75rem;
-          margin-bottom: 0.75rem;
-        }
-
-        .usage-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 0.5rem;
-          font-size: 0.75rem;
-          color: var(--sl-color-gray-3);
-        }
-
-        .copy-btn {
-          padding: 0.25rem 0.5rem;
-          border: none;
-          border-radius: 0.25rem;
-          background: var(--sl-color-gray-5);
-          color: var(--sl-color-text);
-          font-size: 0.75rem;
-          cursor: pointer;
-        }
-
-        .copy-btn:hover {
-          background: var(--sl-color-accent);
-          color: white;
-        }
-
-        .usage-code {
-          display: block;
-          font-size: 0.875rem;
-          word-break: break-all;
-        }
-
-        .command-flags {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          margin-bottom: 0.75rem;
-          flex-wrap: wrap;
-        }
-
-        .flags-label {
-          font-size: 0.75rem;
-          color: var(--sl-color-gray-3);
-        }
-
-        .flags-list {
-          display: flex;
-          gap: 0.25rem;
-          flex-wrap: wrap;
-        }
-
-        .flag {
-          padding: 0.15rem 0.4rem;
-          background: var(--sl-color-gray-6);
-          border-radius: 0.25rem;
-          font-size: 0.75rem;
-          color: var(--sl-color-gray-2);
-        }
-
-        .command-footer {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding-top: 0.75rem;
-          border-top: 1px solid var(--sl-color-gray-6);
-        }
-
-        .docs-link {
-          font-size: 0.875rem;
-          color: var(--sl-color-accent);
-          text-decoration: none;
-        }
-
-        .docs-link:hover {
-          text-decoration: underline;
-        }
-
-        .install-btn {
-          padding: 0.4rem 0.75rem;
-          border: 1px solid var(--sl-color-gray-5);
-          border-radius: 0.25rem;
-          background: transparent;
-          color: var(--sl-color-text);
-          font-size: 0.75rem;
-          font-family: var(--sl-font-mono);
-          cursor: pointer;
-        }
-
-        .install-btn:hover {
-          border-color: var(--sl-color-accent);
-          color: var(--sl-color-accent);
-        }
-
-        .no-results {
-          text-align: center;
-          padding: 2rem;
-          color: var(--sl-color-gray-3);
-        }
-
-        .no-results p {
-          margin-bottom: 1rem;
-        }
-
-        @media (max-width: 640px) {
-          .filter-group {
-            flex-direction: column;
-          }
-
-          .filter-label {
-            min-width: auto;
-            padding-top: 0;
-          }
-
-          .command-header {
-            flex-direction: column;
-          }
-
-          .command-footer {
-            flex-direction: column;
-            gap: 0.75rem;
-          }
-
-          .install-btn {
-            width: 100%;
-          }
-        }
-      `}</style>
     </div>
   );
 }
