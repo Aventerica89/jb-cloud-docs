@@ -11,7 +11,16 @@ Track when new documentation is added for jbcloud.app projects.
 
 ## February 2026
 
-### February 2, 2026 (Latest)
+### February 4, 2026 (Latest)
+
+**New Documentation**
+- [Database Options for Hobby Projects](/supabase/database-options/) - Comparison guide for Supabase, Neon, Turso, and self-hosting
+  - Cost breakdowns for multi-project scenarios
+  - Migration paths to Supabase
+  - Self-hosted multi-database setup
+  - Decision tree for choosing the right option
+
+### February 2, 2026
 
 **New Projects**
 - [Bricks CC](/bricks-cc/) - Teaching System MVP for AI-assisted Bricks Builder code generation
