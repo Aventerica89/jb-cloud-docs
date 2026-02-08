@@ -14,12 +14,11 @@ Track when new documentation is added for jbcloud.app projects.
 ### February 8, 2026
 
 **Updated Documentation**
-- [VaporForge](/vaporforge/) - v0.4.8 released with critical stability fixes
-  - Fixed sandbox container crashes when uploading large images (base64 megabytes through single RPC)
-  - Implemented chunked file writes (128KB chunks via sequential exec calls)
-  - Added sandbox health checks to verify container liveness for stale sessions
-  - SDK stream route now uses proper wake/health-check path instead of direct KV read
-  - Added pre-flight health check before execStream to detect dead shells early
+- [VaporForge](/vaporforge/) - v0.4.8 released with image upload crash fix
+  - Fixed two stacked bugs that caused sandbox containers to crash during image upload
+  - Bug 1: `sandbox.writeFile()` crashes Durable Objects on large base64 payloads -- fixed with 8KB chunked exec writes
+  - Bug 2: `node -e` decode script crashes shell because `execInSandbox` joins arrays with spaces, bash interprets semicolons -- fixed with `base64 -d` pipe
+  - Both bugs independently caused container crashes, masking each other during debugging
   - Live at https://vaporforge.jbcloud.app
 
 ### February 7, 2026

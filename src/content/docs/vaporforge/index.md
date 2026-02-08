@@ -55,16 +55,15 @@ The user's OAuth token never touches the browser after initial setup. It's store
 
 ## Current Version
 
-**v0.4.8** - Critical stability fixes for image uploads and session recovery
+**v0.4.8** - Fix image upload crashing sandbox containers
 
 ### Recent Updates
 
-**v0.4.8 (2026-02-08)** - Critical Bug Fixes
-- Fixed sandbox container crashes when uploading large images
-- Implemented chunked file writes (128KB chunks) to prevent Durable Object RPC overload
-- Added sandbox health checks to `getOrWakeSandbox` to verify container liveness
-- SDK stream route now verifies sandbox health before streaming
-- Added pre-flight health checks to `execStream` to detect dead shells early
+**v0.4.8 (2026-02-08)** - Image Upload Crash Fix (Two Stacked Bugs)
+- Fixed `sandbox.writeFile()` crashing Durable Objects on large base64 payloads by implementing 8KB chunked exec writes
+- Fixed `node -e` decode script crashing shell because `execInSandbox` joins command arrays with spaces, causing bash to misinterpret semicolons in base64 decode scripts
+- Replaced inline Node.js decode script with a `base64 -d` pipe pattern that avoids shell interpretation issues
+- Root cause: two independent bugs that both manifested as container crashes during image upload
 
 **v0.4.7** - Message compound component following AI Elements pattern
 **v0.4.6** - Debug panel and image paste support in chat
