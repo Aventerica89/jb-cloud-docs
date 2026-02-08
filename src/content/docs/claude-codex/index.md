@@ -93,7 +93,8 @@ Custom slash commands organized by category:
 - `/create-release` - Automated versioning and git tagging
 
 **Session Management:**
-- `/context-save` - Save session for later
+- `/save-to-notion` - Auto-save session context to Notion (prevents context loss)
+- `/context-save` - Save session for later (local)
 - `/context-restore` - Resume saved session
 - `/end` - End session cleanly
 - `/remind` - Quick context reminder
@@ -133,6 +134,7 @@ Reusable patterns and workflows:
 - **security-review** - Security checklists and patterns
 - **tdd-workflow** - Test-driven development workflow
 - **continuous-learning** - Auto-extract patterns from sessions
+- **strategic-compact** - Auto-save to Notion at edit thresholds (prevents context loss)
 
 ### Rules
 
@@ -145,6 +147,7 @@ Modular guidelines for consistent development:
 - **security.md** - Security checks, secret management
 - **performance.md** - Model selection, context management
 - **string-length.md** - Prevent long string API errors
+- **notion-autosave.md** - Mandatory Notion save before compacting
 
 ## Auto-Sync System
 
@@ -331,6 +334,21 @@ When you discover useful patterns:
 - **Issues**: [Report bugs or request features](https://github.com/Aventerica89/claude-codex/issues)
 - **Documentation**: [docs.jbcloud.app/claude-codex](https://docs.jbcloud.app/claude-codex)
 
+## Recent Updates (2026-02-07)
+
+### Notion Auto-Save System
+- **`/save-to-notion`** command — saves full session context to Notion before compacting
+- **Strategic compact hook rewritten** — fixed critical PID bug where counter never incremented; now uses fixed path with 2-hour staleness auto-reset
+- **Automatic checkpoints** — hook fires at 20 edits (Notion save), 40 edits (compact suggestion), then every 15 edits (urgent)
+- **`notion-autosave.md` rule** — mandatory save-before-compact rule added to rules/
+- **Principle #7 added to CLAUDE.md** — "Save Before Compact: context lost in compaction is gone forever"
+- **Pipeline**: hook fires → `/save-to-notion` → Notion page created under "Claude Sessions" → local backup to `~/.claude/contexts/` → safe to `/compact`
+
+### MCP Integration
+- **Notion MCP authenticated** via claude.ai Connectors (5 read-only + 7 write/delete tools)
+- **15 Cloudflare MCP servers** (8 authenticated) for Workers, KV, R2, D1 management
+- **Context7 MCP** for up-to-date library documentation
+
 ## Roadmap
 
 - [x] Plugin manifest
@@ -339,6 +357,8 @@ When you discover useful patterns:
 - [x] Auto-sync daemon
 - [x] Browser extension
 - [x] Bookmarklet tools
+- [x] Notion auto-save system
+- [x] MCP server integrations (Notion, Cloudflare, Vercel, 1Password)
 - [ ] Multi-machine testing
 - [ ] Marketplace submission
 - [ ] Community skill sharing

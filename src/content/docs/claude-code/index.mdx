@@ -128,7 +128,8 @@ All configuration lives in `~/.claude/`:
 ### Session Management
 
 ```bash
-/context-save             # Save session state
+/save-to-notion           # Save session context to Notion (auto or manual)
+/context-save             # Save session state (local)
 /context-restore          # Resume session
 /remind                   # Quick context reminder
 ```
@@ -164,6 +165,7 @@ All configuration lives in `~/.claude/`:
 4. **Test-Driven**: Write tests before implementation
 5. **Security-First**: Never compromise on security
 6. **Document Everything**: Sync to docs.jbcloud.app automatically
+7. **Save Before Compact**: Auto-save to Notion at edit thresholds to prevent context loss
 
 ## Configuration
 
