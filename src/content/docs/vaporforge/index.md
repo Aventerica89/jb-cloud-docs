@@ -55,6 +55,24 @@ The user's OAuth token never touches the browser after initial setup. It's store
 
 ## Current Version
 
-**v0.4.7** - Message compound component (AI Elements pattern)
+**v0.4.8** - Critical stability fixes for image uploads and session recovery
+
+### Recent Updates
+
+**v0.4.8 (2026-02-08)** - Critical Bug Fixes
+- Fixed sandbox container crashes when uploading large images
+- Implemented chunked file writes (128KB chunks) to prevent Durable Object RPC overload
+- Added sandbox health checks to `getOrWakeSandbox` to verify container liveness
+- SDK stream route now verifies sandbox health before streaming
+- Added pre-flight health checks to `execStream` to detect dead shells early
+
+**v0.4.7** - Message compound component following AI Elements pattern
+**v0.4.6** - Debug panel and image paste support in chat
+**v0.4.5** - Session persistence across page refresh, expand/collapse all messages
+**v0.4.4** - File upload with drag-and-drop, workspace export as tar.gz
+**v0.4.3** - Session naming, auto-reconnect, session list cleanup
+**v0.4.2** - Clone repository fixes, file explorer breadcrumb navigation
+**v0.4.1** - Artifact and ChainOfThought components for code visualization
+**v0.4.0** - AI Elements-inspired chat UI upgrade
 
 See the [OAuth-to-API Manifesto](/vaporforge/oauth-to-api-manifesto/) for the complete authentication architecture.

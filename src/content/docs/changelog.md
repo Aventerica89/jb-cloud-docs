@@ -11,7 +11,18 @@ Track when new documentation is added for jbcloud.app projects.
 
 ## February 2026
 
-### February 7, 2026 (Latest)
+### February 8, 2026
+
+**Updated Documentation**
+- [VaporForge](/vaporforge/) - v0.4.8 released with critical stability fixes
+  - Fixed sandbox container crashes when uploading large images (base64 megabytes through single RPC)
+  - Implemented chunked file writes (128KB chunks via sequential exec calls)
+  - Added sandbox health checks to verify container liveness for stale sessions
+  - SDK stream route now uses proper wake/health-check path instead of direct KV read
+  - Added pre-flight health check before execStream to detect dead shells early
+  - Live at https://vaporforge.jbcloud.app
+
+### February 7, 2026
 
 **New Projects**
 - [VaporForge](/vaporforge/) - Cloud-based Claude Code IDE on Cloudflare Workers + Sandboxes
