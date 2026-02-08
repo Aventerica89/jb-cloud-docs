@@ -180,6 +180,10 @@ export default defineConfig({
 					autogenerate: { directory: 'bricks-cc' },
 				},
 				{
+					label: 'VaporForge',
+					autogenerate: { directory: 'vaporforge' },
+				},
+				{
 					label: 'Claude Code',
 					autogenerate: { directory: 'claude-code' },
 				},

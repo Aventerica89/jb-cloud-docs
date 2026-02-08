@@ -11,7 +11,19 @@ Track when new documentation is added for jbcloud.app projects.
 
 ## February 2026
 
-### February 4, 2026 (Latest)
+### February 7, 2026 (Latest)
+
+**New Projects**
+- [VaporForge](/vaporforge/) - Cloud-based Claude Code IDE on Cloudflare Workers + Sandboxes
+  - OAuth-to-API architecture manifesto documenting the full auth flow
+  - BYOT (Bring Your Own Token) pattern — users bring their Anthropic Pro/Max subscription
+  - Agent SDK running inside Cloudflare Sandbox containers
+  - Setup guides for manual installation and Claude Code-assisted setup
+  - OAuth vs API key comparison table
+  - Cost model and security analysis
+  - Live at https://vaporforge.jbcloud.app
+
+### February 4, 2026
 
 **New Documentation**
 - [Database Options for Hobby Projects](/supabase/database-options/) - Comparison guide for Supabase, Neon, Turso, and self-hosting
