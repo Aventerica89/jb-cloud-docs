@@ -184,6 +184,10 @@ export default defineConfig({
 					autogenerate: { directory: 'vaporforge' },
 				},
 				{
+					label: 'DevTools',
+					autogenerate: { directory: 'devtools' },
+				},
+				{
 					label: 'Claude Code',
 					autogenerate: { directory: 'claude-code' },
 				},
